@@ -16,8 +16,8 @@ const createDailyReport = (ids) => {
 
 const getChildReports = async (id) => {
     const pit = await ReportsRepository.getChildReportsById(id);
-    console.log("service" + id);
-    return pit; //
+    console.log(typeof pit);
+    return pit;
 };
 
 const updateChildAttendance = async (id, attendance) => {

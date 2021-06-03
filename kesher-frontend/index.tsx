@@ -5,6 +5,7 @@ import Navigation from "./navigation";
 import LoginScreen from "./screens/loginScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./api";
+import SettingScreen from "./screens/settingScreen";
 
 export default function Index({ navigation }: any) {
     const [isLogin, setIsLogin] = useState(false);
@@ -45,4 +46,10 @@ export default function Index({ navigation }: any) {
 
     // return isLogin ? navigation.navigate("Root") : navigation.navigate("Login");
     return <Navigation />;
+
+    // return isLogin ? (
+    //     <SettingScreen />
+    // ) : (
+    //     <LoginScreen onPress={() => setIsLogin(true)} />
+    // );
 }

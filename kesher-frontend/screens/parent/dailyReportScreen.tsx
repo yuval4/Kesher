@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
     FlatList,
+    TextInput,
+    KeyboardAvoidingView,
+    Platform,
 } from "react-native";
 import AddMessageButton from "../../components/buttons/addMessageButton";
 import InputBar from "../../components/inputBar";
@@ -16,31 +19,21 @@ import api from "../../api";
 import { connect } from "react-redux";
 
 function DailyReportScreen(props: any) {
+    const [DATA, setDATA] = useState([]);
     const [addMessage, setAddMessage] = React.useState(false);
     const [activeComment, setActiveComment] = React.useState("1");
+    const [comment, setComment] = React.useState("");
 
     useEffect(() => {
-        const pit = api.reports().getAllChildReports(props.user.children[0]);
-        console.log(pit);
+        const fetchChildReports = async () => {
+            const response = await api
+                .reports()
+                .getAllChildReports(props.user.children[0]);
+            setDATA(response.data);
+        };
+        fetchChildReports();
     }, []);
-
-    const DATA = [
-        {
-            recordId: "1",
-            sender: "גננת",
-            category: "ארוחת בוקר",
-            value: "איתמר אכל לארוחת בוקר חביתה וגבינה",
-            timestamp: 1617629677114,
-        },
-        {
-            recordId: "2",
-            sender: "גננת",
-            category: "משחקים",
-            value: "כל הכבוד",
-            timestamp: 1617629677114,
-        },
-    ];
-
+    console.log(props.user);
     const [comments, setComments] = React.useState([
         {
             recordId: "1",
@@ -59,16 +52,19 @@ function DailyReportScreen(props: any) {
     ]);
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+            {/* <View style={styles.container}> */}
             <FlatList
                 style={styles.list}
                 data={DATA}
-                keyExtractor={(item) => item.recordId}
+                keyExtractor={(item, index) => index.toString()}
                 renderItem={(item) => (
                     <View style={styles.messages}>
                         <View style={styles.message}>
-                            <PersonalReportCard data={item.item} />
-                            <Text>{item.item.recordId}</Text>
+                            <PersonalReportCard data={item.item.subReports} />
                         </View>
                         <FlatList
                             style={styles.commentList}
@@ -86,7 +82,7 @@ function DailyReportScreen(props: any) {
                                 ) : null
                             }
                         />
-                        {addMessage ? (
+                        {/* {addMessage ? (
                             <Formik
                                 initialValues={{
                                     recordId: "1", //! need to change to uniqe id
@@ -119,7 +115,7 @@ function DailyReportScreen(props: any) {
                                     </View>
                                 )}
                             </Formik>
-                        ) : null}
+                        ) : null} */}
                         <AddMessageButton
                             onPress={() => {
                                 setAddMessage(!addMessage);
@@ -129,7 +125,25 @@ function DailyReportScreen(props: any) {
                     </View>
                 )}
             />
-        </View>
+
+            {addMessage ? (
+                <View style={styles.inputBar}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setComment}
+                        value={comment}
+                        multiline
+                        placeholder="כתב/י כאן..."
+                    />
+                    <AddMessageButton
+                        onPress={() => {
+                            setAddMessage(!addMessage);
+                        }}
+                    />
+                </View>
+            ) : null}
+            {/* </View> */}
+        </KeyboardAvoidingView>
     );
 }
 
@@ -154,8 +168,18 @@ const styles = StyleSheet.create({
     comment: {
         paddingBottom: 4,
     },
+    inputBar: {
+        backgroundColor: "gray",
+        flexDirection: "row",
+        paddingHorizontal: 25,
+        paddingVertical: 5,
+    },
     input: {
-        width: "90%",
+        width: "100%",
+        borderRadius: 15,
+        backgroundColor: "white",
+        textAlign: "right",
+        paddingRight: 7,
     },
 });
 

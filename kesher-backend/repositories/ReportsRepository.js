@@ -14,12 +14,15 @@ const getChildrenAttendanceByChildernIds = async (ids) => {
     );
 };
 
+// TODO get satff name by opulate. I want to bring all the data and not only the subReports.
 const getChildReportsById = async (id) => {
     const pit = await Report.aggregate([
         { $match: { child: objectId(id) } },
         { $unwind: "$subReports" },
+        // { $objectToArray: { subReports } },
         { $project: { subReports: 1 } },
     ]);
+    console.log(typeof [...pit]);
     return pit;
 };
 

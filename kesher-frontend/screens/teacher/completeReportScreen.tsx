@@ -12,24 +12,27 @@ function CompleteReportScreen(props: any) {
     // ANCHOR get data from redux (the subcategories)
     useEffect(() => {
         const data = props.report.subCategories;
-        let temp: {
-            subcategory_id: any;
-            title: any;
-            report_value: string;
-            category: string;
-        }[] = [];
+        // console.log("try", [...data]);
+        // console.log(data);
 
-        data.forEach((subCategory: any) => {
-            console.log(subCategory);
-            temp.push({
-                subcategory_id: subCategory.id,
-                title: subCategory.title,
-                category: subCategory.category,
-                report_value: "",
-            });
-        });
+        // let temp: {
+        //     subcategory_id: any;
+        //     title: any;
+        //     report_value: string;
+        //     category: string;
+        // }[] = [];
 
-        setSubCategories(temp);
+        // data.forEach((subCategory: any) => {
+        //     console.log(subCategory);
+        //     temp.push({
+        //         subcategory_id: subCategory.id,
+        //         title: subCategory.title,
+        //         category: subCategory.category,
+        //         report_value: "",
+        //     });
+        // });
+
+        setSubCategories([...data]);
     }, []);
 
     // ANCHOR handle input changes
@@ -57,7 +60,7 @@ function CompleteReportScreen(props: any) {
             <View style={styles.reportBox}>
                 <FlatList
                     data={subCategories}
-                    keyExtractor={(item) => item.subcategory_id}
+                    keyExtractor={(item) => item.id}
                     scrollEnabled={false}
                     renderItem={({ item }) => (
                         <View>

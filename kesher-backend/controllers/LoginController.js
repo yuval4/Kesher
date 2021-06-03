@@ -91,8 +91,8 @@ router.get("/createstaff", async (req, res) => {
 router.get("/createchild", async (req, res) => {
     let child = new Child({
         name: {
-            first: "שלמה",
-            last: "הגמל",
+            first: "מישהו",
+            last: "מישהו",
         },
         birthDate: Date(),
         school: new objectId("60ac12e39f1ac569ac380ea4"),

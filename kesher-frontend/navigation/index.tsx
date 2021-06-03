@@ -1,8 +1,3 @@
-/**
- * If you are not familiar with React Navigation, check out the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import {
     NavigationContainer,
     DefaultTheme,
@@ -27,13 +22,13 @@ function Navigation(props: any) {
             <Stack.Navigator
                 screenOptions={{ headerShown: false, gestureEnabled: false }}
             >
-                {/* <IndexStack.Screen name="Index" component={Index} /> */}
-                {/* {token ? ( */}
-                <IndexStack.Screen name="Root" component={RootNavigator} />
-                {/* ) : null} */}
+                {/* {token ? (
+                    <IndexStack.Screen name="Root" component={RootNavigator} />
+                ) : null} */}
 
                 {/* <IndexStack.Screen name="Login" component={LoginScreen} /> */}
 
+                <IndexStack.Screen name="Root" component={RootNavigator} />
                 {/* <IndexStack.Screen name="Login" component={LoginScreen} /> */}
 
                 {/* <IndexStack.Screen name="Login" component={LoginScreen} /> */}

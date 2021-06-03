@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation }: any) {
             />
             <HomeButton
                 text="לוח מודעות"
-                onPress={() => alert("hah")}
+                onPress={() => navigation.navigate("EventsBoard")}
                 icon="calender"
             />
         </View>

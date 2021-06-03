@@ -27,6 +27,7 @@ function ChildrenListReportScreen(props: any) {
         getData();
     }, []);
 
+    // ANCHOR handle child press, navigae to the next screen and store it in redux
     const handlePress = (item: any) => {
         props.navigation.navigate("StartReport");
         dispatch({

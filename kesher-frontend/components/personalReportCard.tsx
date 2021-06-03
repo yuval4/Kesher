@@ -1,24 +1,35 @@
-import { DrawerActions } from '@react-navigation/routers';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import globalStyles from '../assets/globalStyles';
+import { DrawerActions } from "@react-navigation/routers";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import globalStyles from "../assets/globalStyles";
 
-export default function PersonalReportCard({ data }: { data: {category: string, value: string, sender: string, timestamp: number} }) {
-    const time = new Date(data.timestamp)
+export default function PersonalReportCard({
+    data,
+}: {
+    data: { date: Date; name: string; creator: string; details: number };
+}) {
+    console.log(data);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{data.category}</Text>
-            <Text style={styles.details}>{data.value}</Text>
+            <Text style={styles.title}>{data.name}</Text>
+            <Text style={styles.details}>{data.details}</Text>
 
             <View style={styles.info}>
-                <Text style={styles.author}>{data.sender}</Text>
-                {/* <Text style={styles.timestamp}>27.4.2021 15:11</Text> */}
-                <Text style={styles.timestamp}>{time.toLocaleDateString()}  {time.getHours()}:{time.getMinutes()}</Text>
+                <Text style={styles.author}>{data.creator}</Text>
+                <Text style={styles.timestamp}>
+                    {new Date(data.date).toLocaleDateString()}
+                    {"  "}
+                    {new Date(data.date).toLocaleTimeString().substring(0, 5)}
+                </Text>
+                {/* <Text style={styles.timestamp}>
+                    {time.toLocaleDateString()} {time.getHours()}:
+                    {time.getMinutes()}
+                </Text> */}
                 {/* {console.log(time.getTime)} */}
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -35,14 +46,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 3,
         paddingHorizontal: 11,
-        paddingVertical: 7
+        paddingVertical: 7,
     },
     title: {
         fontFamily: globalStyles.font.semiBold,
         fontSize: 16,
         lineHeight: 18,
-        alignItems: 'center',
-        textAlign: 'right',
+        alignItems: "center",
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.purple,
         marginBottom: 3,
@@ -51,8 +62,8 @@ const styles = StyleSheet.create({
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        alignItems: 'center',
-        textAlign: 'right',
+        alignItems: "center",
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         marginBottom: 15,
@@ -61,25 +72,24 @@ const styles = StyleSheet.create({
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        textAlign: 'right',
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         opacity: 0.55,
-        position: 'absolute',
+        position: "absolute",
         right: 0,
     },
     author: {
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        textAlign: 'right',
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         opacity: 0.55,
         //marginRight: 10,
     },
     info: {
-        flexDirection: 'row-reverse',
-
-    }
-})
+        flexDirection: "row-reverse",
+    },
+});

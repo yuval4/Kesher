@@ -13,8 +13,9 @@ import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
 import StartReportButton from "../components/buttons/startReportButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { connect } from "react-redux";
 
-export default function EventsBoardScreen() {
+function EventsBoardScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const [openItem, setOpenItem] = React.useState("");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -162,7 +163,10 @@ export default function EventsBoardScreen() {
                     </View>
                 )}
             />
-            <StartReportButton onPress={() => setModalOpen(true)} />
+            {props.user.role === "staff" ? (
+                <StartReportButton onPress={() => setModalOpen(true)} />
+            ) : null}
+
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
                 <View style={styles.modalContent}>
                     <TouchableOpacity
@@ -282,12 +286,6 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: "white",
-        // width: '50%',
-        // height: '50%',
-        // alignSelf: 'center',
-        // paddingTop: '20%',
-        // padding: 100
-        // margin: 100,
         marginHorizontal: "20%",
         marginVertical: "50%",
     },
@@ -295,3 +293,10 @@ const styles = StyleSheet.create({
         color: "pink",
     },
 });
+
+const mapStateToProps = (state: any) => {
+    const { user } = state;
+    return { user };
+};
+
+export default connect(mapStateToProps)(EventsBoardScreen);

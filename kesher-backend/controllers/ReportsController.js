@@ -7,7 +7,7 @@ router.use(authenticateToken);
 
 router.get("/:id", async (req, res) => {
     const reports = await ReportsService.getChildReports(req.params.id);
-    console.log("controller", reports);
+    console.log(typeof reports);
     res.send(reports);
 });
 
@@ -19,7 +19,6 @@ router.post("/attendances", async (req, res) => {
 });
 
 router.patch("/child/:id", async (req, res) => {
-    console.log(req.body);
     await ReportsService.updateChildAttendance(
         req.params.id,
         req.body.attendance

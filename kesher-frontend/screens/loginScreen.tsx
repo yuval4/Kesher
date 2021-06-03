@@ -15,7 +15,7 @@ import globalStyles from "../assets/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({ navigation, onPress }: any) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const dispatch = useDispatch();
@@ -85,8 +85,8 @@ export default function LoginScreen({ navigation }: any) {
                     schools: getMeRespones.data.schools,
                 },
             });
-
-            navigation.navigate("Root");
+            onPress;
+            // navigation.navigate("Root");
         } catch (err) {
             if (err.message === "Request failed with status code 401") {
                 alert("שם משתמש או סיסמה שגויים");

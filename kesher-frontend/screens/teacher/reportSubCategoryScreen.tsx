@@ -67,7 +67,7 @@ function ReportSubCategoryScreen(props: any) {
         },
         {
             id: "33",
-            title: "חיטולים",
+            title: "חיתולים",
         },
         {
             id: "34",
