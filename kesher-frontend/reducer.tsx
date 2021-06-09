@@ -1,4 +1,7 @@
 const initialState = {
+    auth: {
+        isLogin: false,
+    },
     user: {
         name: { first: "", last: "" },
         role: "",
@@ -25,6 +28,11 @@ export default function Reducer(state = initialState, action: any) {
             return {
                 ...state,
                 report: action.data,
+            };
+        case "SET_LOGIN":
+            return {
+                ...state,
+                isLogin: action.data,
             };
         case "SET_REPORT_CATEGORY":
             return {

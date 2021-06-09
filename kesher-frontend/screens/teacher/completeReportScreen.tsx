@@ -37,10 +37,14 @@ function CompleteReportScreen(props: any) {
 
     // ANCHOR handle input changes
     const handleInput = (item: any, input: string) => {
-        let temp = subCategories;
-        item.report_value = input;
-        temp[(parseInt(item.id) % 10) - 1] = item;
-        setSubCategories([...temp]);
+        setSubCategories((currentSubCategories) =>
+            currentSubCategories.map((category) => {
+                if (category.id === item.id) {
+                    category.report_value = input;
+                }
+                return category;
+            })
+        );
     };
 
     // ANCHOR submit the form
@@ -60,7 +64,7 @@ function CompleteReportScreen(props: any) {
             <View style={styles.reportBox}>
                 <FlatList
                     data={subCategories}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item, index) => index.toString()}
                     scrollEnabled={false}
                     renderItem={({ item }) => (
                         <View>

@@ -1,11 +1,12 @@
 import { Formik } from "formik";
 import React from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
+import { connect } from "react-redux";
 import api from "../../api";
 import globalStyles from "../../assets/globalStyles";
 import SmallButton from "../../components/buttons/smallButton";
 
-export default function AddChildScreen() {
+function AddChildScreen(props: any) {
     const handleSubmit = () => {
         alert("הפרטים הוכנסו");
     };
@@ -32,11 +33,15 @@ export default function AddChildScreen() {
                     month: "",
                     year: "",
                 }}
-                onSubmit={(values) => {
+                onSubmit={async (values) => {
                     // api.children().createChild(values);
                     // TODO add the school id to redux and parent
-                    values.school = "60ac12e39f1ac569ac380ea4";
-                    api.children().createChild(values);
+                    values.school = props.user.schools[0];
+                    const childId = await api.children().createChild(values);
+                    await api
+                        .schools()
+                        .addChildToSchool(values.school, childId.data);
+                    await api.parents().createParent(values, childId.data);
                     alert("הפרטים הוכנסו");
                 }}
             >
@@ -159,3 +164,10 @@ const styles = StyleSheet.create({
     },
     input: {},
 });
+
+const mapStateToProps = (state: any) => {
+    const { user } = state;
+    return { user };
+};
+
+export default connect(mapStateToProps)(AddChildScreen);

@@ -112,7 +112,7 @@ function ReportSubCategoryScreen(props: any) {
         }
     };
 
-    // ANCHOR add "selected = false for each object" and set data in DATA
+    // ANCHOR add "selected = false" for each object and set data in DATA
     useEffect(() => {
         let data = getData();
         let subCategories = [];
@@ -153,6 +153,7 @@ function ReportSubCategoryScreen(props: any) {
                 });
             }
         }
+        console.log(subCategories);
         return subCategories;
     };
 

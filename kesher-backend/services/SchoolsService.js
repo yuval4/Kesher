@@ -6,6 +6,11 @@ const getChildrenBySchoolId = async (id) => {
     return await SchoolsRepository.findChildrenBySchoolId(id);
 };
 
+const addChildToSchool = async (schoolId, childId) => {
+    return await SchoolsRepository.addIdChildToSchool(schoolId, childId);
+};
+
 module.exports = {
     getChildrenBySchoolId,
+    addChildToSchool,
 };

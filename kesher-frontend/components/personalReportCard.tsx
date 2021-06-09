@@ -1,32 +1,40 @@
 import { DrawerActions } from "@react-navigation/routers";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import globalStyles from "../assets/globalStyles";
 
 export default function PersonalReportCard({
     data,
 }: {
-    data: { date: Date; name: string; creator: string; details: number };
+    data: {
+        date: Date;
+        name: string;
+        creator: string;
+        details: String;
+        subReports: any;
+    };
 }) {
-    console.log(data);
-
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{data.name}</Text>
-            <Text style={styles.details}>{data.details}</Text>
+            <FlatList
+                // style={styles.list}
+                data={data.subReports}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={(item) => (
+                    <View>
+                        <Text style={styles.title}>{item.item.name}</Text>
+                        <Text style={styles.details}>{item.item.details}</Text>
+                    </View>
+                )}
+            />
 
             <View style={styles.info}>
-                <Text style={styles.author}>{data.creator}</Text>
+                <Text style={styles.author}>I need to add a name here</Text>
                 <Text style={styles.timestamp}>
                     {new Date(data.date).toLocaleDateString()}
                     {"  "}
                     {new Date(data.date).toLocaleTimeString().substring(0, 5)}
                 </Text>
-                {/* <Text style={styles.timestamp}>
-                    {time.toLocaleDateString()} {time.getHours()}:
-                    {time.getMinutes()}
-                </Text> */}
-                {/* {console.log(time.getTime)} */}
             </View>
         </View>
     );

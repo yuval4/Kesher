@@ -10,4 +10,9 @@ router.get("/:id", async (req, res) => {
     res.send(children);
 });
 
+router.patch("/children", async (req, res) => {
+    await SchoolsService.addChildToSchool(req.body.schoolId, req.body.childId);
+    return res.sendStatus(200);
+});
+
 module.exports = router;

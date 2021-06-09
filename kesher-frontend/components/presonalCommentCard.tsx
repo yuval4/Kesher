@@ -1,26 +1,29 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import globalStyles from '../assets/globalStyles';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import globalStyles from "../assets/globalStyles";
 
-export default function PersonalCommentCard({ data }: { data: { value: string, sender: string, timestamp: number} }) {
-    const time = new Date(data.timestamp)
+export default function PersonalCommentCard({ data }: any) {
+    const time = new Date(data.timestamp);
 
     return (
         <View style={styles.container}>
             <Text style={styles.details}>{data.value}</Text>
 
             <View style={styles.info}>
-                <Text style={styles.author}>{data.sender}</Text>
-                <Text style={styles.timestamp}>{time.toLocaleDateString()}  {time.getHours()}:{time.getMinutes()}</Text>
+                <Text style={styles.author}>I need to add a name here</Text>
+                <Text style={styles.timestamp}>
+                    {new Date(data.date).toLocaleDateString()}
+                    {"  "}
+                    {new Date(data.date).toLocaleTimeString().substring(0, 5)}
+                </Text>
             </View>
         </View>
-    )
+    );
 }
-
 
 const styles = StyleSheet.create({
     container: {
-        // width: '90%',
+        // width: "100%",
         backgroundColor: globalStyles.color.mediumPurplel,
         borderWidth: 0.4,
         borderColor: globalStyles.color.purple,
@@ -32,14 +35,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 3,
         paddingHorizontal: 11,
-        paddingVertical: 7
+        paddingVertical: 7,
     },
     details: {
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        alignItems: 'center',
-        textAlign: 'right',
+        alignItems: "center",
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         marginBottom: 7,
@@ -48,25 +51,24 @@ const styles = StyleSheet.create({
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        textAlign: 'right',
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         opacity: 0.55,
-        position: 'absolute',
+        position: "absolute",
         right: 0,
     },
     author: {
         fontFamily: globalStyles.font.regular,
         fontSize: 16,
         lineHeight: 18,
-        textAlign: 'right',
+        textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         opacity: 0.55,
         //marginRight: 10,
     },
     info: {
-        flexDirection: 'row-reverse',
-
-    }
-})
+        flexDirection: "row-reverse",
+    },
+});

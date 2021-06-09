@@ -28,6 +28,7 @@ const createNewChild = async (data) => {
     });
     child = await child.save();
     console.log(child);
+    return child._id;
 };
 
 module.exports = { getChildNameAndPic, createNewChild, getChildrenNameAndPic };

@@ -15,6 +15,7 @@ import MainDrawer from "./navigation/mainDrawer";
 import RootNavigator from "./navigation/index";
 import LoginNavigation from "./navigation/loginStack";
 import Index from "./index";
+import TryAndDelete from "./screens/parent/tryAndDelete";
 
 const store = createStore(Reducer);
 
@@ -66,6 +67,7 @@ export default function App() {
             <Provider store={store}>
                 {/* <NavigationContainer> */}
                 {/* <MainDrawer /> */}
+                {/* <TryAndDelete /> */}
                 <Index />
                 {/* {isLogin ? <Navigation /> : <LoginScreen />} */}
                 {/* <LoginScreen /> */}

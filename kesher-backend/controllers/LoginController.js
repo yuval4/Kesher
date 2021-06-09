@@ -10,8 +10,8 @@ const objectId = mongoose.Types.ObjectId;
 const ParentsService = require("../services/ParentsService");
 const StaffsService = require("../services/StaffsService");
 
+// ANCHOR checks if the user is exist by his email and password and creact a uniqu token. else, send 401 status.
 router.post("/login", async (req, res) => {
-    console.log("who wants to log in?");
     let token;
     if (req.body.data.role === "parent") {
         let user = await ParentsService.getParentByEmailAndPassword(
@@ -33,6 +33,7 @@ router.post("/login", async (req, res) => {
     token ? res.send(token) : res.sendStatus(401);
 });
 
+// ANCHOR getMe requset gets the user token to vertified it end returns data about the user.
 router.get("/getMe", authenticateToken, async (req, res) => {
     console.log(req.user.id);
     if (req.user.role === "parent") {
@@ -126,4 +127,5 @@ router.get("/createparent", async (req, res) => {
     console.log(parent);
     res.send("created parent sec");
 });
+
 module.exports = router;

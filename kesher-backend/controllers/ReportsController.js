@@ -36,4 +36,15 @@ router.patch("/subreport/:id", async (req, res) => {
     res.sendStatus(200);
 });
 
+// TODO change
+router.patch("/comment/:reportId", async (req, res) => {
+    console.log(req.params.reportId);
+    await ReportsService.addCommentToReport(
+        req.user.id,
+        req.params.reportId,
+        req.body.comment
+    );
+    res.sendStatus(200);
+});
+
 module.exports = router;

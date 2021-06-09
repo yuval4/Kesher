@@ -3,13 +3,13 @@ const { Parent } = require("../models/ParentModel");
 const mongoose = require("mongoose");
 const objectId = mongoose.Types.ObjectId;
 
-const createNewParent = async (data) => {
+const createNewParent = async (data, childId) => {
     let parent = new Parent({
         name: {
             first: data.parentFirstName,
             last: data.parentLastName,
         },
-        adress: {
+        address: {
             city: data.city,
             street: data.street,
             number: data.number,
@@ -19,8 +19,8 @@ const createNewParent = async (data) => {
         password: Math.random().toString(36).substring(5), // NOTE send it by email to the parent
         active: true,
     });
-    parent.children.push(new objectId("60ac134b2b8cc80e089da0df")); //TODO chage id to child id (needs also to send it)
-    parent.schools.push(new objectId("60ac134b2b8cc80e089da0df")); //TODO chage id to school id (needs also to send it)
+    parent.children.push(new objectId(childId)); //TODO chage id to child id (needs also to send it)
+    parent.schools.push(new objectId(data.school)); //TODO chage id to school id (needs also to send it)
     parent = await parent.save();
 };
 

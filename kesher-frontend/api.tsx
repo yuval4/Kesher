@@ -24,6 +24,12 @@ export default {
     parents() {
         return {
             getAll: () => axios.get(URL),
+            createParent: async (data: any, childId: any) =>
+                axios.post(
+                    `${URL}/parents`,
+                    { data, childId },
+                    await options()
+                ),
             //   updateMotion: (id) => axios.patch(${baseURL}/convoies/${id}/motion),
             //   updateArrived: (id) => axios.patch(${baseURL}/convoies/${id}/arrived),
             //   getProps: () => axios.get(${jsonURL}/convoyProp),
@@ -37,13 +43,20 @@ export default {
     },
     children() {
         return {
-            createChild: (data: any) => axios.post(`${URL}/children`, { data }),
+            createChild: async (data: any) =>
+                axios.post(`${URL}/children`, { data }, await options()),
         };
     },
     schools() {
         return {
             getChildren: async (id: string) =>
                 axios.get(`${URL}/schools/${id}`, await options()),
+            addChildToSchool: async (schoolId: any, childId: any) =>
+                axios.patch(
+                    `${URL}/schools/children`,
+                    { schoolId, childId },
+                    await options()
+                ),
         };
     },
     reports() {
@@ -67,6 +80,12 @@ export default {
                 axios.patch(
                     `${URL}/reports/subreport/${id}`,
                     { subReports },
+                    await options()
+                ),
+            addCommentToReport: async (ReportId: string, comment: any) =>
+                axios.patch(
+                    `${URL}/reports/comment/${ReportId}`,
+                    { comment },
                     await options()
                 ),
         };

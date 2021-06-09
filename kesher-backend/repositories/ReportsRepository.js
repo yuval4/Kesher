@@ -16,14 +16,17 @@ const getChildrenAttendanceByChildernIds = async (ids) => {
 
 // TODO get satff name by opulate. I want to bring all the data and not only the subReports.
 const getChildReportsById = async (id) => {
-    const pit = await Report.aggregate([
-        { $match: { child: objectId(id) } },
-        { $unwind: "$subReports" },
-        // { $objectToArray: { subReports } },
-        { $project: { subReports: 1 } },
-    ]);
-    console.log(typeof [...pit]);
-    return pit;
+    // const pit = await Report.aggregate([
+    //     { $match: { child: objectId(id) } },
+    //     // { $unwind: "$subReports" },
+    //     // { $objectToArray: { subReports } },
+    //     // { $project: { subReports: 1 } },
+    // ]);
+    // console.log(pit);
+    // return pit;
+    return await Report.find({
+        child: { $in: id },
+    }).populate("staff", "name profilePic");
 };
 
 const updateAttendanceByChildId = async (id, attendance) => {
@@ -47,9 +50,20 @@ const addSubReportToReportByChildId = async (id, subReport) => {
     );
 };
 
+// TODO change
+const addCommentToReportByReportId = async (reportId, comment) => {
+    return await Report.findOneAndUpdate(
+        {
+            _id: { $in: reportId },
+        },
+        { $push: { comments: comment } }
+    );
+};
+
 module.exports = {
     getChildrenAttendanceByChildernIds,
     updateAttendanceByChildId,
     addSubReportToReportByChildId,
     getChildReportsById,
+    addCommentToReportByReportId,
 };

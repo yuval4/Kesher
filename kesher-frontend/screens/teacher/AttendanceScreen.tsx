@@ -31,12 +31,11 @@ function AttendanceScreen(props: any) {
             let attendanceResponse = await api
                 .reports()
                 .getChildrenAttendance(ids);
-
             let dataObject: any = [];
             childrenResponse.data.children.forEach((child: any) => {
                 child.attendance = attendanceResponse.data.find(
                     (report: any) => report.child === child._id
-                );
+                ).attendance;
                 dataObject.push(child);
             });
             setDATA(dataObject);
@@ -74,7 +73,6 @@ function AttendanceScreen(props: any) {
                     <View>
                         <TouchableOpacity
                             style={styles.item}
-                            // onPress={() => toggleItem(item)}
                             onPress={() => handleDATAChange(item)}
                         >
                             <Image

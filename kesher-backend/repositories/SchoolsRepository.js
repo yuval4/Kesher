@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { School } = require("../models/SchoolModel");
+const objectId = mongoose.Types.ObjectId;
 
 const findChildrenBySchoolId = async (id) => {
     return await School.findById(id, "children")
@@ -7,4 +8,14 @@ const findChildrenBySchoolId = async (id) => {
         .lean();
 };
 
-module.exports = { findChildrenBySchoolId };
+const addIdChildToSchool = async (schoolId, childId) => {
+    console.log(schoolId, childId);
+    return await School.findOneAndUpdate(
+        {
+            _id: new objectId(schoolId),
+        },
+        { $push: { children: new objectId(childId) } }
+    );
+};
+
+module.exports = { findChildrenBySchoolId, addIdChildToSchool };

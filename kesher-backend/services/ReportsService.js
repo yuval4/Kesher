@@ -49,10 +49,20 @@ const addSubReportToReport = async (id, subReports, creatorId) => {
     });
 };
 
+const addCommentToReport = async (creatorId, reportId, message) => {
+    const comment = {
+        date: new Date(),
+        creator: new objectId(creatorId),
+        message: message,
+    };
+    await ReportsRepository.addCommentToReportByReportId(reportId, comment);
+};
+
 module.exports = {
     getChildrenAttendance,
     createDailyReport,
     updateChildAttendance,
     addSubReportToReport,
     getChildReports,
+    addCommentToReport,
 };

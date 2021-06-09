@@ -11,8 +11,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    await ChildrenService.createNewChild(req.body.data);
-    res.sendStatus(200);
+    const childId = await ChildrenService.createNewChild(req.body.data);
+    res.send(childId);
 });
 
 module.exports = router;

@@ -6,7 +6,7 @@ const { authenticateToken } = require("../auth/auth");
 router.use(authenticateToken);
 
 router.post("/", async (req, res) => {
-    await ParentsService.createNewParent(req.body.data);
+    await ParentsService.createNewParent(req.body.data, req.body.childId);
     res.sendStatus(200);
 });
 
