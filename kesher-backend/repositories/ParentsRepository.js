@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const objectId = mongoose.Types.ObjectId;
 
 const findParentById = async (id) => {
-    return await Parent.findById(id, "name children").lean();
+    return await Parent.findById(id, "name children")
+        .populate("children", "name profilePic")
+        .lean();
 };
 
 const getParentByEmailAndPassword = async (email, password) => {
@@ -13,4 +15,14 @@ const getParentByEmailAndPassword = async (email, password) => {
     );
 };
 
-module.exports = { getParentByEmailAndPassword, findParentById };
+const findChildrenByParentId = async (id) => {
+    return await Parent.findById(id, "children")
+        .populate("children", "name profilePic")
+        .lean();
+};
+
+module.exports = {
+    getParentByEmailAndPassword,
+    findParentById,
+    findChildrenByParentId,
+};

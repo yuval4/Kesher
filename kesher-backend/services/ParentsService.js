@@ -1,9 +1,13 @@
 const ParentsRepository = require("../repositories/ParentsRepository");
 const { Parent } = require("../models/ParentModel");
+const mailService = require("../mail/mailService");
 const mongoose = require("mongoose");
 const objectId = mongoose.Types.ObjectId;
 
 const createNewParent = async (data, childId) => {
+    // TODO sand the password with the mail service
+    const password = Math.random().toString(36).substring(7);
+    mailService.sendMail();
     let parent = new Parent({
         name: {
             first: data.parentFirstName,
@@ -16,7 +20,7 @@ const createNewParent = async (data, childId) => {
         },
         phoneNumber: data.phoneNumber,
         email: data.email,
-        password: Math.random().toString(36).substring(5), // NOTE send it by email to the parent
+        password: password,
         active: true,
     });
     parent.children.push(new objectId(childId)); //TODO chage id to child id (needs also to send it)
@@ -32,8 +36,13 @@ const getParentById = async (id) => {
     return await ParentsRepository.findParentById(id);
 };
 
+const getChildrenByParentId = async (id) => {
+    return await ParentsRepository.findChildrenByParentId(id);
+};
+
 module.exports = {
     createNewParent,
     getParentByEmailAndPassword,
     getParentById,
+    getChildrenByParentId,
 };

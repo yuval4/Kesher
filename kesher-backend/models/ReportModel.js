@@ -12,7 +12,6 @@ const subReportSchema = new Schema({
 const commentSchema = new Schema({
     date: Date,
     creator: { type: Schema.Types.ObjectId, ref: "Parent" },
-    // reportId: { type: Schema.Types.ObjectId, ref: "Report" },
     message: String,
 });
 

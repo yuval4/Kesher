@@ -25,7 +25,7 @@ const parentSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     schools: [{ type: Schema.Types.ObjectId, ref: "School" }],
-    children: [{ type: Schema.Types.ObjectId, ref: "Child" }],
+    children: [{ type: Schema.Types.ObjectId, ref: "Children" }],
     active: { type: Boolean, required: true, default: true },
 });
 

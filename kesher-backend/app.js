@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
 
-var indexRouter = require("./controllers/index");
 const loginController = require("./controllers/LoginController");
 const childrenController = require("./controllers/ChildrenController");
 const schoolsController = require("./controllers/SchoolsController");
@@ -20,7 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/", indexRouter);
 app.use(loginController);
 app.use("/children", childrenController);
 app.use("/schools", schoolsController);
