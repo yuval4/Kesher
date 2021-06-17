@@ -16,6 +16,7 @@ import StartReportButton from "../../components/buttons/startReportButton";
 import ChildTitle from "../../components/childTitle";
 import ReportCategoryCard from "../../components/reportCategoryCard";
 import { connect, useDispatch } from "react-redux";
+import DailyReportScreen from "../parent/dailyReportScreen";
 
 function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -64,6 +65,9 @@ function StartReportScreen(props: any) {
     return (
         <View style={styles.container}>
             <ChildTitle />
+
+            {/* <DailyReportScreen props={props} /> */}
+
             <StartReportButton onPress={() => setModalOpen(true)} />
 
             <Modal visible={modalOpen} animationType="slide" transparent={true}>

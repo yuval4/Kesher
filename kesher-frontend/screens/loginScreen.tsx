@@ -13,18 +13,18 @@ import {
 import api from "../api";
 import globalStyles from "../assets/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-export default function LoginScreen({ navigation, onPress }: any) {
+export default function LoginScreen(props: any) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const dispatch = useDispatch();
-    const isLogin = useSelector((state: any) => state.auth);
 
     //  ANCHOR get token and set it in the async storage.
     const storeData = async (token: any) => {
         try {
             await AsyncStorage.setItem("token", token);
+            props.onLogin(token);
         } catch (err) {
             alert(err);
         }
@@ -52,15 +52,6 @@ export default function LoginScreen({ navigation, onPress }: any) {
                     children: getMeRespones.data.children,
                 },
             });
-
-            dispatch({
-                type: "SET_LOGIN",
-                data: {
-                    isLogin: true,
-                },
-            });
-            console.log(isLogin);
-            // navigation.push("Root");
         } catch (err) {
             if (err.message === "Request failed with status code 401") {
                 alert("שם משתמש או סיסמה שגויים");
@@ -91,12 +82,6 @@ export default function LoginScreen({ navigation, onPress }: any) {
                     },
                     role: getMeRespones.data.role,
                     schools: getMeRespones.data.schools,
-                },
-            });
-            dispatch({
-                type: "SET_LOGIN",
-                data: {
-                    isLogin: true,
                 },
             });
         } catch (err) {

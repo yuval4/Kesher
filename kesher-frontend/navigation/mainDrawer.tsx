@@ -132,6 +132,7 @@ function MainDrawer(props: any) {
             <Drawer.Screen
                 name="Logout"
                 component={Logout}
+                initialParams={{ onLogout: props.onLogout }}
                 options={{
                     title: "התנתק",
                     // drawerIcon: () => DrawerIcons.elwyn,

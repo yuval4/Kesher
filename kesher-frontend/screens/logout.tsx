@@ -2,16 +2,20 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default async function Logout({ navigation }: any) {
-    // TODO navigate back to the login screen
-    // navigation.navigate("Login");
+export default function Logout(props: any) {
+    const { onLogout } = props.route.params;
 
-    try {
-        await AsyncStorage.removeItem("token");
-    } catch (err) {
-        alert(err);
-    }
-    //TODO delete async storage and redux and go to loginScreen
+    // ANCHOR remove the token from the async storgae
+    const logout = async () => {
+        try {
+            await AsyncStorage.removeItem("token");
+            onLogout(null);
+        } catch (err) {
+            alert(err);
+        }
+    };
+
+    logout();
     return (
         <View>
             <Text></Text>

@@ -18,6 +18,7 @@ import PersonalCommentCard from "../../components/presonalCommentCard";
 import api from "../../api";
 import { connect } from "react-redux";
 import Icons from "../../assets/icons/icons";
+import ReportsAndComments from "../../components/reportsAndComments";
 
 function DailyReportScreen(props: any) {
     const [DATA, setDATA] = useState([]);
@@ -25,148 +26,83 @@ function DailyReportScreen(props: any) {
     const [activeComment, setActiveComment] = React.useState("");
     const [comment, setComment] = React.useState("");
 
-    useEffect(() => {
-        const fetchChildReports = async () => {
-            const response = await api
-                .reports()
-                .getAllChildReports(props.user.children[0]);
-            setDATA(response.data);
-        };
-        fetchChildReports();
-    }, []);
+    // ANCHOR get reports data from the server.
+    const fetchChildReports = async () => {
+        const response = await api
+            .reports()
+            .getAllChildReports(props.user.children[0]._id);
+        setDATA(response.data);
+    };
 
-    const [comments, setComments] = React.useState([
-        {
-            recordId: "1",
-            sender: "גננת",
-            value: "אחת",
-            relateId: "60b6484b75b3759190e171f5",
-            timestamp: 1617629677114,
-        },
-        {
-            recordId: "2",
-            sender: "גננת",
-            value: "שתיים",
-            relateId: "60b7f26152683269bce0ab7d",
-            timestamp: 1617629677114,
-        },
-    ]);
+    useEffect(() => {
+        fetchChildReports();
+    }, [props.user]);
 
     const submitMessage = () => {
-        api.reports().addCommentToReport(activeComment, comment);
+        api.reports()
+            .addCommentToReport(activeComment, comment)
+            .then(() => fetchChildReports());
+
         setAddMessage(false);
         setComment("");
     };
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
-        >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <FlatList
-                        style={styles.list}
-                        data={DATA}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={(item) =>
-                            item.item.subReports.length === 0 ? null : (
-                                <View style={styles.messages}>
-                                    <View style={styles.message}>
-                                        <PersonalReportCard data={item.item} />
-
-                                        <FlatList
-                                            style={styles.commentList}
-                                            data={comments}
-                                            keyExtractor={(comment) =>
-                                                comment.recordId
-                                            }
-                                            renderItem={(comment) =>
-                                                comment.item.relateId.toString() ===
-                                                item.item._id ? (
-                                                    <View
-                                                        style={styles.comment}
-                                                    >
-                                                        {console.log(
-                                                            comment.item
-                                                        )}
-                                                        <PersonalCommentCard
-                                                            data={comment.item}
-                                                        />
-                                                    </View>
-                                                ) : null
-                                            }
-                                        />
-
-                                        <AddMessageButton
-                                            onPress={() => {
-                                                setAddMessage(!addMessage);
-                                                setActiveComment(item.item._id);
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                            )
-                        }
-                    />
-                    {addMessage ? (
-                        <View style={styles.inputBar}>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={setComment}
-                                value={comment}
-                                multiline
-                                placeholder="כתב/י כאן..."
-                            />
-                            <AddMessageButton onPress={submitMessage} />
-                        </View>
-                    ) : null}
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-
+        <ReportsAndComments />
         // <KeyboardAvoidingView
         //     behavior={Platform.OS === "ios" ? "padding" : "height"}
         //     style={styles.container}
         // >
-        //     {/* <View style={styles.container}> */}
-        //     <FlatList
-        //         style={styles.list}
-        //         data={DATA}
-        //         initialScrollIndex={DATA.length - 1}
-        //         keyExtractor={(item, index) => index.toString()}
-        //         renderItem={(item) => (
-        //             <View style={styles.messages}>
-        //                 <View style={styles.message}>
-        //                     <PersonalReportCard data={item.item.subReports} />
+        //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        //         <View style={styles.container}>
+        //             <FlatList
+        //                 style={styles.list}
+        //                 data={DATA}
+        //                 keyExtractor={(item, index) => index.toString()}
+        //                 renderItem={(item) =>
+        //                     item.item.subReports.length === 0 ? null : (
+        //                         <View style={styles.messages}>
+        //                             <View style={styles.message}>
+        //                                 <PersonalReportCard data={item.item} />
+        //                                 <FlatList
+        //                                     style={styles.commentList}
+        //                                     data={item.item.comments}
+        //                                     keyExtractor={(commentData) =>
+        //                                         commentData._id
+        //                                     }
+        //                                     renderItem={(commentData) => (
+        //                                         <View style={styles.comment}>
+        //                                             <PersonalCommentCard
+        //                                                 data={commentData.item}
+        //                                             />
+        //                                         </View>
+        //                                     )}
+        //                                 />
+
+        //                                 <AddMessageButton
+        //                                     onPress={() => {
+        //                                         setAddMessage(!addMessage);
+        //                                         setActiveComment(item.item._id);
+        //                                     }}
+        //                                 />
+        //                             </View>
+        //                         </View>
+        //                     )
+        //                 }
+        //             />
+        //             {addMessage ? (
+        //                 <View style={styles.inputBar}>
+        //                     <TextInput
+        //                         style={styles.input}
+        //                         onChangeText={setComment}
+        //                         value={comment}
+        //                         multiline
+        //                         placeholder="כתב/י כאן..."
+        //                     />
+        //                     <AddMessageButton onPress={submitMessage} />
         //                 </View>
-
-        //                 <AddMessageButton
-        //                     onPress={() => {
-        //                         setAddMessage(!addMessage);
-        //                         setActiveComment(item.item.recordId);
-        //                     }}
-        //                 />
-        //             </View>
-        //         )}
-        //     />
-
-        //     {addMessage ? (
-        //         <View style={styles.inputBar}>
-        //             <TextInput
-        //                 style={styles.input}
-        //                 onChangeText={setComment}
-        //                 value={comment}
-        //                 multiline
-        //                 placeholder="כתב/י כאן..."
-        //             />
-        //             <AddMessageButton
-        //                 onPress={() => {
-        //                     setAddMessage(!addMessage);
-        //                 }}
-        //             />
+        //             ) : null}
         //         </View>
-        //     ) : null}
-        //     {/* </View> */}
+        //     </TouchableWithoutFeedback>
         // </KeyboardAvoidingView>
     );
 }

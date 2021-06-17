@@ -3,14 +3,14 @@ import { StyleSheet, Text, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 
 export default function PersonalCommentCard({ data }: any) {
-    const time = new Date(data.timestamp);
-
     return (
         <View style={styles.container}>
-            <Text style={styles.details}>{data.value}</Text>
+            <Text style={styles.details}>{data.message}</Text>
 
             <View style={styles.info}>
-                <Text style={styles.author}>I need to add a name here</Text>
+                <Text style={styles.author}>
+                    {data.creator.name.first} {data.creator.name.last}
+                </Text>
                 <Text style={styles.timestamp}>
                     {new Date(data.date).toLocaleDateString()}
                     {"  "}

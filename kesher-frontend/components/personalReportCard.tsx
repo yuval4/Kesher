@@ -29,7 +29,8 @@ export default function PersonalReportCard({
             />
 
             <View style={styles.info}>
-                <Text style={styles.author}>I need to add a name here</Text>
+                {/* <Text style={styles.author}>I need to add a name here</Text> */}
+                <Text style={styles.author}></Text>
                 <Text style={styles.timestamp}>
                     {new Date(data.date).toLocaleDateString()}
                     {"  "}
