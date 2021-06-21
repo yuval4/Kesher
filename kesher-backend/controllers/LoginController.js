@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const { authenticateToken, generateAccessToken } = require("../auth/auth");
-const mailService = require("../mail/mailService");
+const mailService = require("../mail/MailService");
 const { Child } = require("../models/ChildModel");
 const { Parent } = require("../models/ParentModel");
 const { School } = require("../models/SchoolModel");
@@ -36,7 +36,6 @@ router.post("/login", async (req, res) => {
 
 // ANCHOR getMe requset gets the user token to vertified it end returns data about the user.
 router.get("/getMe", authenticateToken, async (req, res) => {
-    console.log(req.user.id);
     if (req.user.role === "parent") {
         const user = await ParentsService.getParentById(req.user.id);
         user.role = "parent";
@@ -127,11 +126,6 @@ router.get("/createparent", async (req, res) => {
     parent = await parent.save();
     console.log(parent);
     res.send("created parent sec");
-});
-
-router.get("/email", async (req, res) => {
-    mailService.sendMail();
-    res.sendStatus(200);
 });
 
 module.exports = router;

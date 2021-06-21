@@ -7,17 +7,11 @@ import globalStyles from "../../assets/globalStyles";
 import SmallButton from "../../components/buttons/smallButton";
 
 function AddChildScreen(props: any) {
-    const handleSubmit = () => {
-        alert("הפרטים הוכנסו");
-    };
-    // TODO style and use yup validation
     return (
         <View>
             <Text style={styles.title}>הוספת ילד חדש</Text>
 
             {/* TODO add another parent */}
-            {/* <Text style={styles.subTitle}>פרטי הורה נוסף</Text> */}
-
             <Formik
                 initialValues={{
                     parentFirstName: "",
@@ -34,8 +28,6 @@ function AddChildScreen(props: any) {
                     year: "",
                 }}
                 onSubmit={async (values) => {
-                    // api.children().createChild(values);
-                    // TODO add the school id to redux and parent
                     values.school = props.user.schools[0];
                     const childId = await api.children().createChild(values);
                     await api

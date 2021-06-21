@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "kesher-frontend",
-    "slug": "kesher-frontend",
+    "name": "Kesher",
+    "slug": "kesher",
+    "privacy": "public",
     "version": "1.0.0",
+    "sdkVersion": "41.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -13,22 +15,24 @@
       "backgroundColor": "#8253D7"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 2000
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.kesher.kesher",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.kesher.kesher",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/images/icon.png"
+      },
+      "permissions": ["CAMERA" ,"WRITE_EXTERNAL_STORAGE"]
     }
   }
 }

@@ -24,7 +24,7 @@ const staffSchema = new Schema({
     role: { type: String, required: true },
     profilePic: { type: String },
     birthDate: { type: Date, required: true },
-    phoneNumber: { type: Number, required: true, unique: true },
+    phoneNumber: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     schools: [{ type: Schema.Types.ObjectId, ref: "School" }],

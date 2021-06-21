@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.15,
         shadowRadius: 3,
+        elevation: 5,
         paddingHorizontal: 11,
         paddingVertical: 7,
     },
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         marginBottom: 7,
+        paddingTop: 5,
     },
     timestamp: {
         fontFamily: globalStyles.font.regular,

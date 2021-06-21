@@ -4,7 +4,7 @@ const objectId = mongoose.Types.ObjectId;
 
 const findParentById = async (id) => {
     return await Parent.findById(id, "name children")
-        .populate("children", "name profilePic")
+        .populate("children", "name school profilePic")
         .lean();
 };
 

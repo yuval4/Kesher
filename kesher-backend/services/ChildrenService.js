@@ -27,7 +27,6 @@ const createNewChild = async (data) => {
         active: true,
     });
     child = await child.save();
-    console.log(child);
     return child._id;
 };
 

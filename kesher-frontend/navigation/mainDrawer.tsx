@@ -28,6 +28,7 @@ function MainDrawer(props: any) {
             drawerStyle={{
                 borderTopRightRadius: 40,
                 borderBottomRightRadius: 40,
+                width: "70%",
             }}
             screenOptions={{
                 headerShown: true,
@@ -52,7 +53,7 @@ function MainDrawer(props: any) {
                     borderBottomColor: "#C4C4C4",
                 },
                 activeTintColor: "white",
-                scrollEnabled: false,
+                // scrollEnabled: false,
             }}
         >
             <Drawer.Screen
@@ -83,8 +84,7 @@ function MainDrawer(props: any) {
                     options={{
                         title: "הוספת ילד",
                         drawerIcon: () => DrawerIcons.plus,
-                        // headerShown: true,
-                        // header: ({navigation}: any) => <Header navigation={navigation} />
+                        header: () => <Header title="הוספת ילד" />,
                     }}
                 />
             ) : null}
@@ -96,6 +96,7 @@ function MainDrawer(props: any) {
                     options={{
                         title: "דיווח יומי",
                         drawerIcon: () => DrawerIcons.checklist,
+                        header: () => <Header title="דיווח יומי" />,
                     }}
                 />
             ) : null}
@@ -107,6 +108,7 @@ function MainDrawer(props: any) {
                 options={{
                     title: "לוח מודעות",
                     drawerIcon: () => DrawerIcons.calender,
+                    header: () => <Header title="לוח מודעות" />,
                 }}
             />
 
@@ -116,6 +118,7 @@ function MainDrawer(props: any) {
                 options={{
                     title: "הגדרות",
                     drawerIcon: () => DrawerIcons.settings,
+                    header: () => <Header title="הגדרות" />,
                 }}
             />
 
@@ -136,7 +139,6 @@ function MainDrawer(props: any) {
                 options={{
                     title: "התנתק",
                     // drawerIcon: () => DrawerIcons.elwyn,
-                    header: () => <Header title="לאתר אלווין" />,
                 }}
             />
         </Drawer.Navigator>

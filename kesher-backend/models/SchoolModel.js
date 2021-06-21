@@ -19,7 +19,7 @@ const schoolSchema = new Schema({
             details: { type: String },
             startTime: { type: Date, required: true },
             endTime: { type: Date },
-            createdDate: { type: Date, required: true },
+            creationDate: { type: Date, default: new Date() },
             creatorId: {
                 type: Schema.Types.ObjectId,
                 ref: "Staff",

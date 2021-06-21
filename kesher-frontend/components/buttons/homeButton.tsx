@@ -1,25 +1,32 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import globalStyles from '../../assets/globalStyles';
-import HomeIcons from '../../assets/icons/homeIcons';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import globalStyles from "../../assets/globalStyles";
+import HomeIcons from "../../assets/icons/homeIcons";
 
-
-export default function HomeButton({ text, onPress, icon }: { text: string, onPress: () => void, icon: string }) {
+export default function HomeButton({
+    text,
+    onPress,
+    icon,
+}: {
+    text: string;
+    onPress: () => void;
+    icon: string;
+}) {
     return (
         <View>
             <TouchableOpacity style={styles.container} onPress={onPress}>
                 <View style={styles.inside}>
                     <Text style={styles.text}>{text}</Text>
                     <View style={styles.icon}>
-                        {icon=="corona" ? HomeIcons.covid : null}
-                        {icon=="report" ? HomeIcons.report : null}
-                        {icon=="calender" ? HomeIcons.calender : null}
+                        {icon == "corona" ? HomeIcons.covid : null}
+                        {icon == "report" ? HomeIcons.report : null}
+                        {icon == "calender" ? HomeIcons.calender : null}
                     </View>
                     {/* <MaterialIcons style={styles.icon} name={icon} size={32} color="#804ED9" /> */}
                 </View>
             </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -34,8 +41,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.15,
         shadowRadius: 5,
+        elevation: 5,
         marginBottom: 15,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     text: {
         color: globalStyles.color.purple,
@@ -45,12 +53,11 @@ const styles = StyleSheet.create({
         letterSpacing: 0.1,
     },
     inside: {
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center",
     },
     icon: {
-        position: 'absolute',
+        position: "absolute",
         right: 40,
-    }
-})
-
+    },
+});

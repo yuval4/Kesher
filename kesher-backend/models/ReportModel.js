@@ -11,8 +11,14 @@ const subReportSchema = new Schema({
 
 const commentSchema = new Schema({
     date: Date,
-    creator: { type: Schema.Types.ObjectId, ref: "Parent" },
+    creator: { type: Schema.Types.ObjectId, refPath: "comments.user" },
     message: String,
+
+    user: {
+        type: String,
+        required: true,
+        enum: ["Parent", "Staff"],
+    },
 });
 
 const reportSchema = new Schema({

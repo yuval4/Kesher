@@ -15,4 +15,18 @@ router.patch("/children", async (req, res) => {
     return res.sendStatus(200);
 });
 
+router.get("/events/:id", async (req, res) => {
+    const events = await SchoolsService.getEventsBySchoolId(req.params.id);
+    res.send(events);
+});
+
+router.patch("/events/:schoolId", async (req, res) => {
+    await SchoolsService.addNewEventToSchool(
+        req.params.schoolId,
+        req.body.event,
+        req.user.id
+    );
+    return res.sendStatus(200);
+});
+
 module.exports = router;

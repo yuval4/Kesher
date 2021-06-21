@@ -9,7 +9,6 @@ const findChildrenBySchoolId = async (id) => {
 };
 
 const addIdChildToSchool = async (schoolId, childId) => {
-    console.log(schoolId, childId);
     return await School.findOneAndUpdate(
         {
             _id: new objectId(schoolId),
@@ -18,4 +17,22 @@ const addIdChildToSchool = async (schoolId, childId) => {
     );
 };
 
-module.exports = { findChildrenBySchoolId, addIdChildToSchool };
+const findEventsBySchoolId = async (id) => {
+    return await School.findById(id, "eventsBoard");
+};
+
+const addNewEventToSchoolById = async (schoolId, event) => {
+    return await School.findOneAndUpdate(
+        {
+            _id: objectId(schoolId),
+        },
+        { $push: { eventsBoard: event } }
+    );
+};
+
+module.exports = {
+    findChildrenBySchoolId,
+    addIdChildToSchool,
+    findEventsBySchoolId,
+    addNewEventToSchoolById,
+};

@@ -31,7 +31,6 @@ function OpenList(props: any) {
                 children: childrenList,
             },
         });
-        console.log(props.user.children);
         setIsOpen(!isOpen);
     };
 
@@ -99,6 +98,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.3,
         shadowRadius: 10,
+        elevation: 7,
     },
     photo: {
         width: 75,

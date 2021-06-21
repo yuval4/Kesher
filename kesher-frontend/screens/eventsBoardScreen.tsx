@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -11,94 +11,73 @@ import {
 } from "react-native";
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
-import StartReportButton from "../components/buttons/startReportButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { connect } from "react-redux";
+import api from "../api";
+import RoundButton from "../components/buttons/roundButton";
 
 function EventsBoardScreen(props: any) {
+    const role = props.user.role;
     const [modalOpen, setModalOpen] = useState(false);
-    const [openItem, setOpenItem] = React.useState("");
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [openItem, setOpenItem] = useState("");
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] =
+        useState(false);
+    const [isEndDatePickerVisible, setEndDatePickerVisibility] =
+        useState(false);
+    const [eventsData, setEventsData] = useState([
+        { month: "ינואר", data: [] },
+        { month: "פברואר", data: [] },
+        { month: "מרץ", data: [] },
+        { month: "אפריל", data: [] },
+        { month: "מאי", data: [] },
+        { month: "יוני", data: [] },
+        { month: "יולי", data: [] },
+        { month: "אוגוסט", data: [] },
+        { month: "ספטמבר", data: [] },
+        { month: "אוקטובר", data: [] },
+        { month: "נובמבר", data: [] },
+        { month: "דצמבר", data: [] },
+    ]);
 
-    const [newEvent, setNewEvent] = React.useState({
+    const [newEvent, setNewEvent] = useState({
         title: "",
         details: "",
-        day: "",
-        month: "",
-        year: "",
-        startTime: "",
-        endTime: "",
+        startTime: new Date(),
+        endTime: new Date(),
+        creatorId: "",
     });
 
-    //todo add logic and modal to add events
-    const DATA = [
-        {
-            month: "ינואר",
-            id: "1",
-            data: [
-                {
-                    title: "חוג חיות",
-                    details: "bla",
-                    startTimeStamp: "1621373983072",
-                    endTimestamp: "1621373983072",
-                },
-                {
-                    title: "פעילות בגן",
-                    details: "bla",
-                    startTimeStamp: "456789",
-                    endTimestamp: "1621373983072",
-                },
-                {
-                    title: "ג'ימבורי",
-                    details: "bla",
-                    startTimeStamp: "456789",
-                    endTimestamp: "1621373983072",
-                },
-            ],
-        },
-        {
-            month: "פברואר",
-            id: "2",
-            data: [
-                {
-                    title: "יום הולדת לאיתמר",
-                    details: "bla",
-                    startTimeStamp: "1621373983072",
-                    endTimestamp: "1621373983072",
-                },
-                {
-                    title: "חופשת חנוכה",
-                    details: "bla",
-                    startTimeStamp: "456789",
-                    endTimestamp: "1621373983072",
-                },
-                {
-                    title: "חזרה מחופשת חנוכה",
-                    details: "bla",
-                    startTimeStamp: "456789",
-                    endTimestamp: "1621373983072",
-                },
-            ],
-        },
-        // {
-        //   title: 'מרץ',
-        //   data: ["Water", "Coke", "Beer"]
-        // },
-        // {
-        //   title: 'אפריל',
-        //   data: ["Cheese Cake", "Ice Cream"]
-        // }
-    ];
+    // ANCHOR get list of events and add them to thier place in the eventsData.
+    const addEventToState = (events: any) => {
+        const temp = [...eventsData];
+        events.forEach((event: any) => {
+            temp[new Date(event.startTime).getMonth()].data.push(event);
+        });
 
-    const getDay = (timestamp: string): number => {
-        const day = new Date();
-        return day.getDate();
+        temp.forEach((month) => {
+            month.data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
+        });
+
+        setEventsData([...temp]);
     };
 
-    const getHour = (timestamp: string): string => {
-        const day = new Date();
-        return day.toTimeString().slice(0, 5);
+    // ANCHOR get data from server and set it in eventsData array
+    const getDataFromServer = async () => {
+        const eventsResponse = await api
+            .schools()
+            .getSchoolEvents(
+                role === "staff"
+                    ? props.user.schools[0]
+                    : props.user.children[0].school
+            );
+
+        addEventToState(eventsResponse.data.eventsBoard);
     };
+
+    // ANCHOR
+    useEffect(() => {
+        getDataFromServer();
+    }, []);
 
     const toggleItem = (key: string) => {
         if (key === openItem) {
@@ -108,32 +87,55 @@ function EventsBoardScreen(props: any) {
         }
     };
 
-    // TODO set it all in the state or use formik or something
     const handleInputChange = (item: string, input: string) => {
-        setNewEvent((newEvent) => ({
-            ...newEvent,
-            title: input,
-        }));
-        console.log(newEvent);
+        if (item === "title") {
+            setNewEvent((newEvent) => ({
+                ...newEvent,
+                title: input,
+            }));
+        }
+        if (item === "details") {
+            setNewEvent((newEvent) => ({
+                ...newEvent,
+                details: input,
+            }));
+        }
     };
 
-    const handleTimePickerConfirm = (date: any) => {
-        console.warn("A date has been picked: ", date);
-        setDatePickerVisibility(false);
+    const handleStartTimeConfirm = (date: any) => {
+        setNewEvent((newEvent) => ({
+            ...newEvent,
+            startTime: date,
+        }));
+        setStartDatePickerVisibility(false);
+    };
+
+    const handleEndTimeConfirm = (date: any) => {
+        setNewEvent((newEvent) => ({
+            ...newEvent,
+            endTime: date,
+        }));
+        setEndDatePickerVisibility(false);
+    };
+
+    const handleSubmitForm = () => {
+        setModalOpen(false);
+        addEventToState([newEvent]);
+        api.schools().addNewEvent(props.user.schools[0], newEvent);
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.line}></View>
 
             <SectionList
-                sections={DATA}
+                sections={eventsData}
                 keyExtractor={(item, index) => item.title + index}
                 renderItem={(item) => (
                     <View style={styles.item}>
                         <View style={styles.dayCircle}>
                             <Text style={styles.day}>
-                                {getDay(item.item.startTimeStamp)}
+                                {new Date(item.item.startTime).getDate()}
                             </Text>
                         </View>
 
@@ -145,8 +147,13 @@ function EventsBoardScreen(props: any) {
                         >
                             <Text style={styles.title}>{item.item.title}</Text>
                             <Text style={styles.time}>
-                                {getHour(item.item.startTimeStamp)} -{" "}
-                                {getHour(item.item.startTimeStamp)}
+                                {new Date(item.item.startTime)
+                                    .toTimeString()
+                                    .slice(0, 5)}{" "}
+                                -{" "}
+                                {new Date(item.item.endTime)
+                                    .toTimeString()
+                                    .slice(0, 5)}
                             </Text>
                             {openItem === item.item.title + item.index ? (
                                 <Text style={styles.time}>
@@ -163,8 +170,13 @@ function EventsBoardScreen(props: any) {
                     </View>
                 )}
             />
-            {props.user.role === "staff" ? (
-                <StartReportButton onPress={() => setModalOpen(true)} />
+            {role === "staff" ? (
+                <View style={styles.button}>
+                    <RoundButton
+                        title="הוספת אירוע"
+                        onPress={() => setModalOpen(true)}
+                    />
+                </View>
             ) : null}
 
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
@@ -176,7 +188,7 @@ function EventsBoardScreen(props: any) {
                         {Icons.x}
                     </TouchableOpacity>
                     <Text style={styles.title}>הכנס אירוע</Text>
-                    {/* TODO  day, month, year, start time, endtime, title, description */}
+
                     <TextInput
                         style={styles.placeholder}
                         textAlign="right"
@@ -191,18 +203,46 @@ function EventsBoardScreen(props: any) {
                         textAlign="right"
                         placeholder="תיאור"
                         onChangeText={(input) =>
-                            handleInputChange("title", input)
+                            handleInputChange("details", input)
                         }
                     />
                     <Button
-                        title="בחר תארך התחלה"
-                        onPress={() => setDatePickerVisibility(true)}
+                        title="בחר זמן התחלה"
+                        onPress={() => setStartDatePickerVisibility(true)}
                     />
+                    <Text>{newEvent.startTime.toLocaleString()}</Text>
                     <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleTimePickerConfirm}
-                        onCancel={() => setDatePickerVisibility(false)}
+                        isVisible={isStartDatePickerVisible}
+                        mode="datetime"
+                        date={newEvent.startTime}
+                        cancelTextIOS="ביטול"
+                        confirmTextIOS="אישור"
+                        minimumDate={new Date()}
+                        onConfirm={handleStartTimeConfirm}
+                        onCancel={() => setStartDatePickerVisibility(false)}
+                    />
+
+                    <Button
+                        title="בחר זמן סיום"
+                        onPress={() => setEndDatePickerVisibility(true)}
+                    />
+
+                    <Text>{newEvent.endTime.toLocaleString()}</Text>
+                    <DateTimePickerModal
+                        isVisible={isEndDatePickerVisible}
+                        mode="datetime"
+                        date={newEvent.startTime}
+                        cancelTextIOS="ביטול"
+                        confirmTextIOS="אישור"
+                        minimumDate={new Date()}
+                        onConfirm={handleEndTimeConfirm}
+                        onCancel={() => setEndDatePickerVisibility(false)}
+                    />
+
+                    <Button
+                        title="הוסף אירוע"
+                        color={globalStyles.color.purple}
+                        onPress={handleSubmitForm}
                     />
                 </View>
             </Modal>
@@ -211,6 +251,9 @@ function EventsBoardScreen(props: any) {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     line: {
         borderWidth: 2,
         borderColor: globalStyles.color.purple,
@@ -286,11 +329,25 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: "white",
-        marginHorizontal: "20%",
+        marginHorizontal: "10%",
         marginVertical: "50%",
+        borderRadius: 24,
+        padding: 20,
     },
     placeholder: {
-        color: "pink",
+        fontFamily: globalStyles.font.semiBold,
+        fontSize: 14,
+        lineHeight: 22,
+        letterSpacing: 0.1,
+        alignItems: "center",
+        textAlign: "right",
+        color: globalStyles.color.text,
+        marginVertical: 3,
+    },
+    button: {
+        position: "absolute",
+        left: "10%",
+        bottom: "10%",
     },
 });
 

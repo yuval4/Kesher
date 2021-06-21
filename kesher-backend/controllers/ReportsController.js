@@ -7,7 +7,6 @@ router.use(authenticateToken);
 
 router.get("/:id", async (req, res) => {
     const reports = await ReportsService.getChildReports(req.params.id);
-    console.log(typeof reports);
     res.send(reports);
 });
 
@@ -27,7 +26,6 @@ router.patch("/child/:id", async (req, res) => {
 });
 
 router.patch("/subreport/:id", async (req, res) => {
-    console.log(req.body);
     await ReportsService.addSubReportToReport(
         req.params.id,
         req.body.subReports,
@@ -38,9 +36,9 @@ router.patch("/subreport/:id", async (req, res) => {
 
 // TODO change
 router.patch("/comment/:reportId", async (req, res) => {
-    console.log(req.params.reportId);
     await ReportsService.addCommentToReport(
         req.user.id,
+        req.user.role,
         req.params.reportId,
         req.body.comment
     );

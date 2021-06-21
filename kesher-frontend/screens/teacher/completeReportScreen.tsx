@@ -12,26 +12,6 @@ function CompleteReportScreen(props: any) {
     // ANCHOR get data from redux (the subcategories)
     useEffect(() => {
         const data = props.report.subCategories;
-        // console.log("try", [...data]);
-        // console.log(data);
-
-        // let temp: {
-        //     subcategory_id: any;
-        //     title: any;
-        //     report_value: string;
-        //     category: string;
-        // }[] = [];
-
-        // data.forEach((subCategory: any) => {
-        //     console.log(subCategory);
-        //     temp.push({
-        //         subcategory_id: subCategory.id,
-        //         title: subCategory.title,
-        //         category: subCategory.category,
-        //         report_value: "",
-        //     });
-        // });
-
         setSubCategories([...data]);
     }, []);
 

@@ -153,7 +153,6 @@ function ReportSubCategoryScreen(props: any) {
                 });
             }
         }
-        console.log(subCategories);
         return subCategories;
     };
 
@@ -203,18 +202,19 @@ function ReportSubCategoryScreen(props: any) {
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+        flex: 1,
     },
     list: {
         paddingHorizontal: 25,
-        marginTop: 30, //!
+        paddingTop: 30,
     },
     listView: {
         height: "80%",
     },
     button: {
         position: "absolute",
-        left: 45,
-        bottom: 100,
+        left: "12%",
+        bottom: "4%",
     },
 });
 

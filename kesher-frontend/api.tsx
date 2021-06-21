@@ -1,10 +1,10 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const URL = "http://192.168.1.56:3000"; // this computer
+// const URL = "http://192.168.1.56:3000"; // this computer
 // const URL = "http://172.20.10.5:3000"; // my phone
 // const URL = "http://10.76.57.97:3000";
-// const URL = "http://139.177.182.246:3000"; // server
+const URL = "http://139.177.182.246:3000"; // server
 
 const options = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -58,6 +58,14 @@ export default {
                 axios.patch(
                     `${URL}/schools/children`,
                     { schoolId, childId },
+                    await options()
+                ),
+            getSchoolEvents: async (id: string) =>
+                axios.get(`${URL}/schools/events/${id}`, await options()),
+            addNewEvent: async (schoolId: string, event: any) =>
+                axios.patch(
+                    `${URL}/schools/events/${schoolId}`,
+                    { event },
                     await options()
                 ),
         };

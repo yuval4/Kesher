@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
-    Text,
-    TouchableOpacity,
     View,
     FlatList,
     TextInput,
@@ -11,11 +9,14 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text } from "react-native-svg";
 import { connect } from "react-redux";
 import api from "../api";
 import AddMessageButton from "./buttons/addMessageButton";
 import PersonalReportCard from "./personalReportCard";
 import PersonalCommentCard from "./presonalCommentCard";
+import * as WebBrowser from "expo-web-browser";
 
 function ReportsAndComments(props: any) {
     const [DATA, setDATA] = useState([]);
@@ -23,11 +24,33 @@ function ReportsAndComments(props: any) {
     const [activeComment, setActiveComment] = React.useState("");
     const [comment, setComment] = React.useState("");
 
+    // NOTE need to fix it
+    // const makeURLInTextToHyperLink = (text: string) => {
+    //     const urlRegex = /(https?:\/\/[^\s]+)/g;
+    //     return text.replace(urlRegex, (url: string) => {
+    //         return (
+    //             <TouchableOpacity
+    //                 onPress={() =>
+    //                     WebBrowser.openBrowserAsync(
+    //                         "https://israelelwyn.org.il/he/"
+    //                     )
+    //                 }
+    //             >
+    //                 <Text>לחצו כאן</Text>
+    //             </TouchableOpacity>
+    //         );
+    //     });
+    // };
+
+    // var text =
+    //     "Find me at http://www.example.com and also at http://stackoverflow.com";
+    // var html = makeURLInTextToHyperLink(text);
+
+    // console.log(html);
+
     // ANCHOR get reports data from the server.
     const fetchChildReports = async () => {
-        const response = await api
-            .reports()
-            .getAllChildReports(props.user.children[0]._id);
+        const response = await api.reports().getAllChildReports(props.child);
         setDATA(response.data);
     };
 

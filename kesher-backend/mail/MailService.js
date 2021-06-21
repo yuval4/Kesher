@@ -12,15 +12,17 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const mailOptions = {
-    from: process.env.MAIL,
-    to: "xxturrent@gmail.com, didi19289@gmail.com",
-    subject: "Sending Email using Node.js",
-    html: `<html><head><style>h1 {color:#804ED9;}</style></head><body> <h1>your password is:<h1> </body></html>`,
+const mailOptions = (email, name, password) => {
+    return {
+        from: process.env.MAIL,
+        to: email,
+        subject: "ברוך הבא לאפליקציית קשר!",
+        html: `<html><head><style>h1 {color:#804ED9;}</style></head><body> <h1>שלום ${name}, וברוכים הבאים לאפליקציית Kesher!<h1> <h3>הסיסמה שלך היא: ${password}</h3></body></html>`,
+    };
 };
 
-const sendMail = () => {
-    transporter.sendMail(mailOptions, (error, info) => {
+const sendWelcomeMail = (email, name, password) => {
+    transporter.sendMail(mailOptions(email, name, password), (error, info) => {
         if (error) {
             console.log(error);
         } else {
@@ -29,4 +31,4 @@ const sendMail = () => {
     });
 };
 
-module.exports = { sendMail };
+module.exports = { sendWelcomeMail };

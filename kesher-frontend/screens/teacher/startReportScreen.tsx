@@ -1,22 +1,19 @@
-import iconSet from "@expo/vector-icons/build/Fontisto";
 import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    Button,
     Modal,
-    Dimensions,
     FlatList,
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
-import StartReportButton from "../../components/buttons/startReportButton";
+import RoundButton from "../../components/buttons/roundButton";
 import ChildTitle from "../../components/childTitle";
 import ReportCategoryCard from "../../components/reportCategoryCard";
 import { connect, useDispatch } from "react-redux";
-import DailyReportScreen from "../parent/dailyReportScreen";
+import ReportsAndComments from "../../components/reportsAndComments";
 
 function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -66,9 +63,16 @@ function StartReportScreen(props: any) {
         <View style={styles.container}>
             <ChildTitle />
 
-            {/* <DailyReportScreen props={props} /> */}
+            <View style={styles.reportsAndComments}>
+                <ReportsAndComments child={props.report.child_id} />
+            </View>
 
-            <StartReportButton onPress={() => setModalOpen(true)} />
+            <View style={styles.button}>
+                <RoundButton
+                    title="התחל דיווח"
+                    onPress={() => setModalOpen(true)}
+                />
+            </View>
 
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
                 <View style={styles.modalContent}>
@@ -101,6 +105,15 @@ function StartReportScreen(props: any) {
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+    },
+    button: {
+        position: "absolute",
+        left: "10%",
+        bottom: "1%",
+    },
+    reportsAndComments: {
+        width: "100%",
+        height: "80%",
     },
     modalView: {
         justifyContent: "flex-end",

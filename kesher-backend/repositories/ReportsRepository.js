@@ -14,7 +14,6 @@ const getChildrenAttendanceByChildernIds = async (ids) => {
     );
 };
 
-// TODO get satff name by opulate. I want to bring all the data and not only the subReports.
 const getChildReportsById = async (id) => {
     return await Report.find({
         child: { $in: id },
@@ -32,7 +31,6 @@ const updateAttendanceByChildId = async (id, attendance) => {
 };
 
 const addSubReportToReportByChildId = async (id, subReport) => {
-    console.log(id, subReport);
     return await Report.updateOne(
         {
             child: { $in: id },

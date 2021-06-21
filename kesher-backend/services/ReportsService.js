@@ -15,9 +15,7 @@ const createDailyReport = (ids) => {
 };
 
 const getChildReports = async (id) => {
-    const pit = await ReportsRepository.getChildReportsById(id);
-    console.log(typeof pit);
-    return pit;
+    return await ReportsRepository.getChildReportsById(id);
 };
 
 const updateChildAttendance = async (id, attendance) => {
@@ -36,7 +34,6 @@ const getChildrenAttendance = async (ids) => {
 };
 
 const addSubReportToReport = async (id, subReports, creatorId) => {
-    console.log(subReports);
     subReports.forEach(async (item) => {
         const subCategory = {
             date: new Date(),
@@ -49,11 +46,12 @@ const addSubReportToReport = async (id, subReports, creatorId) => {
     });
 };
 
-const addCommentToReport = async (creatorId, reportId, message) => {
+const addCommentToReport = async (creatorId, role, reportId, message) => {
     const comment = {
         date: new Date(),
         creator: new objectId(creatorId),
         message: message,
+        user: role.charAt(0).toUpperCase() + role.slice(1),
     };
     await ReportsRepository.addCommentToReportByReportId(reportId, comment);
 };
