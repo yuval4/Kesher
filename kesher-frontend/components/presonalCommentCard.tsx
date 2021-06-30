@@ -3,8 +3,16 @@ import { StyleSheet, Text, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 
 export default function PersonalCommentCard({ data }: any) {
+    console.log(data.creator);
     return (
-        <View style={styles.container}>
+        <View
+            style={[
+                styles.container,
+                data.creator.role !== "teacher"
+                    ? { backgroundColor: globalStyles.color.messageboxPurple }
+                    : { backgroundColor: globalStyles.color.lightPurple },
+            ]}
+        >
             <Text style={styles.details}>{data.message}</Text>
 
             <View style={styles.info}>
@@ -24,7 +32,6 @@ export default function PersonalCommentCard({ data }: any) {
 const styles = StyleSheet.create({
     container: {
         // width: "100%",
-        backgroundColor: globalStyles.color.mediumPurplel,
         borderWidth: 0.4,
         borderColor: globalStyles.color.purple,
         borderRadius: 16,
@@ -68,7 +75,6 @@ const styles = StyleSheet.create({
         letterSpacing: 0.1,
         color: globalStyles.color.text,
         opacity: 0.55,
-        //marginRight: 10,
     },
     info: {
         flexDirection: "row-reverse",

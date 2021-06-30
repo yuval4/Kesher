@@ -2,22 +2,10 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import api from "../../api";
 import HomeButton from "../../components/buttons/homeButton";
+import SubCategoryButton from "../../components/buttons/subCategoryButton";
 import OpenList from "../../components/openList";
 
 export default function HomeScreen({ navigation }: any) {
-    const [childrenListData, setChildrenListData] = useState();
-
-    useEffect(() => {
-        const getChildrenList = async () => {
-            // TODO use the user (parent) id.
-            const response = await api
-                .parents()
-                .getChildrenList("60ac136b93434d21f4019475");
-            setChildrenListData(response);
-        };
-        getChildrenList();
-    }, []);
-
     return (
         <View style={styles.container}>
             <View style={styles.OpenList}>

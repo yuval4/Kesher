@@ -15,6 +15,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { connect } from "react-redux";
 import api from "../api";
 import RoundButton from "../components/buttons/roundButton";
+import EventsBoardDetails from "../components/eventsBoardDetails";
 
 function EventsBoardScreen(props: any) {
     const role = props.user.role;
@@ -156,10 +157,9 @@ function EventsBoardScreen(props: any) {
                                     .slice(0, 5)}
                             </Text>
                             {openItem === item.item.title + item.index ? (
-                                <Text style={styles.time}>
-                                    {item.item.details}
-                                </Text>
-                            ) : null}
+                                <Text>{item.item.details}</Text>
+                            ) : // <EventsBoardDetails text={item.item.details} />
+                            null}
                         </TouchableOpacity>
                     </View>
                 )}

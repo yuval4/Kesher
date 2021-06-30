@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         color: globalStyles.color.text,
     },
     list: {
-        padding: 25,
+        padding: 20,
         top: -25,
         left: -10,
     },

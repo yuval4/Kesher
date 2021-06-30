@@ -1,33 +1,30 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import * as React from "react";
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    Button,
+    StyleSheet,
+} from "react-native";
+import {
+    DrawerContentScrollView,
+    DrawerItemList,
+} from "@react-navigation/drawer";
 import globalStyles from "../assets/globalStyles";
-import { useNavigation } from "@react-navigation/native";
-import Icons from "../assets/icons/icons";
 
-export default function Header({ title }: { title?: string }) {
-    const navigation = useNavigation();
-
+export default function CustomDrawer(props: any) {
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                {Icons.drawer}
-            </TouchableOpacity>
-
-            {title ? (
-                <Text style={styles.title}>{title}</Text>
-            ) : (
+        <View style={{ flex: 1 }}>
+            <View style={styles.container}>
                 <Image
                     style={styles.logo}
                     source={require("../assets/images/header_logo.png")}
                 />
-            )}
-            {navigation.canGoBack() ? (
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={styles.text}>חזור</Text>
-                </TouchableOpacity>
-            ) : (
-                <Text style={styles.unvisibleText}>חזור</Text>
-            )}
+            </View>
+            <DrawerContentScrollView scrollEnabled={false} {...props}>
+                <DrawerItemList {...props} />
+            </DrawerContentScrollView>
         </View>
     );
 }

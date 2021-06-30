@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import { connect } from "react-redux";
 import api from "../../api";
 import globalStyles from "../../assets/globalStyles";
+import Icons from "../../assets/icons/icons";
 import SmallButton from "../../components/buttons/smallButton";
 import ChildTitle from "../../components/childTitle";
 
@@ -35,9 +36,8 @@ function CompleteReportScreen(props: any) {
         );
         props.navigation.goBack();
         props.navigation.goBack();
-        props.navigation.goBack();
     };
-
+    console.log(props.report);
     return (
         <View style={styles.container}>
             <ChildTitle />
@@ -48,19 +48,32 @@ function CompleteReportScreen(props: any) {
                     scrollEnabled={false}
                     renderItem={({ item }) => (
                         <View>
-                            <Text style={styles.title}>{item.title}</Text>
-                            <TextInput
-                                style={styles.placeholder}
-                                multiline
-                                placeholderTextColor={
-                                    globalStyles.color.mediumPurplel
-                                }
-                                textAlign="right"
-                                placeholder="פרט/י כאן..."
-                                onChangeText={(input) =>
-                                    handleInput(item, input)
-                                }
-                            />
+                            {item.id >= 30 && item.id < 35 ? (
+                                <View style={styles.toBring}>
+                                    {Icons.toBring}
+                                    <Text style={styles.title}>
+                                        {item.title}
+                                    </Text>
+                                </View>
+                            ) : (
+                                <View>
+                                    <Text style={styles.title}>
+                                        {item.title}
+                                    </Text>
+                                    <TextInput
+                                        style={styles.placeholder}
+                                        multiline
+                                        placeholderTextColor={
+                                            globalStyles.color.mediumPurplel
+                                        }
+                                        textAlign="right"
+                                        placeholder="פרט/י כאן..."
+                                        onChangeText={(input) =>
+                                            handleInput(item, input)
+                                        }
+                                    />
+                                </View>
+                            )}
                         </View>
                     )}
                 />
@@ -90,6 +103,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 8,
+        elevation: 3,
         padding: 9,
         width: "90%",
         marginTop: 30,
@@ -116,6 +130,9 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 30,
+    },
+    toBring: {
+        flexDirection: "row-reverse",
     },
 });
 

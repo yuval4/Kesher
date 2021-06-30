@@ -10,7 +10,7 @@ export default function HomeButton({
 }: {
     text: string;
     onPress: () => void;
-    icon: string;
+    icon?: string;
 }) {
     return (
         <View>

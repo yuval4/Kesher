@@ -8,12 +8,13 @@ import SettingScreen from "../screens/settingScreen";
 import DailyReportScreen from "../screens/parent/dailyReportScreen";
 import ElwynScreen from "../screens/elwynScreen";
 import TopTabs from "./topTabs";
-import ReportStack from "./reportStack";
 import Header from "../components/header";
 import EventsBoardScreen from "../screens/eventsBoardScreen";
 import AddChildScreen from "../screens/teacher/addChildScreen";
 import { connect } from "react-redux";
 import Logout from "../screens/logout";
+import ErrorScreen from "../screens/ErrorScreen";
+import CustomDrawer from "../components/customDrawer";
 
 const Drawer = createDrawerNavigator();
 function MainDrawer(props: any) {
@@ -25,20 +26,22 @@ function MainDrawer(props: any) {
 
     return (
         <Drawer.Navigator
+            drawerContent={(props) => <CustomDrawer {...props} />}
             drawerStyle={{
                 borderTopRightRadius: 40,
                 borderBottomRightRadius: 40,
-                width: "70%",
+                width: "80%",
             }}
             screenOptions={{
                 headerShown: true,
                 header: () => <Header />,
-                //     // swipeEnabled: false,
+
+                // swipeEnabled: false,
             }}
             initialRouteName={"Home"}
             drawerContentOptions={{
                 style: {
-                    marginTop: 20,
+                    marginTop: -30,
                 },
                 labelStyle: {
                     fontFamily: globalStyles.font.semiBold,
@@ -53,12 +56,20 @@ function MainDrawer(props: any) {
                     borderBottomColor: "#C4C4C4",
                 },
                 activeTintColor: "white",
-                // scrollEnabled: false,
+            }}
+            sceneContainerStyle={{
+                backgroundColor: "white",
             }}
         >
             <Drawer.Screen
                 name="Home"
-                component={role === "staff" ? TopTabs : HomeScreen}
+                component={
+                    role === "staff"
+                        ? TopTabs
+                        : role === "parent"
+                        ? HomeScreen
+                        : ErrorScreen
+                }
                 options={{
                     title: "דף הבית",
                     drawerIcon: () => DrawerIcons.home,

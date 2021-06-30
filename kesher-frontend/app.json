@@ -2,6 +2,7 @@
   "expo": {
     "name": "Kesher",
     "slug": "kesher",
+    "owner": "kesher",
     "privacy": "public",
     "version": "1.0.0",
     "sdkVersion": "41.0.0",

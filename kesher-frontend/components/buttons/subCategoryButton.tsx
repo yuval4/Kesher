@@ -1,18 +1,31 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons'; 
-import globalStyles from '../../assets/globalStyles';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import globalStyles from "../../assets/globalStyles";
 
-export default function SubCategoryButton({ text, picked, onPress }: { text: string, picked: boolean, onPress: () => void }) {
+export default function SubCategoryButton({
+    text,
+    picked,
+    onPress,
+}: {
+    text: string;
+    picked: boolean;
+    onPress: () => void;
+}) {
     return (
         <View>
-            <TouchableOpacity style={picked ? styles.pickedContainer : styles.container} onPress={onPress}>
+            <TouchableOpacity
+                style={picked ? styles.pickedContainer : styles.container}
+                onPress={onPress}
+            >
                 <View style={styles.inside}>
-                    <Text style={picked ? styles.pickedText : styles.text}>{text}</Text>
+                    <Text style={picked ? styles.pickedText : styles.text}>
+                        {text}
+                    </Text>
                 </View>
             </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -25,10 +38,12 @@ const styles = StyleSheet.create({
             width: 3,
             height: 3,
         },
+        marginHorizontal: 4,
         shadowOpacity: 0.15,
         shadowRadius: 5,
+        elevation: 4,
         marginBottom: 15,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     pickedContainer: {
         width: 300,
@@ -42,8 +57,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.15,
         shadowRadius: 5,
+        elevation: 4,
         marginBottom: 15,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     text: {
         color: globalStyles.color.purple,
@@ -53,15 +69,14 @@ const styles = StyleSheet.create({
         letterSpacing: 0.1,
     },
     pickedText: {
-        color: 'white',
+        color: "white",
         fontFamily: globalStyles.font.bold,
         fontSize: 20,
         lineHeight: 24,
         letterSpacing: 0.1,
     },
     inside: {
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center",
     },
-})
-
+});

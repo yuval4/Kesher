@@ -9,6 +9,7 @@ import {
     View,
     Keyboard,
     TouchableWithoutFeedback,
+    Text,
 } from "react-native";
 import api from "../api";
 import globalStyles from "../assets/globalStyles";
@@ -112,23 +113,32 @@ export default function LoginScreen(props: any) {
                                 style={styles.input}
                                 onChangeText={setEmail}
                                 value={email}
+                                placeholderTextColor="#8A8D90"
                                 placeholder="דואר אלקטרוני"
+                                keyboardType="email-address"
+                                autoCapitalize="none"
                             />
                             <TextInput
                                 style={styles.input}
                                 onChangeText={setPassword}
                                 value={password}
                                 secureTextEntry={true}
+                                placeholderTextColor="#8A8D90"
                                 placeholder="סיסמה"
                             />
-                            <Button
-                                title="הורה"
+
+                            <Text
+                                style={styles.loginButton}
                                 onPress={handleParentLoginRequest}
-                            />
-                            <Button
-                                title="צוות"
+                            >
+                                הורה
+                            </Text>
+                            <Text
+                                style={styles.loginButton}
                                 onPress={handleStaffLoginRequest}
-                            />
+                            >
+                                צוות
+                            </Text>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -170,5 +180,16 @@ const styles = StyleSheet.create({
     inner: {
         flex: 1,
         justifyContent: "space-around",
+    },
+    loginButton: {
+        color: "white",
+        letterSpacing: 0.1,
+        textAlign: "center",
+        alignItems: "center",
+        lineHeight: 24,
+        fontSize: 16,
+        fontFamily: globalStyles.font.semiBold,
+        marginTop: 5,
+        textDecorationLine: "underline",
     },
 });

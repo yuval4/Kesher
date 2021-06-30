@@ -22,7 +22,8 @@ const createNewChild = async (data) => {
             first: data.childFirstName,
             last: data.childLastName,
         },
-        birthDate: new Date(data.year, data.month, data.day - 1),
+        profilePic: data.profilePic,
+        birthDate: data.birthDate,
         school: new objectId(data.school),
         active: true,
     });
