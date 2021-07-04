@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 
 export default function PersonalCommentCard({ data }: any) {
-    console.log(data.creator);
     return (
         <View
             style={[

@@ -113,6 +113,7 @@ export default function LoginScreen(props: any) {
                                 style={styles.input}
                                 onChangeText={setEmail}
                                 value={email}
+                                textContentType="username"
                                 placeholderTextColor="#8A8D90"
                                 placeholder="דואר אלקטרוני"
                                 keyboardType="email-address"
@@ -122,6 +123,7 @@ export default function LoginScreen(props: any) {
                                 style={styles.input}
                                 onChangeText={setPassword}
                                 value={password}
+                                textContentType="password"
                                 secureTextEntry={true}
                                 placeholderTextColor="#8A8D90"
                                 placeholder="סיסמה"

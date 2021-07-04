@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import Logout from "../screens/logout";
 import ErrorScreen from "../screens/ErrorScreen";
 import CustomDrawer from "../components/customDrawer";
+import ReportStack from "./reportStack";
 
 const Drawer = createDrawerNavigator();
 function MainDrawer(props: any) {
@@ -58,7 +59,7 @@ function MainDrawer(props: any) {
                 activeTintColor: "white",
             }}
             sceneContainerStyle={{
-                backgroundColor: "white",
+                backgroundColor: globalStyles.backgroundColor,
             }}
         >
             <Drawer.Screen
@@ -112,7 +113,6 @@ function MainDrawer(props: any) {
                 />
             ) : null}
 
-            {/* //! eventbord should be here */}
             <Drawer.Screen
                 name="EventsBoard"
                 component={EventsBoardScreen}

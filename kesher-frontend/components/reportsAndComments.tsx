@@ -8,6 +8,7 @@ import {
     Platform,
     TouchableWithoutFeedback,
     Keyboard,
+    ScrollView,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "react-native-svg";
@@ -17,6 +18,8 @@ import AddMessageButton from "./buttons/addMessageButton";
 import PersonalReportCard from "./personalReportCard";
 import PersonalCommentCard from "./presonalCommentCard";
 import * as WebBrowser from "expo-web-browser";
+import { LinearGradient } from "expo-linear-gradient";
+import GradientVertical from "./gradientVertical";
 
 function ReportsAndComments(props: any) {
     const [DATA, setDATA] = useState([]);
@@ -74,6 +77,7 @@ function ReportsAndComments(props: any) {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
+                    {/* <GradientVertical style={{ width: "100%" }}> */}
                     <FlatList
                         style={styles.list}
                         data={DATA}
@@ -109,6 +113,7 @@ function ReportsAndComments(props: any) {
                             )
                         }
                     />
+                    {/* </GradientVertical> */}
                     {addMessage ? (
                         <View style={styles.inputBar}>
                             <TextInput
@@ -126,10 +131,9 @@ function ReportsAndComments(props: any) {
         </KeyboardAvoidingView>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 20,
+        paddingTop: 15,
         alignItems: "center",
         width: "100%",
         flex: 1,

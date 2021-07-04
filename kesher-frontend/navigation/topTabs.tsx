@@ -24,8 +24,9 @@ export default function TopTabs() {
                 },
             }}
             sceneContainerStyle={{
-                backgroundColor: "white",
+                backgroundColor: globalStyles.backgroundColor,
             }}
+            // options={{ tabBarVisible: false }}
             initialRouteName="דיווח יומי"
         >
             <TopTab.Screen name="דיווח יומי" component={ReportStack} />

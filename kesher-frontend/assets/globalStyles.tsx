@@ -14,7 +14,7 @@ const globalStyles = {
         semiBold: "Assistant-SemiBold",
         bold: "Assistant-Bold",
     },
-
+    backgroundColor: "#fff",
     window: {
         height: Dimensions.get("window").height,
         width: Dimensions.get("window").width,

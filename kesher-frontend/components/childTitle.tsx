@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row-reverse",
         alignItems: "center",
-        marginTop: 30,
+        marginTop: 20,
         marginRight: "15%",
     },
     name: {

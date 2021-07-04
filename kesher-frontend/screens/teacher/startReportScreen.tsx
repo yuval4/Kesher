@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Modal,
     FlatList,
+    ScrollView,
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
@@ -19,7 +20,7 @@ function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
 
-    const DATA = [
+    const CATEGORIES = [
         {
             id: "1",
             title: "פעילויות שהתקיימו בגן",
@@ -63,9 +64,9 @@ function StartReportScreen(props: any) {
         <View style={styles.container}>
             <ChildTitle />
 
-            <View style={styles.reportsAndComments}>
+            <ScrollView style={styles.reportsAndComments}>
                 <ReportsAndComments child={props.report.child_id} />
-            </View>
+            </ScrollView>
 
             <View style={styles.button}>
                 <RoundButton
@@ -82,10 +83,11 @@ function StartReportScreen(props: any) {
                     >
                         {Icons.x}
                     </TouchableOpacity>
+
                     <Text style={styles.modalTitle}>בחר דיווח</Text>
                     <FlatList
                         style={styles.list}
-                        data={DATA}
+                        data={CATEGORIES}
                         numColumns={2}
                         keyExtractor={(item) => item.id}
                         scrollEnabled={false}
@@ -109,11 +111,11 @@ const styles = StyleSheet.create({
     button: {
         position: "absolute",
         left: "10%",
-        bottom: "1%",
+        bottom: "10%",
     },
     reportsAndComments: {
         width: "100%",
-        height: "80%",
+        height: "90%",
     },
     modalView: {
         justifyContent: "flex-end",
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.2,
         shadowRadius: 10,
+        elevation: 15,
     },
     x: {
         position: "absolute",

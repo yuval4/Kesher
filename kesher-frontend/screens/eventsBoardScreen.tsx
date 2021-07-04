@@ -132,6 +132,18 @@ function EventsBoardScreen(props: any) {
             <SectionList
                 sections={eventsData}
                 keyExtractor={(item, index) => item.title + index}
+                renderSectionHeader={({ section }) => (
+                    <View>
+                        {section.data.length === 0 ? null : (
+                            <View style={styles.monthItem}>
+                                <View style={styles.circle}></View>
+                                <Text style={styles.monthText}>
+                                    {section.month}
+                                </Text>
+                            </View>
+                        )}
+                    </View>
+                )}
                 renderItem={(item) => (
                     <View style={styles.item}>
                         <View style={styles.dayCircle}>
@@ -161,12 +173,6 @@ function EventsBoardScreen(props: any) {
                             ) : // <EventsBoardDetails text={item.item.details} />
                             null}
                         </TouchableOpacity>
-                    </View>
-                )}
-                renderSectionHeader={({ section: { month } }) => (
-                    <View style={styles.monthItem}>
-                        <View style={styles.circle}></View>
-                        <Text style={styles.monthText}>{month}</Text>
                     </View>
                 )}
             />
