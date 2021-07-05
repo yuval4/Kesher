@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -19,6 +19,7 @@ import ReportsAndComments from "../../components/reportsAndComments";
 function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
+    const scrollViewRef = useRef();
 
     const CATEGORIES = [
         {
@@ -64,7 +65,13 @@ function StartReportScreen(props: any) {
         <View style={styles.container}>
             <ChildTitle />
 
-            <ScrollView style={styles.reportsAndComments}>
+            <ScrollView
+                ref={scrollViewRef}
+                onContentSizeChange={() =>
+                    scrollViewRef.current.scrollToEnd({ animated: true })
+                }
+                style={styles.reportsAndComments}
+            >
                 <ReportsAndComments child={props.report.child_id} />
             </ScrollView>
 

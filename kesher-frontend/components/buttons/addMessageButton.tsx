@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icons from "../../assets/icons/icons";
-import Message from "../../assets/icons/icons";
 
 export default function AddMessageButton({ onPress }: { onPress: () => void }) {
     return (
@@ -16,6 +15,6 @@ export default function AddMessageButton({ onPress }: { onPress: () => void }) {
 const styles = StyleSheet.create({
     addmsg: {
         margin: 8,
-        left: 0,
+        alignSelf: "flex-end",
     },
 });

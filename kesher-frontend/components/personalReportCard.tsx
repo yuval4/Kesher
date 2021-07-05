@@ -1,7 +1,7 @@
-import { DrawerActions } from "@react-navigation/routers";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import globalStyles from "../assets/globalStyles";
+import Icons from "../assets/icons/icons";
 
 export default function PersonalReportCard({
     data,
@@ -14,22 +14,51 @@ export default function PersonalReportCard({
         subReports: any;
     };
 }) {
+    const [toBrings, setToBrings] = useState();
+    const [subReports, setSubReports] = useState();
+
+    useEffect(() => {
+        setToBrings(
+            data.subReports.filter(
+                (item: any) => item.category === "בבקשה לשלוח"
+            )
+        );
+        setSubReports(
+            data.subReports.filter(
+                (item: any) => item.category != "בבקשה לשלוח"
+            )
+        );
+    }, [data]);
+
     return (
         <View style={styles.container}>
             <FlatList
-                // style={styles.list}
-                data={data.subReports}
+                data={subReports}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={(item) => (
+                renderItem={({ item }) => (
                     <View>
-                        <Text style={styles.title}>{item.item.name}</Text>
-                        <Text style={styles.details}>{item.item.details}</Text>
+                        <Text style={styles.title}>{item.name}</Text>
+                        <Text style={styles.details}>{item.details}</Text>
+                    </View>
+                )}
+            />
+
+            <Text style={styles.title}>בבקשה לשלוח</Text>
+            <FlatList
+                data={toBrings}
+                horizontal={true}
+                keyExtractor={(item, index) => index.toString()}
+                scrollEnabled={false}
+                renderItem={({ item }) => (
+                    <View style={styles.toBring}>
+                        <View style={styles.vIcon}>{Icons.toBring}</View>
+
+                        <Text style={styles.details}>{item.name}</Text>
                     </View>
                 )}
             />
 
             <View style={styles.info}>
-                {/* <Text style={styles.author}>I need to add a name here</Text> */}
                 <Text style={styles.author}></Text>
                 <Text style={styles.timestamp}>
                     {new Date(data.date).toLocaleDateString()}
@@ -43,7 +72,6 @@ export default function PersonalReportCard({
 
 const styles = StyleSheet.create({
     container: {
-        // width: '90%',
         backgroundColor: globalStyles.color.lightPurple,
         borderWidth: 0.4,
         borderColor: globalStyles.color.purple,
@@ -101,5 +129,13 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: "row-reverse",
+    },
+    toBring: {
+        flexDirection: "row-reverse",
+        alignItems: "center",
+    },
+    vIcon: {
+        margin: 3.5,
+        marginBottom: 15,
     },
 });

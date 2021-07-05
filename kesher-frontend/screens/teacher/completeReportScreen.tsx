@@ -37,25 +37,39 @@ function CompleteReportScreen(props: any) {
         props.navigation.goBack();
         props.navigation.goBack();
     };
-    console.log(props.report);
+
     return (
         <View style={styles.container}>
             <ChildTitle />
             <View style={styles.reportBox}>
-                <FlatList
-                    data={subCategories}
-                    keyExtractor={(item, index) => index.toString()}
-                    scrollEnabled={false}
-                    renderItem={({ item }) => (
-                        <View>
-                            {item.id >= 30 && item.id < 35 ? (
+                {props.report.category === "בבקשה לשלוח" ? (
+                    <View>
+                        <Text style={styles.title}>בבקשה לשלוח</Text>
+                        <FlatList
+                            data={subCategories}
+                            horizontal={true}
+                            keyExtractor={(item, index) => index.toString()}
+                            scrollEnabled={false}
+                            renderItem={({ item }) => (
                                 <View style={styles.toBring}>
-                                    {Icons.toBring}
-                                    <Text style={styles.title}>
+                                    <View style={styles.vIcon}>
+                                        {Icons.toBring}
+                                    </View>
+
+                                    <Text style={styles.placeholder}>
                                         {item.title}
                                     </Text>
                                 </View>
-                            ) : (
+                            )}
+                        />
+                    </View>
+                ) : (
+                    <FlatList
+                        data={subCategories}
+                        keyExtractor={(item, index) => index.toString()}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => (
+                            <View>
                                 <View>
                                     <Text style={styles.title}>
                                         {item.title}
@@ -73,10 +87,10 @@ function CompleteReportScreen(props: any) {
                                         }
                                     />
                                 </View>
-                            )}
-                        </View>
-                    )}
-                />
+                            </View>
+                        )}
+                    />
+                )}
             </View>
             <SmallButton
                 text="סיימתי"
@@ -126,13 +140,17 @@ const styles = StyleSheet.create({
         textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
-        marginBottom: 10,
+        // marginBottom: 10,
     },
     button: {
         marginTop: 30,
     },
     toBring: {
         flexDirection: "row-reverse",
+        alignItems: "center",
+    },
+    vIcon: {
+        margin: 3.5,
     },
 });
 

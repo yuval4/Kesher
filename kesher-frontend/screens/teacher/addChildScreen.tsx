@@ -7,6 +7,7 @@ import {
     TextInput,
     Image,
     ScrollView,
+    Platform,
 } from "react-native";
 import { connect } from "react-redux";
 import api from "../../api";
@@ -35,30 +36,35 @@ function AddChildScreen(props: any) {
         })();
     }, []);
 
+    const createFormData = (photo: any) => {
+        const data = new FormData();
+
+        data.append("photo", {
+            name: photo.fileName,
+            type: photo.type,
+            uri:
+                Platform.OS === "ios"
+                    ? photo.uri.replace("file://", "")
+                    : photo.uri,
+        });
+
+        return data;
+    };
+
     // const dataForm = new FormData();
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
+            noData: true,
             aspect: [3, 3],
             quality: 1,
         });
-
+        console.log(result);
         if (!result.cancelled) {
-            setImage(result.uri);
-            // NOTE
-
-            // dataForm.append("name", "Image Upload");
-            // dataForm.append("file_attachment", image);
-            // console.log(dataForm);
-            // console.log(window.btoa(unescape(encodeURIComponent(image))));
+            setImage(result);
         }
     };
-
-    // function utf8_to_b64(str: string) {
-    //     return window.btoa(unescape(encodeURIComponent(str)));
-    // }
-    // console.log(window.btoa("obh"));
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -67,7 +73,7 @@ function AddChildScreen(props: any) {
                 initialValues={{
                     childFirstName: "",
                     childLastName: "",
-                    profilePic: "",
+                    // profilePic: "",
                     birthDate: new Date(),
                     parentFirstName: "",
                     parentLastName: "",
@@ -79,7 +85,7 @@ function AddChildScreen(props: any) {
                 }}
                 onSubmit={async (values) => {
                     values.school = props.user.schools[0];
-                    // values.profilePic = image.atob();
+                    values.image = createFormData(image);
                     const childId = await api.children().createChild(values);
                     await api
                         .schools()
@@ -98,7 +104,7 @@ function AddChildScreen(props: any) {
                                 <Image
                                     source={
                                         image
-                                            ? { uri: image }
+                                            ? { uri: image.uri }
                                             : require("../../assets/images/user.png")
                                     }
                                     style={styles.image}

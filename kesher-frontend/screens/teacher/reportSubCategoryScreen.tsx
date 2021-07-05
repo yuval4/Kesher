@@ -142,7 +142,7 @@ function ReportSubCategoryScreen(props: any) {
     };
 
     // ANCHOR creates a new list with only the selected categories.
-    const selectedCategories = () => {
+    const selectedCategories = (category: string) => {
         let subCategories = [];
         for (let i = 0; i < DATA.length; i++) {
             if (DATA[i].selected === true) {
@@ -150,6 +150,7 @@ function ReportSubCategoryScreen(props: any) {
                     id: DATA[i].id,
                     selected: DATA[i].selected,
                     title: DATA[i].title,
+                    category,
                 });
             }
         }
@@ -158,6 +159,22 @@ function ReportSubCategoryScreen(props: any) {
 
     // ANCHOR save data to Redux and navigte to the next screen.
     const handleSubmitAndNext = () => {
+        let category = "";
+        console.log(props.report.category);
+        switch (props.report.category) {
+            case "1":
+                category = "פעילויות שהתקיימו בגן";
+                break;
+            case "2":
+                category = "ארוחות";
+                break;
+            case "3":
+                category = "בבקשה לשלוח";
+                break;
+            case "4":
+                category = "טיפולי מקצועות הבריאות";
+                break;
+        }
         dispatch({
             type: "SET_REPORT",
             data: {
@@ -167,7 +184,8 @@ function ReportSubCategoryScreen(props: any) {
                     last: props.report.name.last,
                 },
                 profilePic: props.report.profilePic,
-                subCategories: selectedCategories(),
+                subCategories: selectedCategories(category),
+                category: category,
             },
         });
         props.navigation.navigate("CompleteReport");
