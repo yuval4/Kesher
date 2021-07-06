@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HomeScreen from "../screens/parent/homeScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import globalStyles from "../assets/globalStyles";
@@ -19,7 +19,7 @@ import ReportStack from "./reportStack";
 
 const Drawer = createDrawerNavigator();
 function MainDrawer(props: any) {
-    const [role, setRole] = React.useState("");
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         setRole(props.user.role);
@@ -36,8 +36,6 @@ function MainDrawer(props: any) {
             screenOptions={{
                 headerShown: true,
                 header: () => <Header />,
-
-                // swipeEnabled: false,
             }}
             initialRouteName={"Home"}
             drawerContentOptions={{

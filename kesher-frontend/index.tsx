@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./api";
 import { NavigationContainer } from "@react-navigation/native";
 import MainDrawer from "./navigation/mainDrawer";
+import IndexStack from "./navigation/indexStack";
 
 export default function Index({ navigation }: any) {
     const dispatch = useDispatch();
@@ -43,7 +44,8 @@ export default function Index({ navigation }: any) {
 
     return (
         <NavigationContainer>
-            {token && <MainDrawer onLogout={setToken} />}
+            {/* {token && <MainDrawer onLogout={setToken} />} */}
+            {token && <IndexStack onLogout={setToken} />}
             {!token && <LoginScreen onLogin={setToken} />}
         </NavigationContainer>
     );

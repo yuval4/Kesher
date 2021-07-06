@@ -26,11 +26,13 @@ export default function TopTabs() {
             sceneContainerStyle={{
                 backgroundColor: globalStyles.backgroundColor,
             }}
-            // options={{ tabBarVisible: false }}
             initialRouteName="דיווח יומי"
         >
-            <TopTab.Screen name="דיווח יומי" component={ReportStack} />
-
+            {/* <TopTab.Screen name="דיווח יומי" component={ReportStack} /> */}
+            <TopTab.Screen
+                name="דיווח יומי"
+                component={ChildrenListReportScreen}
+            />
             <TopTab.Screen name="עדכון נוכחות" component={AttendanceScreen} />
         </TopTab.Navigator>
     );

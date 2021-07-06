@@ -6,7 +6,7 @@ import Icons from "../assets/icons/icons";
 
 export default function Header({ title }: { title?: string }) {
     const navigation = useNavigation();
-
+    console.log(navigation);
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>

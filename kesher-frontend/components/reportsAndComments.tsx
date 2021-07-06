@@ -59,7 +59,7 @@ function ReportsAndComments(props: any) {
 
     useEffect(() => {
         fetchChildReports();
-    }, [props.user]);
+    }, [props.report]);
 
     const submitMessage = () => {
         api.reports()
@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
+    const { report } = state;
+    return { report };
 };
 
 export default connect(mapStateToProps)(ReportsAndComments);
