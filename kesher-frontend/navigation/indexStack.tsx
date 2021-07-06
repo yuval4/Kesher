@@ -1,10 +1,5 @@
-import React, { useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import ReportSubCategoryScreen from "../screens/teacher/reportSubCategoryScreen";
-import StartReportScreen from "../screens/teacher/startReportScreen";
-import CompleteReportScreen from "../screens/teacher/completeReportScreen";
-import ChildrenListReportScreen from "../screens/teacher/childrenListReportScreen";
 import Header from "../components/header";
 import globalStyles from "../assets/globalStyles";
 import ReportStack from "./reportStack";
