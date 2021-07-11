@@ -22,9 +22,10 @@ function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
     const scrollViewRef = useRef();
+    const [isVisible, setIsVisible] = useState(false);
+    const [comment, setComment] = useState("");
+    const [submitComment, setSubmitComment] = useState(false);
 
-    const [addMessage, setAddMessage] = React.useState(false);
-    const [comment, setComment] = React.useState("");
     const CATEGORIES = [
         {
             id: "1",
@@ -76,7 +77,15 @@ function StartReportScreen(props: any) {
                 }
                 style={styles.reportsAndComments}
             >
-                <ReportsAndComments child={props.report.child_id} />
+                <ReportsAndComments
+                    child={props.report.child_id}
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                    comment={comment}
+                    setComment={setComment}
+                    submitComment={submitComment}
+                    setSubmitComment={setSubmitComment}
+                />
             </ScrollView>
 
             <View style={styles.button}>
@@ -111,7 +120,8 @@ function StartReportScreen(props: any) {
                     />
                 </View>
             </Modal>
-            {addMessage ? (
+
+            {isVisible ? (
                 <View style={styles.inputBar}>
                     <TextInput
                         style={styles.input}
@@ -120,7 +130,13 @@ function StartReportScreen(props: any) {
                         multiline
                         placeholder="כתב/י כאן..."
                     />
-                    <AddMessageButton onPress={submitMessage} />
+                    <AddMessageButton
+                        onPress={() => {
+                            setSubmitComment(true);
+                            setIsVisible(false);
+                            setComment("");
+                        }}
+                    />
                 </View>
             ) : null}
         </View>
@@ -180,9 +196,10 @@ const styles = StyleSheet.create({
         left: -10,
     },
     inputBar: {
+        position: "absolute",
         width: "100%",
         bottom: 0,
-        paddingBottom: 20,
+        paddingBottom: 50,
         backgroundColor: "#F6F6F6",
         flexDirection: "row",
         justifyContent: "center",

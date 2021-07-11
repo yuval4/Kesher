@@ -22,9 +22,7 @@ import GradientVertical from "./gradientVertical";
 
 function ReportsAndComments(props: any) {
     const [DATA, setDATA] = useState([]);
-    const [addMessage, setAddMessage] = React.useState(false);
     const [activeComment, setActiveComment] = React.useState("");
-    const [comment, setComment] = React.useState("");
 
     // NOTE need to fix it
     // const makeURLInTextToHyperLink = (text: string) => {
@@ -62,12 +60,16 @@ function ReportsAndComments(props: any) {
 
     const submitMessage = () => {
         api.reports()
-            .addCommentToReport(activeComment, comment)
+            .addCommentToReport(activeComment, props.comment)
             .then(() => fetchChildReports());
-
-        setAddMessage(false);
-        setComment("");
     };
+
+    useEffect(() => {
+        if (props.submitComment === true) {
+            submitMessage();
+            props.setSubmitComment(false);
+        }
+    }, [props.submitComment]);
 
     return (
         <KeyboardAvoidingView
@@ -103,7 +105,9 @@ function ReportsAndComments(props: any) {
 
                                         <AddMessageButton
                                             onPress={() => {
-                                                setAddMessage(!addMessage);
+                                                props.setIsVisible(
+                                                    !props.isVisible
+                                                );
                                                 setActiveComment(item.item._id);
                                             }}
                                         />
@@ -113,18 +117,6 @@ function ReportsAndComments(props: any) {
                         }
                     />
                     {/* </GradientVertical> */}
-                    {/* {addMessage ? (
-                        <View style={styles.inputBar}>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={setComment}
-                                value={comment}
-                                multiline
-                                placeholder="כתב/י כאן..."
-                            />
-                            <AddMessageButton onPress={submitMessage} />
-                        </View>
-                    ) : null} */}
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
