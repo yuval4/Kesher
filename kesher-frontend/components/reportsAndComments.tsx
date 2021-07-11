@@ -8,7 +8,6 @@ import {
     Platform,
     TouchableWithoutFeedback,
     Keyboard,
-    ScrollView,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "react-native-svg";
@@ -114,7 +113,7 @@ function ReportsAndComments(props: any) {
                         }
                     />
                     {/* </GradientVertical> */}
-                    {addMessage ? (
+                    {/* {addMessage ? (
                         <View style={styles.inputBar}>
                             <TextInput
                                 style={styles.input}
@@ -125,7 +124,7 @@ function ReportsAndComments(props: any) {
                             />
                             <AddMessageButton onPress={submitMessage} />
                         </View>
-                    ) : null}
+                    ) : null} */}
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

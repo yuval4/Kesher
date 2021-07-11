@@ -15,7 +15,6 @@ import { connect } from "react-redux";
 import Logout from "../screens/logout";
 import ErrorScreen from "../screens/ErrorScreen";
 import CustomDrawer from "../components/customDrawer";
-import ReportStack from "./reportStack";
 
 const Drawer = createDrawerNavigator();
 function MainDrawer(props: any) {

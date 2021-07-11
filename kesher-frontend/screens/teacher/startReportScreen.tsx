@@ -7,6 +7,7 @@ import {
     Modal,
     FlatList,
     ScrollView,
+    TextInput,
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
@@ -15,12 +16,15 @@ import ChildTitle from "../../components/childTitle";
 import ReportCategoryCard from "../../components/reportCategoryCard";
 import { connect, useDispatch } from "react-redux";
 import ReportsAndComments from "../../components/reportsAndComments";
+import AddMessageButton from "../../components/buttons/addMessageButton";
 
 function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
     const scrollViewRef = useRef();
 
+    const [addMessage, setAddMessage] = React.useState(false);
+    const [comment, setComment] = React.useState("");
     const CATEGORIES = [
         {
             id: "1",
@@ -107,6 +111,18 @@ function StartReportScreen(props: any) {
                     />
                 </View>
             </Modal>
+            {addMessage ? (
+                <View style={styles.inputBar}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setComment}
+                        value={comment}
+                        multiline
+                        placeholder="כתב/י כאן..."
+                    />
+                    <AddMessageButton onPress={submitMessage} />
+                </View>
+            ) : null}
         </View>
     );
 }
@@ -162,6 +178,24 @@ const styles = StyleSheet.create({
         padding: 20,
         top: -25,
         left: -10,
+    },
+    inputBar: {
+        width: "100%",
+        bottom: 0,
+        paddingBottom: 20,
+        backgroundColor: "#F6F6F6",
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingHorizontal: 25,
+        paddingVertical: 5,
+    },
+    input: {
+        width: "100%",
+        borderRadius: 16,
+        borderColor: "#8E8E93",
+        backgroundColor: "white",
+        textAlign: "right",
+        paddingRight: 7,
     },
 });
 

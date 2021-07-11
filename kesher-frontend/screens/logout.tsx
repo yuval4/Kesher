@@ -15,9 +15,9 @@ export default function Logout(props: any) {
         }
     };
 
-    logout();
     return (
         <View>
+            {logout()}
             <Text></Text>
         </View>
     );

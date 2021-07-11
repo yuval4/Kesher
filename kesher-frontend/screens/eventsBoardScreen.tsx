@@ -169,7 +169,9 @@ function EventsBoardScreen(props: any) {
                                     .slice(0, 5)}
                             </Text>
                             {openItem === item.item.title + item.index ? (
-                                <Text>{item.item.details}</Text>
+                                <Text style={styles.time}>
+                                    {item.item.details}
+                                </Text>
                             ) : // <EventsBoardDetails text={item.item.details} />
                             null}
                         </TouchableOpacity>

@@ -6,12 +6,16 @@ import Icons from "../assets/icons/icons";
 
 export default function Header({ title }: { title?: string }) {
     const navigation = useNavigation();
-    console.log(navigation);
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                {Icons.drawer}
-            </TouchableOpacity>
+            {navigation.hasOwnProperty("toggleDrawer") ? (
+                <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                    {Icons.drawer}
+                </TouchableOpacity>
+            ) : (
+                <View style={{ opacity: 0 }}>{Icons.drawer}</View>
+            )}
 
             {title ? (
                 <Text style={styles.title}>{title}</Text>
@@ -21,6 +25,7 @@ export default function Header({ title }: { title?: string }) {
                     source={require("../assets/images/header_logo.png")}
                 />
             )}
+
             {navigation.canGoBack() ? (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Text style={styles.text}>חזור</Text>
