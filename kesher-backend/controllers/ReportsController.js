@@ -17,6 +17,11 @@ router.post("/attendances", async (req, res) => {
     res.send(childrenAttendance);
 });
 
+router.post("/newreport", async (req, res) => {
+    await ReportsService.createDailyReport([req.params.id]);
+    res.sendStatus(200);
+});
+
 router.patch("/child/:id", async (req, res) => {
     await ReportsService.updateChildAttendance(
         req.params.id,
@@ -34,7 +39,6 @@ router.patch("/subreport/:id", async (req, res) => {
     res.sendStatus(200);
 });
 
-// TODO change
 router.patch("/comment/:reportId", async (req, res) => {
     await ReportsService.addCommentToReport(
         req.user.id,

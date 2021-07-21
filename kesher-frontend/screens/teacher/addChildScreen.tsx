@@ -36,18 +36,21 @@ function AddChildScreen(props: any) {
         })();
     }, []);
 
-    const createFormData = (photo: any) => {
+    const createFormData = (photo, body) => {
         const data = new FormData();
 
         data.append("photo", {
-            name: photo.fileName,
+            name: Date.now().toString() + ".jpeg",
             type: photo.type,
             uri:
-                Platform.OS === "ios"
-                    ? photo.uri.replace("file://", "")
-                    : photo.uri,
+                Platform.OS === "android"
+                    ? photo.uri
+                    : photo.uri.replace("file://", ""),
         });
 
+        Object.keys(body).forEach((key) => {
+            data.append(key, body[key]);
+        });
         return data;
     };
 
@@ -59,7 +62,7 @@ function AddChildScreen(props: any) {
             aspect: [3, 3],
             quality: 1,
         });
-        console.log(result);
+
         if (!result.cancelled) {
             setImage(result);
         }
@@ -72,7 +75,6 @@ function AddChildScreen(props: any) {
                 initialValues={{
                     childFirstName: "",
                     childLastName: "",
-                    // profilePic: "",
                     birthDate: new Date(),
                     parentFirstName: "",
                     parentLastName: "",
@@ -84,12 +86,19 @@ function AddChildScreen(props: any) {
                 }}
                 onSubmit={async (values) => {
                     values.school = props.user.schools[0];
-                    values.image = createFormData(image);
-                    const childId = await api.children().createChild(values);
+                    const childId = await api.children().createChild(
+                        createFormData(image, {
+                            childFirstName: values.childFirstName,
+                            childLastName: values.childLastName,
+                            birthDate: values.birthDate.toString(),
+                            school: values.school,
+                        })
+                    );
                     await api
                         .schools()
                         .addChildToSchool(values.school, childId.data);
                     await api.parents().createParent(values, childId.data);
+                    await api.reports().createNewReport(childId.data);
                     alert("הפרטים הוכנסו");
                 }}
             >
@@ -247,6 +256,7 @@ function AddChildScreen(props: any) {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: "center",
         paddingTop: 30,
         width: "100%",

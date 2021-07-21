@@ -3,6 +3,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
+
 dotenv.config();
 
 const loginController = require("./controllers/LoginController");
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(loginController);
+app.use("/uploads", express.static("uploads"));
 app.use("/children", childrenController);
 app.use("/schools", schoolsController);
 app.use("/reports", reportsController);

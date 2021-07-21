@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const URL = "http://192.168.1.56:3000"; // this computer
+export const URL = "http://192.168.1.56:3000"; // this computer
 // const URL = "http://172.20.10.5:3000"; // my phone
 // const URL = "http://10.76.57.97:3000";
 // const URL = "http://139.177.182.246:3000"; // server
@@ -16,6 +16,7 @@ const options = async () => {
 };
 
 export default {
+    URL: URL,
     login() {
         return {
             login: (data: any) => axios.post(`${URL}/login`, { data }),
@@ -43,7 +44,7 @@ export default {
     children() {
         return {
             createChild: async (data: any) =>
-                axios.post(`${URL}/children`, { data }, await options()),
+                axios.post(`${URL}/children`, data, await options()),
         };
     },
     schools() {
@@ -68,6 +69,8 @@ export default {
     },
     reports() {
         return {
+            createNewReport: async (id: string) =>
+                axios.post(`${URL}/newreports/${id}`, await options()),
             getChildrenAttendance: async (ids: Array<String>) =>
                 axios.post(
                     `${URL}/reports/attendances/`,
@@ -76,7 +79,6 @@ export default {
                 ),
             getAllChildReports: async (id: string) =>
                 axios.get(`${URL}/reports/${id}`, await options()),
-
             updateChildAttendance: async (id: string, attendance: boolean) =>
                 axios.patch(
                     `${URL}/reports/child/${id}`,

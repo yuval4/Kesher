@@ -14,7 +14,7 @@ import globalStyles from "../../assets/globalStyles";
 
 function ChildrenListReportScreen(props: any) {
     const dispatch = useDispatch();
-    const [DATA, setDATA] = React.useState([]);
+    const [DATA, setDATA] = useState([]);
 
     // ANCHOR getting the data from the server
     useEffect(() => {
@@ -22,7 +22,16 @@ function ChildrenListReportScreen(props: any) {
             const childrenResponse = await api
                 .schools()
                 .getChildren(props.user.schools[0]);
-            setDATA(childrenResponse.data.children);
+
+            //ANCHOR update profile pic
+            let childrenList = childrenResponse.data.children;
+            childrenList.forEach((child: any) => {
+                child.profilePic = `${api.URL}/${child.profilePic}`
+                    .split(/\\/g)
+                    .join("/");
+            });
+
+            setDATA(childrenList);
         };
         getData();
     }, []);
@@ -55,7 +64,9 @@ function ChildrenListReportScreen(props: any) {
                         >
                             <Image
                                 style={styles.image}
-                                source={{ uri: item.profilePic }}
+                                source={{
+                                    uri: item.profilePic,
+                                }}
                             />
                             <Text style={styles.name}>
                                 {item.name.first} {item.name.last}

@@ -40,7 +40,6 @@ const addSubReportToReportByChildId = async (id, subReport) => {
     );
 };
 
-// TODO change
 const addCommentToReportByReportId = async (reportId, comment) => {
     return await Report.findOneAndUpdate(
         {
