@@ -17,6 +17,7 @@ import ReportCategoryCard from "../../components/reportCategoryCard";
 import { connect, useDispatch } from "react-redux";
 import ReportsAndComments from "../../components/reportsAndComments";
 import AddMessageButton from "../../components/buttons/addMessageButton";
+import InputBar from "../../components/inputBar";
 
 function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);

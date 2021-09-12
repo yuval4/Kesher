@@ -54,7 +54,7 @@ function ChildrenListReportScreen(props: any) {
             <FlatList
                 data={DATA}
                 numColumns={3}
-                columnWrapperStyle={styles.column}
+                style={styles.list}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <View>
@@ -82,16 +82,14 @@ function ChildrenListReportScreen(props: any) {
 const styles = StyleSheet.create({
     container: {
         alignContent: "center",
-        marginHorizontal: 30,
         marginTop: 20,
     },
-    column: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        justifyContent: "space-between",
+    list: {
+        alignSelf: "center",
     },
     item: {
         alignItems: "center",
+        marginHorizontal: "4.5%",
         marginBottom: 25,
     },
     image: {

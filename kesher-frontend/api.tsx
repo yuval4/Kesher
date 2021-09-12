@@ -97,6 +97,8 @@ export default {
                     { comment },
                     await options()
                 ),
+            uploadImage: async (data: any) =>
+                axios.post(`${URL}/reports/image`, data, await options()),
         };
     },
 };

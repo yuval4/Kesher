@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ReportsService = require("../services/ReportsService");
 const { authenticateToken } = require("../auth/auth");
+const { upload } = require("../utils/utils");
 
 router.use(authenticateToken);
 
@@ -46,6 +47,12 @@ router.patch("/comment/:reportId", async (req, res) => {
         req.params.reportId,
         req.body.comment
     );
+    res.sendStatus(200);
+});
+
+router.post("/image", upload.single("photo"), async (req, res) => {
+    req.body.profilePic = req.file.path;
+    // const childId = await ChildrenService.createNewChild(req.body);
     res.sendStatus(200);
 });
 

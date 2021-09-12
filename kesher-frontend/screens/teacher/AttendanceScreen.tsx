@@ -37,6 +37,9 @@ function AttendanceScreen(props: any) {
                     (report: any) => report.child === child._id
                 ).attendance;
                 dataObject.push(child);
+                child.profilePic = `${api.URL}/${child.profilePic}`
+                    .split(/\\/g)
+                    .join("/");
             });
             setDATA(dataObject);
         };
@@ -67,7 +70,7 @@ function AttendanceScreen(props: any) {
             <FlatList
                 data={DATA}
                 numColumns={3}
-                columnWrapperStyle={styles.column}
+                style={styles.list}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <View>
@@ -101,14 +104,14 @@ function AttendanceScreen(props: any) {
 const styles = StyleSheet.create({
     container: {
         alignContent: "center",
-        marginHorizontal: 30,
         marginTop: 20,
     },
-    column: {
-        justifyContent: "space-between",
+    list: {
+        alignSelf: "center",
     },
     item: {
         alignItems: "center",
+        marginHorizontal: "4.5%",
         marginBottom: 25,
     },
     image: {

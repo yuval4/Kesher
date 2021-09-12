@@ -81,6 +81,7 @@ function ReportsAndComments(props: any) {
                     {/* <GradientVertical style={{ width: "100%" }}> */}
                     <FlatList
                         style={styles.list}
+                        // inverted={true}
                         data={DATA}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) =>

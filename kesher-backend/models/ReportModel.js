@@ -13,6 +13,7 @@ const commentSchema = new Schema({
     date: Date,
     creator: { type: Schema.Types.ObjectId, refPath: "comments.user" },
     message: String,
+    images: [{ type: String }],
 
     user: {
         type: String,
