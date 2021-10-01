@@ -14,12 +14,17 @@ import {
 import api from "../api";
 import globalStyles from "../assets/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../app/hooks";
+import {
+    setUser,
+    updateCurrentChild,
+    updateCurrentSchool,
+} from "../features/user/user-slice";
 
 export default function LoginScreen(props: any) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     //  ANCHOR get token and set it in the async storage.
     const storeData = async (token: any) => {
@@ -34,66 +39,51 @@ export default function LoginScreen(props: any) {
     //  ANCHOR handle parent log in. get token from the server and store it in async storage.
     //  get data from the server about the user(getMe) and sets it in redux. navigate to the app.
     //  if user doesnt found or there is another problem (eg internet connection), alert will be shown and password field get delitted.
-    const handleParentLoginRequest = async () => {
+    const handleLoginRequest = async () => {
         try {
-            let response = await api
-                .login()
-                .login({ email, password, role: "parent" });
+            let response = await api.login().login({ email, password });
             storeData(response.data);
-
             let getMeRespones = await api.login().getMe();
-            dispatch({
-                type: "SET_USER",
-                data: {
+
+            dispatch(
+                setUser({
                     name: {
                         first: getMeRespones.data.name.first,
                         last: getMeRespones.data.name.last,
                     },
                     role: getMeRespones.data.role,
-                    children: getMeRespones.data.children,
-                },
-            });
+                    children:
+                        getMeRespones.data.role === "Parent"
+                            ? getMeRespones.data.children
+                            : null,
+                    schools:
+                        getMeRespones.data.role === "Teacher"
+                            ? getMeRespones.data.schools
+                            : null,
+                })
+            );
+            if (getMeRespones.data.role === "Parent") {
+                dispatch(
+                    updateCurrentChild({
+                        currentChild: getMeRespones.data.children[0],
+                    })
+                );
+            } else if (getMeRespones.data.role === "Teacher") {
+                dispatch(
+                    updateCurrentSchool({
+                        currentSchool: getMeRespones.data.schools[0],
+                    })
+                );
+            }
         } catch (err) {
             if (err.message === "Request failed with status code 401") {
                 alert("שם משתמש או סיסמה שגויים");
             } else {
                 alert(err);
+                console.log(err);
             }
             setPassword("");
         }
-
-        Keyboard.dismiss;
-    };
-
-    //  ANCHOR same as parent but for staff's users.
-    const handleStaffLoginRequest = async () => {
-        try {
-            let response = await api
-                .login()
-                .login({ email, password, role: "staff" });
-
-            storeData(response.data);
-            let getMeRespones = await api.login().getMe();
-            dispatch({
-                type: "SET_USER",
-                data: {
-                    name: {
-                        first: getMeRespones.data.name.first,
-                        last: getMeRespones.data.name.last,
-                    },
-                    role: getMeRespones.data.role,
-                    schools: getMeRespones.data.schools,
-                },
-            });
-        } catch (err) {
-            if (err.message === "Request failed with status code 401") {
-                alert("שם משתמש או סיסמה שגויים");
-            } else {
-                alert(err);
-            }
-            setPassword("");
-        }
-
         Keyboard.dismiss;
     };
 
@@ -131,15 +121,9 @@ export default function LoginScreen(props: any) {
 
                             <Text
                                 style={styles.loginButton}
-                                onPress={handleParentLoginRequest}
+                                onPress={handleLoginRequest}
                             >
-                                הורה
-                            </Text>
-                            <Text
-                                style={styles.loginButton}
-                                onPress={handleStaffLoginRequest}
-                            >
-                                צוות
+                                כניסה
                             </Text>
                         </View>
                     </View>

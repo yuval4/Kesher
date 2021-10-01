@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { connect } from "react-redux";
+import { useAppSelector } from "../app/hooks";
 
-function ChildTitle(props: any) {
+export default function ChildTitle() {
+    const child = useAppSelector((state) => state.report);
+
     return (
         <View style={styles.container}>
-            <Image
-                style={styles.image}
-                source={{ uri: props.report.profilePic }}
-            />
+            <Image style={styles.image} source={{ uri: child.profilePic }} />
             <Text style={styles.name}>
-                {props.report.name.first} {props.report.name.last}
+                {child.name?.first} {child.name?.last}
             </Text>
         </View>
     );
@@ -40,10 +39,3 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { report } = state;
-    return { report };
-};
-
-export default connect(mapStateToProps)(ChildTitle);

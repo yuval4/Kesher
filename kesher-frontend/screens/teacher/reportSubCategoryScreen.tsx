@@ -1,14 +1,19 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { connect, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import AppLayout from "../../components/appLayout";
 import SmallButton from "../../components/buttons/smallButton";
 import SubCategoryButton from "../../components/buttons/subCategoryButton";
 import ChildTitle from "../../components/childTitle";
+import {
+    updateCategory,
+    updateSubCategories,
+} from "../../features/report/report-slice";
 
-function ReportSubCategoryScreen(props: any) {
+export default function ReportSubCategoryScreen(props: any) {
     const [DATA, setDATA] = React.useState();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const reportCategory = useAppSelector((state) => state.report.category);
 
     const ACTIVITIES_DATA = [
         {
@@ -99,7 +104,7 @@ function ReportSubCategoryScreen(props: any) {
     ];
 
     const getData = () => {
-        let categoryId = props.report.category;
+        let categoryId = reportCategory;
         switch (categoryId) {
             case "1":
                 return ACTIVITIES_DATA;
@@ -160,8 +165,7 @@ function ReportSubCategoryScreen(props: any) {
     // ANCHOR save data to Redux and navigte to the next screen.
     const handleSubmitAndNext = () => {
         let category = "";
-        console.log(props.report.category);
-        switch (props.report.category) {
+        switch (reportCategory) {
             case "1":
                 category = "פעילויות שהתקיימו בגן";
                 break;
@@ -175,19 +179,17 @@ function ReportSubCategoryScreen(props: any) {
                 category = "טיפולי מקצועות הבריאות";
                 break;
         }
-        dispatch({
-            type: "SET_REPORT",
-            data: {
-                child_id: props.report.child_id,
-                name: {
-                    first: props.report.name.first,
-                    last: props.report.name.last,
-                },
-                profilePic: props.report.profilePic,
+        dispatch(
+            updateSubCategories({
                 subCategories: selectedCategories(category),
+            })
+        );
+        //needed?
+        dispatch(
+            updateCategory({
                 category: category,
-            },
-        });
+            })
+        );
         props.navigation.navigate("CompleteReport");
     };
 
@@ -235,10 +237,3 @@ const styles = StyleSheet.create({
         bottom: "4%",
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { report } = state;
-    return { report };
-};
-
-export default connect(mapStateToProps)(ReportSubCategoryScreen);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -7,40 +7,35 @@ import {
     FlatList,
     Image,
 } from "react-native";
-import { connect, useDispatch } from "react-redux";
+import api from "../api";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
+import { updateCurrentChild } from "../features/user/user-slice";
 
-function OpenList(props: any) {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const dispatch = useDispatch();
+export default function OpenList() {
+    const [isOpen, setIsOpen] = useState(false);
+    const user = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
 
     const handleChangeChildPress = (child: any) => {
-        let childrenList = props.user.children;
-        childrenList.splice(childrenList.indexOf(child), 1);
-        childrenList.unshift(child);
-        // TODO chnage it to action (redux)
-        dispatch({
-            type: "SET_USER",
-            data: {
-                name: {
-                    first: props.user.name.first,
-                    last: props.user.name.last,
-                },
-                role: props.user.role,
-                children: childrenList,
-            },
-        });
+        dispatch(
+            updateCurrentChild({
+                currentChild: child,
+            })
+        );
         setIsOpen(!isOpen);
     };
 
-    if (props.user.children[0]) {
+    if (user.currentChild) {
         return (
             <View style={styles.container}>
                 <Image
                     style={styles.photo}
                     source={{
-                        uri: props.user.children[0].profilePic,
+                        uri: `${api.URL}/${user.currentChild.profilePic}`
+                            .split(/\\/g)
+                            .join("/"),
                     }}
                 />
                 <TouchableOpacity
@@ -49,7 +44,7 @@ function OpenList(props: any) {
                 >
                     {/* <Text style={styles.text}>{data[index]}</Text> */}
                     <Text style={styles.text}>
-                        {props.user.children[0].name.first}
+                        {user.currentChild.name.first}
                     </Text>
                     <View style={isOpen ? styles.arrowOpen : styles.arrow}>
                         {Icons.arrowDown}
@@ -58,7 +53,7 @@ function OpenList(props: any) {
                 {isOpen ? (
                     <View style={styles.list}>
                         <FlatList
-                            data={props.user.children}
+                            data={user.children}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={(item) => (
                                 <TouchableOpacity
@@ -151,10 +146,3 @@ const styles = StyleSheet.create({
         marginLeft: -5,
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(OpenList);

@@ -1,13 +1,24 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Pressable,
+} from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import globalStyles from "../assets/globalStyles";
-import InputBar from "../components/inputBar";
-import UploadImage from "../components/buttons/uploadImage";
+import { saveImage } from "../utils/utils";
 
 export default function ElwynScreen() {
     const handlePress = () => {
         WebBrowser.openBrowserAsync("https://israelelwyn.org.il/he/");
+    };
+    const handleSaveImage = async () => {
+        await saveImage(
+            "https://media.istockphoto.com/photos/colored-powder-explosion-abstract-closeup-dust-on-backdrop-colorful-picture-id1072093690?k=20&m=1072093690&s=612x612&w=0&h=Ns3WeEm1VrIHhZOmhiGY_fYKvIlbJrVADLqfxyPQVPM=",
+            "name.png"
+        );
     };
 
     return (
@@ -17,7 +28,9 @@ export default function ElwynScreen() {
             </TouchableOpacity>
             <Text style={styles.text}>למעבר לאתר אלווין</Text>
 
-            <UploadImage />
+            <Pressable onLongPress={handleSaveImage}>
+                <Text style={styles.button}>שמרו תמונה</Text>
+            </Pressable>
         </View>
     );
 }

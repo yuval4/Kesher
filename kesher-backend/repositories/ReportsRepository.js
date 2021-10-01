@@ -49,10 +49,20 @@ const addCommentToReportByReportId = async (reportId, comment) => {
     );
 };
 
+const addImageToReportByReportId = async (reportId, image) => {
+    await Report.findOneAndUpdate(
+        {
+            _id: { $in: reportId },
+        },
+        { $push: { comments: image } }
+    );
+};
+
 module.exports = {
     getChildrenAttendanceByChildernIds,
     updateAttendanceByChildId,
     addSubReportToReportByChildId,
     getChildReportsById,
     addCommentToReportByReportId,
+    addImageToReportByReportId,
 };

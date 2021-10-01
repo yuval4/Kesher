@@ -7,27 +7,34 @@ import {
     Text,
 } from "react-native";
 import Icons from "../assets/icons/icons";
+import UploadImage from "./buttons/uploadImage";
 
 export default function InputBar({
     onChangeText,
     value,
-    onPress,
+    onSendTextPress,
+    activeComment,
 }: {
     onChangeText: any;
     value: string;
-    onPress: () => void;
+    onSendTextPress: () => void;
+    activeComment: string;
 }) {
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                multiline
-                placeholder="כתוב כאן..."
-                onChangeText={onChangeText}
-                value={value}
-            />
+            <UploadImage activeComment={activeComment} />
 
-            <TouchableOpacity onPress={onPress} style={styles.button}>
+            <View style={styles.inputView}>
+                <TextInput
+                    style={styles.input}
+                    multiline
+                    placeholder="כתב/י כאן..."
+                    onChangeText={onChangeText}
+                    value={value}
+                />
+            </View>
+
+            <TouchableOpacity onPress={onSendTextPress} style={styles.button}>
                 {Icons.send}
             </TouchableOpacity>
         </View>
@@ -38,7 +45,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: "center",
         width: "100%",
+        backgroundColor: "white",
     },
     input: {
         borderColor: "#cccccc",
@@ -48,8 +57,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         textAlign: "right",
         color: "black",
-        width: "95%",
-        padding: 7,
+        paddingHorizontal: 7,
+        paddingVertical: 4,
+    },
+    inputView: {
+        width: "80%",
+        padding: 8,
     },
     button: {
         marginTop: 7,

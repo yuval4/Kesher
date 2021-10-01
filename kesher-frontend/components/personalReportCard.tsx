@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
 
@@ -19,12 +19,12 @@ export default function PersonalReportCard({
 
     useEffect(() => {
         setToBrings(
-            data.subReports.filter(
+            data.subReports?.filter(
                 (item: any) => item.category === "בבקשה לשלוח"
             )
         );
         setSubReports(
-            data.subReports.filter(
+            data.subReports?.filter(
                 (item: any) => item.category != "בבקשה לשלוח"
             )
         );
@@ -32,32 +32,26 @@ export default function PersonalReportCard({
 
     return (
         <View style={styles.container}>
-            <FlatList
-                data={subReports}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <View>
+            {subReports?.map((item: any, index: any) => {
+                return (
+                    <View key={index}>
                         <Text style={styles.title}>{item.name}</Text>
                         <Text style={styles.details}>{item.details}</Text>
                     </View>
-                )}
-            />
+                );
+            })}
 
             <Text style={styles.title}>בבקשה לשלוח</Text>
-            <FlatList
-                data={toBrings}
-                horizontal={true}
-                keyExtractor={(item, index) => index.toString()}
-                scrollEnabled={false}
-                renderItem={({ item }) => (
-                    <View style={styles.toBring}>
-                        <View style={styles.vIcon}>{Icons.toBring}</View>
-
-                        <Text style={styles.details}>{item.name}</Text>
-                    </View>
-                )}
-            />
-
+            <View style={styles.toBring}>
+                {toBrings?.map((item: any, index: any) => {
+                    return (
+                        <View style={styles.toBring} key={index}>
+                            <View style={styles.vIcon}>{Icons.toBring}</View>
+                            <Text style={styles.details}>{item.name}</Text>
+                        </View>
+                    );
+                })}
+            </View>
             <View style={styles.info}>
                 <Text style={styles.author}></Text>
                 <Text style={styles.timestamp}>
@@ -133,6 +127,7 @@ const styles = StyleSheet.create({
     toBring: {
         flexDirection: "row-reverse",
         alignItems: "center",
+        paddingRight: 5,
     },
     vIcon: {
         margin: 3.5,

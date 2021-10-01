@@ -2,74 +2,61 @@ import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     View,
-    FlatList,
-    TextInput,
+    Text,
+    Image,
     KeyboardAvoidingView,
     Platform,
     TouchableWithoutFeedback,
     Keyboard,
+    ScrollView,
+    RefreshControl,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text } from "react-native-svg";
-import { connect } from "react-redux";
 import api from "../api";
+import { useAppSelector } from "../app/hooks";
+import { getMediaLibraryPermission } from "../utils/utils";
 import AddMessageButton from "./buttons/addMessageButton";
 import PersonalReportCard from "./personalReportCard";
 import PersonalCommentCard from "./presonalCommentCard";
-import * as WebBrowser from "expo-web-browser";
-import { LinearGradient } from "expo-linear-gradient";
-import GradientVertical from "./gradientVertical";
 
-function ReportsAndComments(props: any) {
+export default function ReportsAndComments(props: any) {
     const [DATA, setDATA] = useState([]);
-    const [activeComment, setActiveComment] = React.useState("");
-
-    // NOTE need to fix it
-    // const makeURLInTextToHyperLink = (text: string) => {
-    //     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    //     return text.replace(urlRegex, (url: string) => {
-    //         return (
-    //             <TouchableOpacity
-    //                 onPress={() =>
-    //                     WebBrowser.openBrowserAsync(
-    //                         "https://israelelwyn.org.il/he/"
-    //                     )
-    //                 }
-    //             >
-    //                 <Text>לחצו כאן</Text>
-    //             </TouchableOpacity>
-    //         );
-    //     });
-    // };
-
-    // var text =
-    //     "Find me at http://www.example.com and also at http://stackoverflow.com";
-    // var html = makeURLInTextToHyperLink(text);
-
-    // console.log(html);
+    const [refreshing, setRefreshing] = useState(false);
 
     // ANCHOR get reports data from the server.
     const fetchChildReports = async () => {
+        console.log("report: " + props.child);
         const response = await api.reports().getAllChildReports(props.child);
         setDATA(response.data);
     };
 
     useEffect(() => {
-        fetchChildReports();
-    }, [props.report]);
+        getMediaLibraryPermission();
+    }, []);
 
-    const submitMessage = () => {
-        api.reports()
-            .addCommentToReport(activeComment, props.comment)
-            .then(() => fetchChildReports());
-    };
+    useEffect(() => {
+        fetchChildReports();
+    }, [props.child]);
 
     useEffect(() => {
         if (props.submitComment === true) {
             submitMessage();
             props.setSubmitComment(false);
+            props.setComment("");
         }
     }, [props.submitComment]);
+
+    const submitMessage = () => {
+        api.reports()
+            .addCommentToReport(props.activeComment, props.comment)
+            .then(() => fetchChildReports());
+    };
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1500);
+    }, []);
 
     return (
         <KeyboardAvoidingView
@@ -77,48 +64,56 @@ function ReportsAndComments(props: any) {
             style={styles.container}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    {/* <GradientVertical style={{ width: "100%" }}> */}
-                    <FlatList
-                        style={styles.list}
-                        // inverted={true}
-                        data={DATA}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={(item) =>
-                            item.item.subReports.length === 0 ? null : (
-                                <View style={styles.messages}>
+                <ScrollView
+                    style={styles.scrollContainer}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+                    <View style={styles.list}>
+                        {DATA.map((report, index) => {
+                            return report.subReports.length === 0 ? null : (
+                                <View
+                                    style={styles.messagesContainer}
+                                    key={index}
+                                >
                                     <View style={styles.message}>
-                                        <PersonalReportCard data={item.item} />
-                                        <FlatList
-                                            style={styles.commentList}
-                                            data={item.item.comments}
-                                            keyExtractor={(commentData) =>
-                                                commentData._id
-                                            }
-                                            renderItem={(commentData) => (
-                                                <View style={styles.comment}>
+                                        <PersonalReportCard data={report} />
+                                    </View>
+                                    {report.comments.map(
+                                        (commentData, index) => {
+                                            return (
+                                                <View
+                                                    key={index}
+                                                    style={styles.comment}
+                                                >
                                                     <PersonalCommentCard
-                                                        data={commentData.item}
+                                                        data={commentData}
                                                     />
                                                 </View>
-                                            )}
-                                        />
-
+                                            );
+                                        }
+                                    )}
+                                    <View style={styles.addMessageButton}>
                                         <AddMessageButton
                                             onPress={() => {
                                                 props.setIsVisible(
                                                     !props.isVisible
                                                 );
-                                                setActiveComment(item.item._id);
+                                                props.setActiveComment(
+                                                    report._id
+                                                );
                                             }}
                                         />
                                     </View>
                                 </View>
-                            )
-                        }
-                    />
-                    {/* </GradientVertical> */}
-                </View>
+                            );
+                        })}
+                    </View>
+                </ScrollView>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );
@@ -126,14 +121,20 @@ function ReportsAndComments(props: any) {
 const styles = StyleSheet.create({
     container: {
         paddingTop: 15,
-        alignItems: "center",
+        // alignItems: "center",
         width: "100%",
         flex: 1,
+    },
+    scrollContainer: {
+        flex: 1,
+        bottom: 0,
+        flexDirection: "column-reverse",
+        backgroundColor: "blue",
     },
     list: {
         width: "100%",
     },
-    messages: {
+    messagesContainer: {
         alignItems: "center",
     },
     message: {
@@ -146,30 +147,10 @@ const styles = StyleSheet.create({
     comment: {
         marginBottom: 4,
         marginTop: 8,
+        width: "90%",
     },
-    inputBar: {
-        width: "100%",
-        bottom: 0,
-        paddingBottom: 20,
-        backgroundColor: "#F6F6F6",
-        flexDirection: "row",
-        justifyContent: "center",
-        paddingHorizontal: 25,
-        paddingVertical: 5,
-    },
-    input: {
-        width: "100%",
-        borderRadius: 16,
-        borderColor: "#8E8E93",
-        backgroundColor: "white",
-        textAlign: "right",
-        paddingRight: 7,
+    addMessageButton: {
+        alignSelf: "flex-end",
+        marginRight: "4%",
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { report } = state;
-    return { report };
-};
-
-export default connect(mapStateToProps)(ReportsAndComments);

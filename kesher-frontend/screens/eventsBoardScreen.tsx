@@ -12,13 +12,13 @@ import {
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { connect } from "react-redux";
 import api from "../api";
 import RoundButton from "../components/buttons/roundButton";
 import EventsBoardDetails from "../components/eventsBoardDetails";
+import { useAppSelector } from "../app/hooks";
 
-function EventsBoardScreen(props: any) {
-    const role = props.user.role;
+export default function EventsBoardScreen() {
+    const user = useAppSelector((state) => state.user);
     const [modalOpen, setModalOpen] = useState(false);
     const [openItem, setOpenItem] = useState("");
     const [isStartDatePickerVisible, setStartDatePickerVisibility] =
@@ -67,11 +67,10 @@ function EventsBoardScreen(props: any) {
         const eventsResponse = await api
             .schools()
             .getSchoolEvents(
-                role === "staff"
-                    ? props.user.schools[0]
-                    : props.user.children[0].school
+                user.role === "Teacher"
+                    ? user.currentSchool
+                    : user.currentChild.school
             );
-
         addEventToState(eventsResponse.data.eventsBoard);
     };
 
@@ -122,7 +121,7 @@ function EventsBoardScreen(props: any) {
     const handleSubmitForm = () => {
         setModalOpen(false);
         addEventToState([newEvent]);
-        api.schools().addNewEvent(props.user.schools[0], newEvent);
+        api.schools().addNewEvent(user.currentSchool, newEvent);
     };
 
     return (
@@ -178,7 +177,7 @@ function EventsBoardScreen(props: any) {
                     </View>
                 )}
             />
-            {role === "staff" ? (
+            {user.role === "Teacher" ? (
                 <View style={styles.button}>
                     <RoundButton
                         title="הוספת אירוע"
@@ -358,10 +357,3 @@ const styles = StyleSheet.create({
         bottom: "10%",
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(EventsBoardScreen);

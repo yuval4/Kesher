@@ -6,26 +6,26 @@ import {
     TouchableOpacity,
     Modal,
     FlatList,
-    ScrollView,
-    TextInput,
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import RoundButton from "../../components/buttons/roundButton";
 import ChildTitle from "../../components/childTitle";
 import ReportCategoryCard from "../../components/reportCategoryCard";
-import { connect, useDispatch } from "react-redux";
 import ReportsAndComments from "../../components/reportsAndComments";
-import AddMessageButton from "../../components/buttons/addMessageButton";
 import InputBar from "../../components/inputBar";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { updateCategory } from "../../features/report/report-slice";
 
-function StartReportScreen(props: any) {
+export default function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const report = useAppSelector((state) => state.report);
     const scrollViewRef = useRef();
     const [isVisible, setIsVisible] = useState(false);
     const [comment, setComment] = useState("");
     const [submitComment, setSubmitComment] = useState(false);
+    const [activeComment, setActiveComment] = useState("");
 
     const CATEGORIES = [
         {
@@ -51,18 +51,7 @@ function StartReportScreen(props: any) {
     ];
 
     const handlePress = (id: string) => {
-        dispatch({
-            type: "SET_REPORT",
-            data: {
-                child_id: props.report.child_id,
-                name: {
-                    first: props.report.name.first,
-                    last: props.report.name.last,
-                },
-                profilePic: props.report.profilePic,
-                category: id,
-            },
-        });
+        dispatch(updateCategory({ category: id }));
         props.navigation.navigate("SubCategory");
         setModalOpen(false);
     };
@@ -70,25 +59,27 @@ function StartReportScreen(props: any) {
     return (
         <View style={styles.container}>
             <ChildTitle />
-
-            <ScrollView
+            {/* <ScrollView
                 ref={scrollViewRef}
                 onContentSizeChange={() =>
                     scrollViewRef.current.scrollToEnd({ animated: true })
                 }
                 style={styles.reportsAndComments}
-            >
+            > */}
+            <View style={styles.reportsAndComments}>
                 <ReportsAndComments
-                    child={props.report.child_id}
+                    child={report.child_id}
                     isVisible={isVisible}
                     setIsVisible={setIsVisible}
                     comment={comment}
                     setComment={setComment}
                     submitComment={submitComment}
                     setSubmitComment={setSubmitComment}
+                    activeComment={activeComment}
+                    setActiveComment={setActiveComment}
                 />
-            </ScrollView>
-
+                {/* </ScrollView> */}
+            </View>
             <View style={styles.button}>
                 <RoundButton
                     title="התחל דיווח"
@@ -124,19 +115,14 @@ function StartReportScreen(props: any) {
 
             {isVisible ? (
                 <View style={styles.inputBar}>
-                    <TextInput
-                        style={styles.input}
+                    <InputBar
                         onChangeText={setComment}
                         value={comment}
-                        multiline
-                        placeholder="כתב/י כאן..."
-                    />
-                    <AddMessageButton
-                        onPress={() => {
+                        onSendTextPress={() => {
                             setSubmitComment(true);
                             setIsVisible(false);
-                            setComment("");
                         }}
+                        activeComment={activeComment}
                     />
                 </View>
             ) : null}
@@ -200,11 +186,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: "100%",
         bottom: 0,
-        paddingBottom: 50,
-        backgroundColor: "#F6F6F6",
-        flexDirection: "row",
+        paddingBottom: 40,
         justifyContent: "center",
-        paddingHorizontal: 25,
+        backgroundColor: "white",
         paddingVertical: 5,
     },
     input: {
@@ -216,10 +200,3 @@ const styles = StyleSheet.create({
         paddingRight: 7,
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { report } = state;
-    return { report };
-};
-
-export default connect(mapStateToProps)(StartReportScreen);

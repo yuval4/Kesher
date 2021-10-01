@@ -9,19 +9,18 @@ import {
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
-import { connect } from "react-redux";
 import api from "../../api";
+import { useAppSelector } from "../../app/hooks";
 
-function AttendanceScreen(props: any) {
-    const [DATA, setDATA] = React.useState([]);
+export default function AttendanceScreen(props: any) {
+    const [DATA, setDATA] = useState([]);
+    const school = useAppSelector((state) => state.user.currentSchool);
 
     // ANCHOR get data from server about the children in the school
     // and their attendance and merge them together.
     useEffect(() => {
         const getData = async () => {
-            const childrenResponse = await api
-                .schools()
-                .getChildren(props.user.schools[0]);
+            const childrenResponse = await api.schools().getChildren(school);
 
             let ids: Array<string> = [];
             childrenResponse.data.children.forEach((child: any) => {
@@ -45,7 +44,7 @@ function AttendanceScreen(props: any) {
         };
 
         getData();
-    }, []);
+    }, [school]);
 
     // ANCHOR get the pressed item and toggle it's attendance in DATA
     // and send to the server change the child daily attendace.
@@ -141,10 +140,3 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(AttendanceScreen);

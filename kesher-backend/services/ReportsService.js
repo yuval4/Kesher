@@ -51,9 +51,22 @@ const addCommentToReport = async (creatorId, role, reportId, message) => {
         date: new Date(),
         creator: new objectId(creatorId),
         message: message,
-        user: role.charAt(0).toUpperCase() + role.slice(1),
+        user: role,
     };
     await ReportsRepository.addCommentToReportByReportId(reportId, comment);
+};
+
+const addImageToReport = async (data, creatorId, role) => {
+    const image = {
+        date: new Date(),
+        creator: new objectId(creatorId),
+        user: role.charAt(0).toUpperCase() + role.slice(1),
+        image: data.profilePic,
+    };
+    await ReportsRepository.addImageToReportByReportId(
+        data.activeComment,
+        image
+    );
 };
 
 module.exports = {
@@ -63,4 +76,5 @@ module.exports = {
     addSubReportToReport,
     getChildReports,
     addCommentToReport,
+    addImageToReport,
 };

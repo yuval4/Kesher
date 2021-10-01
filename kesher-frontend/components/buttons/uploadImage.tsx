@@ -9,7 +9,11 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../assets/globalStyles";
 
-export default function UploadImage() {
+export default function UploadImage({
+    activeComment,
+}: {
+    activeComment?: String;
+}) {
     useEffect(() => {
         getMediaLibraryPermission();
     }, []);
@@ -18,9 +22,12 @@ export default function UploadImage() {
         const pickedPhoto = await pickImage();
 
         if (pickedPhoto) {
-            await api
-                .reports()
-                .uploadImage(createFormData(pickedPhoto, { date: new Date() }));
+            await api.reports().addImageToReport(
+                createFormData(pickedPhoto, {
+                    date: new Date(),
+                    activeComment,
+                })
+            );
         }
     };
 

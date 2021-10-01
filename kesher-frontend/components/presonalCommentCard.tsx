@@ -1,8 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import api from "../api";
 import globalStyles from "../assets/globalStyles";
+import { saveImage } from "../utils/utils";
 
 export default function PersonalCommentCard({ data }: any) {
+    const handleSaveImage = async (image: string) => {
+        await saveImage(image, image.split("/").pop());
+    };
+
     return (
         <View
             style={[
@@ -12,7 +18,29 @@ export default function PersonalCommentCard({ data }: any) {
                     : { backgroundColor: globalStyles.color.lightPurple },
             ]}
         >
-            <Text style={styles.details}>{data.message}</Text>
+            {data.image ? (
+                <Pressable
+                    onLongPress={() =>
+                        handleSaveImage(
+                            `${api.URL}/${data.image}`.split(/\\/g).join("/")
+                        )
+                    }
+                >
+                    <Image
+                        style={{
+                            height: 240,
+                            borderRadius: 16,
+                        }}
+                        source={{
+                            uri: `${api.URL}/${data.image}`
+                                .split(/\\/g)
+                                .join("/"),
+                        }}
+                    />
+                </Pressable>
+            ) : (
+                <Text style={styles.details}>{data.message}</Text>
+            )}
 
             <View style={styles.info}>
                 <Text style={styles.author}>
@@ -52,7 +80,6 @@ const styles = StyleSheet.create({
         textAlign: "right",
         letterSpacing: 0.1,
         color: globalStyles.color.text,
-        marginBottom: 7,
         paddingTop: 5,
     },
     timestamp: {
@@ -77,5 +104,6 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: "row-reverse",
+        marginTop: 7,
     },
 });

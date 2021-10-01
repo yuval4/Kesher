@@ -52,7 +52,8 @@ router.patch("/comment/:reportId", async (req, res) => {
 
 router.post("/image", upload.single("photo"), async (req, res) => {
     req.body.profilePic = req.file.path;
-    // const childId = await ChildrenService.createNewChild(req.body);
+    console.log(req.user.id, req.user.role);
+    await ReportsService.addImageToReport(req.body, req.user.id, req.user.role);
     res.sendStatus(200);
 });
 

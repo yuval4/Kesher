@@ -7,22 +7,20 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import api from "../../api";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import globalStyles from "../../assets/globalStyles";
+import { updateChild } from "../../features/report/report-slice";
 
-function ChildrenListReportScreen(props: any) {
-    const dispatch = useDispatch();
+export default function ChildrenListReportScreen(props: any) {
+    const dispatch = useAppDispatch();
+    const school = useAppSelector((state) => state.user.currentSchool);
     const [DATA, setDATA] = useState([]);
 
     // ANCHOR getting the data from the server
     useEffect(() => {
         const getData = async () => {
-            const childrenResponse = await api
-                .schools()
-                .getChildren(props.user.schools[0]);
-
+            const childrenResponse = await api.schools().getChildren(school);
             //ANCHOR update profile pic
             let childrenList = childrenResponse.data.children;
             childrenList.forEach((child: any) => {
@@ -34,18 +32,18 @@ function ChildrenListReportScreen(props: any) {
             setDATA(childrenList);
         };
         getData();
-    }, []);
+    }, [school]);
 
     // ANCHOR handle child press, navigae to the next screen and store it in redux
     const handlePress = (item: any) => {
-        dispatch({
-            type: "SET_REPORT",
-            data: {
+        dispatch(
+            updateChild({
                 child_id: item._id,
                 name: { first: item.name.first, last: item.name.last },
                 profilePic: item.profilePic,
-            },
-        });
+            })
+        );
+
         props.navigation.navigate("ReportStack");
     };
 
@@ -108,10 +106,3 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 });
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(ChildrenListReportScreen);

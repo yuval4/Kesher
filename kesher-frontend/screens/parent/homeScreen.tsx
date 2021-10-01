@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import api from "../../api";
 import HomeButton from "../../components/buttons/homeButton";
-import SubCategoryButton from "../../components/buttons/subCategoryButton";
 import OpenList from "../../components/openList";
 
 export default function HomeScreen({ navigation }: any) {

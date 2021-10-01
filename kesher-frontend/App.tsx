@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import Reducer from "./reducer";
 import Index from "./index";
-
-const store = createStore(Reducer);
+import { store } from "./app/store";
 
 const getFonts = () =>
     Font.loadAsync({

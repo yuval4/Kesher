@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
-import { connect } from "react-redux";
 import api from "../../api";
+import { useAppSelector } from "../../app/hooks";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import SmallButton from "../../components/buttons/smallButton";
 import ChildTitle from "../../components/childTitle";
 
-function CompleteReportScreen(props: any) {
+export default function CompleteReportScreen(props: any) {
     const [subCategories, setSubCategories] = React.useState([]);
+    const report = useAppSelector((state) => state.report);
 
     // ANCHOR get data from redux (the subcategories)
     useEffect(() => {
-        const data = props.report.subCategories;
+        const data = report.subCategories;
         setSubCategories([...data]);
     }, []);
 
@@ -30,10 +31,7 @@ function CompleteReportScreen(props: any) {
 
     // ANCHOR submit the form
     const handleSubmit = () => {
-        api.reports().addSubReportToReport(
-            props.report.child_id,
-            subCategories
-        );
+        api.reports().addSubReportToReport(report.child_id, subCategories);
         props.navigation.goBack();
         props.navigation.goBack();
     };
@@ -42,7 +40,7 @@ function CompleteReportScreen(props: any) {
         <View style={styles.container}>
             <ChildTitle />
             <View style={styles.reportBox}>
-                {props.report.category === "בבקשה לשלוח" ? (
+                {report.category === "בבקשה לשלוח" ? (
                     <View>
                         <Text style={styles.title}>בבקשה לשלוח</Text>
                         <FlatList
@@ -158,5 +156,3 @@ const mapStateToProps = (state: any) => {
     const { report } = state;
     return { report };
 };
-
-export default connect(mapStateToProps)(CompleteReportScreen);

@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import { useAppSelector } from "../../app/hooks";
 import GradientVertical from "../../components/gradientVertical";
 import ReportsAndComments from "../../components/reportsAndComments";
 
-function DailyReportScreen(props: any) {
-    return <ReportsAndComments child={props.user.children[0]._id} />;
+export default function DailyReportScreen() {
+    const [child, setChild] = useState(
+        useAppSelector((state) => state.user.currentChild)
+    );
+
+    return <ReportsAndComments child={child._id} />;
     // return (
     //     <>
     //         <GradientVertical>
@@ -15,10 +19,3 @@ function DailyReportScreen(props: any) {
     //     </>
     // );
 }
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(DailyReportScreen);

@@ -7,25 +7,24 @@ import {
     TextInput,
     Image,
     ScrollView,
-    Platform,
 } from "react-native";
-import { connect } from "react-redux";
 import api from "../../api";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import SmallButton from "../../components/buttons/smallButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
     createFormData,
     getMediaLibraryPermission,
     pickImage,
 } from "../../utils/utils";
+import { useAppSelector } from "../../app/hooks";
 
-function AddChildScreen(props: any) {
+export default function AddChildScreen() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [image, setImage] = useState(null);
+    const school = useAppSelector((state) => state.user.currentSchool);
 
     useEffect(() => {
         getMediaLibraryPermission();
@@ -61,7 +60,7 @@ function AddChildScreen(props: any) {
                     secondParentEmail: "",
                 }}
                 onSubmit={async (values) => {
-                    values.school = props.user.schools[0];
+                    values.school = school;
                     const childId = await api.children().createChild(
                         createFormData(image, {
                             childFirstName: values.childFirstName,
@@ -324,8 +323,28 @@ function AddChildScreen(props: any) {
                                     keyboardType="email-address"
                                 />
                             </View>
+                            <Text
+                                style={styles.copy}
+                                onPress={() => (
+                                    props.setFieldValue(
+                                        "secondParentCity",
+                                        props.values.firstParentCity
+                                    ),
+                                    props.setFieldValue(
+                                        "secondParentStreet",
+                                        props.values.firstParentStreet
+                                    ),
+                                    props.setFieldValue(
+                                        "secondParentNumber",
+                                        props.values.firstParentNumber
+                                    )
+                                )}
+                            >
+                                העתק כתובת
+                            </Text>
 
                             <SmallButton
+                                style={styles.submitButton}
                                 text="אישור"
                                 onPress={props.handleSubmit}
                             />
@@ -428,11 +447,20 @@ const styles = StyleSheet.create({
         width: "100%",
         alignContent: "center",
     },
+    copy: {
+        fontFamily: globalStyles.font.regular,
+        fontSize: 16,
+        lineHeight: 24,
+        letterSpacing: 0.1,
+        textAlign: "right",
+        alignItems: "center",
+        color: globalStyles.color.text,
+        opacity: 0.5,
+        textDecorationLine: "underline",
+        margin: 4,
+        paddingRight: 10,
+    },
+    submitButton: {
+        alignItems: "center",
+    },
 });
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(AddChildScreen);

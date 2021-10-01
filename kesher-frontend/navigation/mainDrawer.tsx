@@ -11,18 +11,14 @@ import TopTabs from "./topTabs";
 import Header from "../components/header";
 import EventsBoardScreen from "../screens/eventsBoardScreen";
 import AddChildScreen from "../screens/teacher/addChildScreen";
-import { connect } from "react-redux";
 import Logout from "../screens/logout";
 import ErrorScreen from "../screens/ErrorScreen";
 import CustomDrawer from "../components/customDrawer";
+import { useAppSelector } from "../app/hooks";
 
 const Drawer = createDrawerNavigator();
-function MainDrawer(props: any) {
-    const [role, setRole] = useState("");
-
-    useEffect(() => {
-        setRole(props.user.role);
-    }, [props.user]);
+export default function MainDrawer(props: any) {
+    const role = useAppSelector((state) => state.user.role);
 
     return (
         <Drawer.Navigator
@@ -62,9 +58,9 @@ function MainDrawer(props: any) {
             <Drawer.Screen
                 name="Home"
                 component={
-                    role === "staff"
+                    role === "Teacher"
                         ? TopTabs
-                        : role === "parent"
+                        : role === "Parent"
                         ? HomeScreen
                         : ErrorScreen
                 }
@@ -74,7 +70,7 @@ function MainDrawer(props: any) {
                 }}
             />
 
-            {role === "parent" ? (
+            {role === "Parent" ? (
                 <Drawer.Screen
                     name="Corona"
                     component={CoronaScreen}
@@ -86,7 +82,7 @@ function MainDrawer(props: any) {
                 />
             ) : null}
 
-            {role === "staff" ? (
+            {role === "Teacher" ? (
                 <Drawer.Screen
                     name="AddChild"
                     component={AddChildScreen}
@@ -98,7 +94,7 @@ function MainDrawer(props: any) {
                 />
             ) : null}
 
-            {role === "parent" ? (
+            {role === "Parent" ? (
                 <Drawer.Screen
                     name="DailyReport"
                     component={DailyReportScreen}
@@ -152,10 +148,3 @@ function MainDrawer(props: any) {
         </Drawer.Navigator>
     );
 }
-
-const mapStateToProps = (state: any) => {
-    const { user } = state;
-    return { user };
-};
-
-export default connect(mapStateToProps)(MainDrawer);
