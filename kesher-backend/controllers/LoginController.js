@@ -35,83 +35,83 @@ router.get("/getMe", authenticateToken, async (req, res) => {
     user ? res.send(user) : res.sendStatus(401);
 });
 
-// NOTE create new documents
-router.get("/createschool", async (req, res) => {
-    let school = new School({
-        name: "הגן של עדנה",
-        address: {
-            city: "נרניה",
-            street: "עוץ לי גוץ לי",
-            number: 4,
-        },
-        active: true,
-    });
-    school = await school.save();
-    console.log(school);
-    res.send("created school sec");
-});
+// // NOTE create new documents
+// router.get("/createschool", async (req, res) => {
+//     let school = new School({
+//         name: "הגן של עדנה",
+//         address: {
+//             city: "נרניה",
+//             street: "עוץ לי גוץ לי",
+//             number: 4,
+//         },
+//         active: true,
+//     });
+//     school = await school.save();
+//     console.log(school);
+//     res.send("created school sec");
+// });
 
-router.get("/createstaff", async (req, res) => {
-    let staff = new Staff({
-        name: {
-            first: "שולה",
-            last: "הגננת",
-        },
-        address: {
-            city: "פתח תקווה",
-            street: "כלנית",
-            number: 16,
-        },
-        role: "teacher",
-        birthDate: Date(),
-        phoneNumber: 053,
-        email: "a",
-        password: "1",
-        active: true,
-    });
-    staff.schools.push(new objectId("60ac12e39f1ac569ac380ea4")),
-        (staff = await staff.save());
-    console.log(staff);
-    res.send("created staff sec");
-});
+// router.get("/createstaff", async (req, res) => {
+//     let staff = new Staff({
+//         name: {
+//             first: "שולה",
+//             last: "הגננת",
+//         },
+//         address: {
+//             city: "פתח תקווה",
+//             street: "כלנית",
+//             number: 16,
+//         },
+//         role: "teacher",
+//         birthDate: Date(),
+//         phoneNumber: 053,
+//         email: "a",
+//         password: "1",
+//         active: true,
+//     });
+//     staff.schools.push(new objectId("60ac12e39f1ac569ac380ea4")),
+//         (staff = await staff.save());
+//     console.log(staff);
+//     res.send("created staff sec");
+// });
 
-router.get("/createchild", async (req, res) => {
-    let child = new Child({
-        name: {
-            first: "מישהו",
-            last: "מישהו",
-        },
-        birthDate: Date(),
-        school: new objectId("60ac12e39f1ac569ac380ea4"),
-        active: true,
-        // TODO attendance and reports
-    });
-    child = await child.save();
-    console.log(child);
-    res.send("created child sec");
-});
+// router.get("/createchild", async (req, res) => {
+//     let child = new Child({
+//         name: {
+//             first: "מישהו",
+//             last: "מישהו",
+//         },
+//         birthDate: Date(),
+//         school: new objectId("60ac12e39f1ac569ac380ea4"),
+//         active: true,
+//         // TODO attendance and reports
+//     });
+//     child = await child.save();
+//     console.log(child);
+//     res.send("created child sec");
+// });
 
-router.get("/createparent", async (req, res) => {
-    let parent = new Parent({
-        name: {
-            first: "הילה",
-            last: "האמא",
-        },
-        address: {
-            city: "פתח תקווה",
-            street: "כלנית",
-            number: 16,
-        },
-        school: new objectId("60ac12e39f1ac569ac380ea4"),
-        phoneNumber: 221,
-        email: "mail",
-        password: "pass",
-        active: true,
-    });
-    parent.children.push(new objectId("60ac134b2b8cc80e089da0df"));
-    parent = await parent.save();
-    console.log(parent);
-    res.send("created parent sec");
-});
+// router.get("/createparent", async (req, res) => {
+//     let parent = new Parent({
+//         name: {
+//             first: "הילה",
+//             last: "האמא",
+//         },
+//         address: {
+//             city: "פתח תקווה",
+//             street: "כלנית",
+//             number: 16,
+//         },
+//         school: new objectId("60ac12e39f1ac569ac380ea4"),
+//         phoneNumber: 221,
+//         email: "mail",
+//         password: "pass",
+//         active: true,
+//     });
+//     parent.children.push(new objectId("60ac134b2b8cc80e089da0df"));
+//     parent = await parent.save();
+//     console.log(parent);
+//     res.send("created parent sec");
+// });
 
 module.exports = router;

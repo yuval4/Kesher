@@ -4,9 +4,10 @@ import Header from "../components/header";
 import globalStyles from "../assets/globalStyles";
 import ReportStack from "./reportStack";
 import mainDrawer from "./mainDrawer";
+import SchoolDetailsScreen from "../screens/admin/schoolDetailsScreen";
 
 const Stack = createStackNavigator();
-export default function IndexStack(props: any) {
+export default function IndexStack() {
     return (
         <Stack.Navigator
             screenOptions={{
@@ -21,6 +22,10 @@ export default function IndexStack(props: any) {
                 options={{ headerShown: false }}
             />
             <Stack.Screen name="ReportStack" component={ReportStack} />
+            <Stack.Screen
+                name="SchoolDetails"
+                component={SchoolDetailsScreen}
+            />
         </Stack.Navigator>
     );
 }

@@ -10,7 +10,7 @@ const loginController = require("./controllers/LoginController");
 const childrenController = require("./controllers/ChildrenController");
 const schoolsController = require("./controllers/SchoolsController");
 const reportsController = require("./controllers/ReportsController");
-const parentsController = require("./controllers/ParentsController");
+const usersController = require("./controllers/UsersController");
 
 var app = express();
 
@@ -25,7 +25,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/children", childrenController);
 app.use("/schools", schoolsController);
 app.use("/reports", reportsController);
-app.use("/parents", parentsController);
+app.use("/users", usersController);
 
 app.all("*", (req, res, next) => {
     res.sendStatus(404);

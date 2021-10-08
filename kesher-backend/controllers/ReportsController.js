@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ReportsService = require("../services/ReportsService");
-const { authenticateToken } = require("../auth/auth");
+const { authenticateToken, verifyTeacher } = require("../auth/auth");
 const { upload } = require("../utils/utils");
 
 router.use(authenticateToken);
@@ -11,7 +11,7 @@ router.get("/:id", async (req, res) => {
     res.send(reports);
 });
 
-router.post("/attendances", async (req, res) => {
+router.post("/attendances", verifyTeacher, async (req, res) => {
     const childrenAttendance = await ReportsService.getChildrenAttendance(
         req.body.ids
     );

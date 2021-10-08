@@ -5,6 +5,7 @@ const objectId = mongoose.Types.ObjectId;
 const findUserById = async (id) => {
     return await User.findById(id, "name children schools role")
         .populate("children", "name school profilePic")
+        .populate("schools", "name")
         .lean();
 };
 

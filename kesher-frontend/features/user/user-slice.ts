@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
@@ -28,6 +29,7 @@ const UserSlice = createSlice({
             state.currentSchool = action.payload.currentSchool;
         },
         resetUser(state) {
+            state.role = undefined;
             state = {};
         },
     },

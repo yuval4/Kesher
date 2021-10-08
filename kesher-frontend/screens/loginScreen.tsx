@@ -21,20 +21,10 @@ import {
     updateCurrentSchool,
 } from "../features/user/user-slice";
 
-export default function LoginScreen(props: any) {
+export default function LoginScreen() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const dispatch = useAppDispatch();
-
-    //  ANCHOR get token and set it in the async storage.
-    const storeData = async (token: any) => {
-        try {
-            await AsyncStorage.setItem("token", token);
-            props.onLogin(token);
-        } catch (err) {
-            alert(err);
-        }
-    };
 
     //  ANCHOR handle parent log in. get token from the server and store it in async storage.
     //  get data from the server about the user(getMe) and sets it in redux. navigate to the app.
@@ -42,7 +32,7 @@ export default function LoginScreen(props: any) {
     const handleLoginRequest = async () => {
         try {
             let response = await api.login().login({ email, password });
-            storeData(response.data);
+            await AsyncStorage.setItem("token", response.data);
             let getMeRespones = await api.login().getMe();
 
             dispatch(
@@ -75,7 +65,7 @@ export default function LoginScreen(props: any) {
                     })
                 );
             }
-        } catch (err) {
+        } catch (err: any) {
             if (err.message === "Request failed with status code 401") {
                 alert("שם משתמש או סיסמה שגויים");
             } else {

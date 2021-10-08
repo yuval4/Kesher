@@ -19,4 +19,25 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-module.exports = { generateAccessToken, authenticateToken };
+const verifyParent = (req, res, next) => {
+    if (req.user.role === "Parent") {
+        next();
+    } else {
+        return res.sendStatus(401);
+    }
+};
+
+const verifyTeacher = (req, res, next) => {
+    if (req.user.role === "Teacher") {
+        next();
+    } else {
+        return res.sendStatus(401);
+    }
+};
+
+module.exports = {
+    generateAccessToken,
+    authenticateToken,
+    verifyParent,
+    verifyTeacher,
+};

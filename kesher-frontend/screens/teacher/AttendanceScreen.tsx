@@ -84,7 +84,6 @@ export default function AttendanceScreen(props: any) {
                                         : styles.image
                                 }
                                 source={{ uri: item.profilePic }}
-                                // source={require("../../assets/images/food.png")}
                             />
                             <View style={styles.selectedV}>
                                 {item.attendance ? Icons.v : null}

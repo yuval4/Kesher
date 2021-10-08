@@ -5,9 +5,7 @@ import GradientVertical from "../../components/gradientVertical";
 import ReportsAndComments from "../../components/reportsAndComments";
 
 export default function DailyReportScreen() {
-    const [child, setChild] = useState(
-        useAppSelector((state) => state.user.currentChild)
-    );
+    const child = useAppSelector((state) => state.user.currentChild);
 
     return <ReportsAndComments child={child._id} />;
     // return (

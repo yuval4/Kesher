@@ -12,8 +12,18 @@ import {
     DrawerItemList,
 } from "@react-navigation/drawer";
 import globalStyles from "../assets/globalStyles";
+import { useAppDispatch } from "../app/hooks";
+import { resetUser } from "../features/user/user-slice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CustomDrawer(props: any) {
+    const dispatch = useAppDispatch();
+
+    const handleLogout = async () => {
+        await AsyncStorage.removeItem("token");
+        dispatch(resetUser());
+    };
+
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -24,6 +34,7 @@ export default function CustomDrawer(props: any) {
             </View>
             <DrawerContentScrollView scrollEnabled={false} {...props}>
                 <DrawerItemList {...props} />
+                <Button title="logout" onPress={handleLogout} />
             </DrawerContentScrollView>
         </View>
     );

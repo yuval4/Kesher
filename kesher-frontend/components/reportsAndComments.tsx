@@ -11,6 +11,7 @@ import {
     ScrollView,
     RefreshControl,
 } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import api from "../api";
 import { useAppSelector } from "../app/hooks";
 import { getMediaLibraryPermission } from "../utils/utils";
@@ -64,7 +65,7 @@ export default function ReportsAndComments(props: any) {
             style={styles.container}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <ScrollView
+                {/* <ScrollView
                     style={styles.scrollContainer}
                     refreshControl={
                         <RefreshControl
@@ -72,19 +73,24 @@ export default function ReportsAndComments(props: any) {
                             onRefresh={onRefresh}
                         />
                     }
-                >
-                    <View style={styles.list}>
-                        {DATA.map((report, index) => {
-                            return report.subReports.length === 0 ? null : (
+                > */}
+                <View>
+                    <FlatList
+                        style={styles.list}
+                        data={DATA}
+                        inverted
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                            return item.subReports.length === 0 ? null : (
                                 <View
                                     style={styles.messagesContainer}
-                                    key={index}
+                                    key={item}
                                 >
                                     <View style={styles.message}>
-                                        <PersonalReportCard data={report} />
+                                        <PersonalReportCard data={item} />
                                     </View>
-                                    {report.comments.map(
-                                        (commentData, index) => {
+                                    {item.comments.map(
+                                        (commentData: any, index: string) => {
                                             return (
                                                 <View
                                                     key={index}
@@ -103,17 +109,16 @@ export default function ReportsAndComments(props: any) {
                                                 props.setIsVisible(
                                                     !props.isVisible
                                                 );
-                                                props.setActiveComment(
-                                                    report._id
-                                                );
+                                                props.setActiveComment;
+                                                item._id();
                                             }}
                                         />
                                     </View>
                                 </View>
                             );
-                        })}
-                    </View>
-                </ScrollView>
+                        }}
+                    />
+                </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );
@@ -124,12 +129,6 @@ const styles = StyleSheet.create({
         // alignItems: "center",
         width: "100%",
         flex: 1,
-    },
-    scrollContainer: {
-        flex: 1,
-        bottom: 0,
-        flexDirection: "column-reverse",
-        backgroundColor: "blue",
     },
     list: {
         width: "100%",

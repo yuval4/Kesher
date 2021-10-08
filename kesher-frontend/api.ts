@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const URL = "http://192.168.1.57:3000"; // this computer
+export const URL = "http://192.168.1.56:3000"; // this computer
 // const URL = "http://172.20.10.5:3000"; // my phone
 // const URL = "http://10.76.57.97:3000";
 // const URL = "http://139.177.182.246:3000"; // server
@@ -27,8 +27,18 @@ export default {
     users() {
         return {
             // TODO createUser - change
-            createUser: async (data: any, childId: any) =>
-                axios.post(`${URL}/users`, { data, childId }, await options()),
+            createNewParent: async (data: any, childId: any) =>
+                axios.post(
+                    `${URL}/users/parent`,
+                    { data, childId },
+                    await options()
+                ),
+            createNewTeacher: async (data: any, schoolId: any) =>
+                axios.post(
+                    `${URL}/users/teacher`,
+                    { data, schoolId },
+                    await options()
+                ),
             // move the getMe to here?
         };
     },
@@ -69,6 +79,8 @@ export default {
                     { event },
                     await options()
                 ),
+            createNewSchool: async (data: any) =>
+                axios.post(`${URL}/schools`, data, await options()),
         };
     },
     reports() {

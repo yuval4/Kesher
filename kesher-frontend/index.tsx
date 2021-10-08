@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import MainDrawer from "./navigation/mainDrawer";
 import IndexStack from "./navigation/indexStack";
 import { createImagesDirectory } from "./utils/utils";
-import { useAppDispatch } from "./app/hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import {
     setUser,
     updateCurrentChild,
@@ -15,7 +15,7 @@ import {
 
 export default function Index({ navigation }: any) {
     const dispatch = useAppDispatch();
-    const [token, setToken] = useState<string | null>(null);
+    const user = useAppSelector((state) => state.user);
 
     useEffect(() => {
         createImagesDirectory();
@@ -27,10 +27,8 @@ export default function Index({ navigation }: any) {
         const getData = async () => {
             try {
                 const isToken = await AsyncStorage.getItem("token");
-                setToken(isToken);
                 if (isToken) {
                     let getMeRespones = await api.login().getMe();
-                    console.log(getMeRespones.data);
                     dispatch(
                         setUser({
                             name: getMeRespones.data.name,
@@ -64,8 +62,8 @@ export default function Index({ navigation }: any) {
     return (
         <NavigationContainer>
             {/* {token && <MainDrawer onLogout={setToken} />} */}
-            {token && <IndexStack onLogout={setToken} />}
-            {!token && <LoginScreen onLogin={setToken} />}
+            {user.role && <IndexStack />}
+            {!user.role && <LoginScreen />}
         </NavigationContainer>
     );
 }
