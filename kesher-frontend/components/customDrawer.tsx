@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-    View,
-    Text,
-    Image,
-    TouchableOpacity,
-    Button,
-    StyleSheet,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import {
     DrawerContentScrollView,
     DrawerItemList,
@@ -34,7 +27,12 @@ export default function CustomDrawer(props: any) {
             </View>
             <DrawerContentScrollView scrollEnabled={false} {...props}>
                 <DrawerItemList {...props} />
-                <Button title="logout" onPress={handleLogout} />
+                <TouchableOpacity
+                    style={styles.itemContainer}
+                    onPress={handleLogout}
+                >
+                    <Text style={styles.item}>התנתקות</Text>
+                </TouchableOpacity>
             </DrawerContentScrollView>
         </View>
     );
@@ -50,30 +48,20 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingTop: 30,
     },
-    title: {
-        fontFamily: globalStyles.font.semiBold,
-        fontSize: 24,
-        lineHeight: 24,
-        letterSpacing: 0.1,
-        color: "white",
-        textAlign: "center",
-        alignItems: "center",
-    },
     logo: {
         width: 108,
         height: 43.53,
     },
-    text: {
+    item: {
         fontFamily: globalStyles.font.semiBold,
-        fontSize: 16,
+        fontSize: 20,
         lineHeight: 24,
-        letterSpacing: 0.1,
-        color: "white",
-        textAlign: "center",
         alignItems: "center",
+        textAlign: "right",
+        color: "#999999",
     },
-    unvisibleText: {
-        opacity: 0,
-        fontSize: 16,
+    itemContainer: {
+        paddingHorizontal: 50,
+        paddingVertical: 10,
     },
 });

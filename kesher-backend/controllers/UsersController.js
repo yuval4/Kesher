@@ -5,9 +5,9 @@ const { authenticateToken } = require("../auth/auth");
 
 router.use(authenticateToken);
 
-// ANCHOR create new user
-router.post("/", async (req, res) => {
-    await UsersService.createNewUser(req.body.data);
+// ANCHOR create new teacher user
+router.post("/teacher", async (req, res) => {
+    await UsersService.createNewUser(req.body.data, "Teacher");
     res.sendStatus(200);
 });
 

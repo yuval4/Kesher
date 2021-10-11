@@ -16,7 +16,6 @@ import CustomDrawer from "../components/customDrawer";
 import { useAppSelector } from "../app/hooks";
 import SchoolsListScreen from "../screens/admin/schoolsListScreen";
 import AddNewSchoolScreen from "../screens/admin/addNewSchoolScreen";
-import SchoolDetailsScreen from "../screens/admin/schoolDetailsScreen";
 
 const Drawer = createDrawerNavigator();
 export default function MainDrawer(props: any) {
@@ -138,18 +137,17 @@ export default function MainDrawer(props: any) {
                 />
             )}
 
-            {role === "Teacher" ||
-                (role === "Parent" && (
-                    <Drawer.Screen
-                        name="EventsBoard"
-                        component={EventsBoardScreen}
-                        options={{
-                            title: "לוח מודעות",
-                            drawerIcon: () => DrawerIcons.calender,
-                            header: () => <Header title="לוח מודעות" />,
-                        }}
-                    />
-                ))}
+            {(role === "Teacher" || role === "Parent") && (
+                <Drawer.Screen
+                    name="EventsBoard"
+                    component={EventsBoardScreen}
+                    options={{
+                        title: "לוח מודעות",
+                        drawerIcon: () => DrawerIcons.calender,
+                        header: () => <Header title="לוח מודעות" />,
+                    }}
+                />
+            )}
 
             <Drawer.Screen
                 name="Settings"

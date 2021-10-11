@@ -20,7 +20,9 @@ export default function AttendanceScreen(props: any) {
     // and their attendance and merge them together.
     useEffect(() => {
         const getData = async () => {
-            const childrenResponse = await api.schools().getChildren(school);
+            const childrenResponse = await api
+                .schools()
+                .getChildren(school._id);
 
             let ids: Array<string> = [];
             childrenResponse.data.children.forEach((child: any) => {

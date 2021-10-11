@@ -1,14 +1,7 @@
 import React from "react";
-import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import globalStyles from "../../assets/globalStyles";
-import HomeButton from "../../components/buttons/homeButton";
+import NewSchoolButton from "../../components/buttons/newSchoolButton";
 import SchoolItemButton from "../../components/buttons/schoolItemButton";
 import { updateCurrentSchool } from "../../features/user/user-slice";
 
@@ -26,18 +19,12 @@ export default function SchoolsListScreen({ navigation }: any) {
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             <FlatList
                 data={schoolsList}
                 numColumns={3}
                 style={styles.list}
                 keyExtractor={(item, index) => index.toString()}
-                ListHeaderComponent={
-                    <SchoolItemButton
-                        schoolName="הוספת מעון חדש"
-                        onPress={handleAddSchoolPress}
-                    />
-                }
                 renderItem={({ item }) => (
                     <View style={styles.item}>
                         <SchoolItemButton
@@ -47,16 +34,32 @@ export default function SchoolsListScreen({ navigation }: any) {
                     </View>
                 )}
             />
+            <View style={styles.button}>
+                <NewSchoolButton
+                    text="הוספת מעון חדש"
+                    onPress={handleAddSchoolPress}
+                />
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignContent: "center",
+        marginTop: 25,
+    },
     list: {
-        width: "100%",
+        alignSelf: "center",
     },
     item: {
         alignItems: "center",
-        marginHorizontal: "4.5%",
+        paddingHorizontal: "4.5%",
+        paddingBottom: 20,
+    },
+    button: {
+        alignItems: "center",
+        paddingBottom: 30,
     },
 });

@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import { Provider } from "react-redux";
 import Index from "./index";
 import { store } from "./app/store";
+import { I18nManager, Platform } from "react-native";
 
 const getFonts = () =>
     Font.loadAsync({
@@ -11,6 +12,15 @@ const getFonts = () =>
         "Assistant-Bold": require("./assets/fonts/Assistant-Bold.ttf"),
         "Assistant-Regular": require("./assets/fonts/Assistant-Regular.ttf"),
     });
+
+if (Platform.OS === "android") {
+    try {
+        I18nManager.allowRTL(false);
+        I18nManager.forceRTL(false);
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export default function App() {
     const [fontsLoaded, setFontsLoaded] = useState(false);

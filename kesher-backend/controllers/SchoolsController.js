@@ -10,6 +10,11 @@ router.get("/:id", async (req, res) => {
     res.send(children);
 });
 
+router.post("/", async (req, res) => {
+    const schoolId = await SchoolsService.createNewSchool(req.body);
+    res.send(schoolId);
+});
+
 router.patch("/children", async (req, res) => {
     await SchoolsService.addChildToSchool(req.body.schoolId, req.body.childId);
     return res.sendStatus(200);

@@ -68,7 +68,7 @@ export default function EventsBoardScreen() {
             .schools()
             .getSchoolEvents(
                 user.role === "Teacher"
-                    ? user.currentSchool
+                    ? user.currentSchool._id
                     : user.currentChild.school
             );
         addEventToState(eventsResponse.data.eventsBoard);
@@ -121,7 +121,7 @@ export default function EventsBoardScreen() {
     const handleSubmitForm = () => {
         setModalOpen(false);
         addEventToState([newEvent]);
-        api.schools().addNewEvent(user.currentSchool, newEvent);
+        api.schools().addNewEvent(user.currentSchool._id, newEvent);
     };
 
     return (
@@ -167,24 +167,23 @@ export default function EventsBoardScreen() {
                                     .toTimeString()
                                     .slice(0, 5)}
                             </Text>
-                            {openItem === item.item.title + item.index ? (
+                            {openItem === item.item.title + item.index && (
                                 <Text style={styles.time}>
                                     {item.item.details}
                                 </Text>
-                            ) : // <EventsBoardDetails text={item.item.details} />
-                            null}
+                            )}
                         </TouchableOpacity>
                     </View>
                 )}
             />
-            {user.role === "Teacher" ? (
+            {user.role === "Teacher" && (
                 <View style={styles.button}>
                     <RoundButton
                         title="הוספת אירוע"
                         onPress={() => setModalOpen(true)}
                     />
                 </View>
-            ) : null}
+            )}
 
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
                 <View style={styles.modalContent}>

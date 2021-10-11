@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    Button,
+    TouchableOpacity,
     ImageBackground,
     KeyboardAvoidingView,
     StyleSheet,
@@ -109,12 +109,9 @@ export default function LoginScreen() {
                                 placeholder="סיסמה"
                             />
 
-                            <Text
-                                style={styles.loginButton}
-                                onPress={handleLoginRequest}
-                            >
-                                כניסה
-                            </Text>
+                            <TouchableOpacity onPress={handleLoginRequest}>
+                                <Text style={styles.loginButton}>כניסה</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

@@ -20,7 +20,9 @@ export default function ChildrenListReportScreen(props: any) {
     // ANCHOR getting the data from the server
     useEffect(() => {
         const getData = async () => {
-            const childrenResponse = await api.schools().getChildren(school);
+            const childrenResponse = await api
+                .schools()
+                .getChildren(school._id);
             //ANCHOR update profile pic
             let childrenList = childrenResponse.data.children;
             childrenList.forEach((child: any) => {

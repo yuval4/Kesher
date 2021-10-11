@@ -33,12 +33,8 @@ export default {
                     { data, childId },
                     await options()
                 ),
-            createNewTeacher: async (data: any, schoolId: any) =>
-                axios.post(
-                    `${URL}/users/teacher`,
-                    { data, schoolId },
-                    await options()
-                ),
+            createNewTeacher: async (data: any) =>
+                axios.post(`${URL}/users/teacher`, { data }, await options()),
             // move the getMe to here?
         };
     },

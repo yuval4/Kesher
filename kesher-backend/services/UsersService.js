@@ -4,14 +4,14 @@ const mailService = require("../mail/MailService");
 const mongoose = require("mongoose");
 const objectId = mongoose.Types.ObjectId;
 
-const createNewUser = async (data) => {
+const createNewUser = async (data, role) => {
     const password = Math.random().toString(36).substring(7);
     mailService.sendWelcomeMail(data.email, data.parentFirstName, password);
 
     let user = new User({
         name: {
-            first: data.parentFirstName,
-            last: data.parentLastName,
+            first: data.fisrtName,
+            last: data.lastName,
         },
         address: {
             city: data.city,
@@ -21,19 +21,19 @@ const createNewUser = async (data) => {
         phoneNumber: data.phoneNumber,
         email: data.email,
         password: password,
-        role: data.role,
+        role: role,
         active: true,
         profilePic: data.profilePic,
         birthDate: data.birthDate,
     });
 
-    if (data.role === "Parent") {
+    if (role === "Parent") {
         user.children.push(new objectId(data.childId));
-    } else if (data.role === "Teacher") {
+    } else if (role === "Teacher") {
         user.schools.push(new objectId(data.schoolId));
     }
-
-    parent = await parent.save();
+    console.log(data);
+    user = await user.save();
 };
 
 const getUserByEmailAndPassword = async (email, password) => {

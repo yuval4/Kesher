@@ -16,7 +16,7 @@ import {
 export default function Index({ navigation }: any) {
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.user);
-
+    console.log(user);
     useEffect(() => {
         createImagesDirectory();
     }, []);
