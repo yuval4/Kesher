@@ -27,12 +27,8 @@ export default {
     users() {
         return {
             // TODO createUser - change
-            createNewParent: async (data: any, childId: any) =>
-                axios.post(
-                    `${URL}/users/parent`,
-                    { data, childId },
-                    await options()
-                ),
+            createNewParent: async (data: any) =>
+                axios.post(`${URL}/users/parent`, { data }, await options()),
             createNewTeacher: async (data: any) =>
                 axios.post(`${URL}/users/teacher`, { data }, await options()),
             // move the getMe to here?
@@ -53,7 +49,7 @@ export default {
     },
     children() {
         return {
-            createChild: async (data: any) =>
+            createNewChild: async (data: any) =>
                 axios.post(`${URL}/children`, data, await options()),
         };
     },

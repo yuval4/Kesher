@@ -3,11 +3,6 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const { authenticateToken, generateAccessToken } = require("../auth/auth");
 const mailService = require("../mail/MailService");
-const { Child } = require("../models/ChildModel");
-const { Parent } = require("../models/ParentModel");
-const { School } = require("../models/SchoolModel");
-const { Staff } = require("../models/StaffModel");
-const objectId = mongoose.Types.ObjectId;
 const UsersService = require("../services/UsersService");
 
 router.get("/hello", (req, res) => {

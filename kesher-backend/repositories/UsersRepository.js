@@ -12,7 +12,7 @@ const findUserById = async (id) => {
 const getUserByEmailAndPassword = async (email, password) => {
     return await User.findOne(
         { email: email, password: password },
-        "name children schools"
+        "name children schools role"
     );
 };
 

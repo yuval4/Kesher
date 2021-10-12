@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         elevation: 5,
         marginBottom: 7,
+        borderWidth: 0.4,
+        borderColor: globalStyles.color.messageboxPurple,
     },
     name: {
         fontSize: 12,

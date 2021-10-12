@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -21,7 +21,6 @@ export default function StartReportScreen(props: any) {
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useAppDispatch();
     const report = useAppSelector((state) => state.report);
-    const scrollViewRef = useRef();
     const [isVisible, setIsVisible] = useState(false);
     const [comment, setComment] = useState("");
     const [submitComment, setSubmitComment] = useState(false);
@@ -59,13 +58,7 @@ export default function StartReportScreen(props: any) {
     return (
         <View style={styles.container}>
             <ChildTitle />
-            {/* <ScrollView
-                ref={scrollViewRef}
-                onContentSizeChange={() =>
-                    scrollViewRef.current.scrollToEnd({ animated: true })
-                }
-                style={styles.reportsAndComments}
-            > */}
+
             <View style={styles.reportsAndComments}>
                 <ReportsAndComments
                     child={report.child_id}
@@ -78,7 +71,6 @@ export default function StartReportScreen(props: any) {
                     activeComment={activeComment}
                     setActiveComment={setActiveComment}
                 />
-                {/* </ScrollView> */}
             </View>
             <View style={styles.button}>
                 <RoundButton
@@ -113,7 +105,7 @@ export default function StartReportScreen(props: any) {
                 </View>
             </Modal>
 
-            {isVisible ? (
+            {isVisible && (
                 <View style={styles.inputBar}>
                     <InputBar
                         onChangeText={setComment}
@@ -125,7 +117,7 @@ export default function StartReportScreen(props: any) {
                         activeComment={activeComment}
                     />
                 </View>
-            ) : null}
+            )}
         </View>
     );
 }

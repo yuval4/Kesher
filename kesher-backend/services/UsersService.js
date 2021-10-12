@@ -32,7 +32,6 @@ const createNewUser = async (data, role) => {
     } else if (role === "Teacher") {
         user.schools.push(new objectId(data.schoolId));
     }
-    console.log(data);
     user = await user.save();
 };
 

@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const { Report } = require("../models/ReportModel");
 const objectId = mongoose.Types.ObjectId;
 
-const createDailyReport = (ids) => {
-    ids.forEach(async (id) => {
+const createDailyReport = async (ids) => {
+    await ids.forEach(async (id) => {
         let report = new Report({
             date: new Date(),
             child: new objectId(id),
@@ -22,11 +22,11 @@ const updateChildAttendance = async (id, attendance) => {
     await ReportsRepository.updateAttendanceByChildId(id, attendance);
 };
 
-const getChildrenAttendance = async (ids) => {
+const getAndCreateChildrenAttendance = async (ids) => {
     let attendances =
         await ReportsRepository.getChildrenAttendanceByChildernIds(ids);
     if (attendances.length === 0) {
-        createDailyReport(ids);
+        await createDailyReport(ids);
         attendances =
             await ReportsRepository.getChildrenAttendanceByChildernIds(ids);
     }
@@ -70,7 +70,7 @@ const addImageToReport = async (data, creatorId, role) => {
 };
 
 module.exports = {
-    getChildrenAttendance,
+    getAndCreateChildrenAttendance,
     createDailyReport,
     updateChildAttendance,
     addSubReportToReport,

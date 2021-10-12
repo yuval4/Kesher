@@ -6,25 +6,30 @@ import {
     SectionList,
     TouchableOpacity,
     Modal,
-    TextInput,
-    Button,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from "react-native";
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import api from "../api";
 import RoundButton from "../components/buttons/roundButton";
 import EventsBoardDetails from "../components/eventsBoardDetails";
 import { useAppSelector } from "../app/hooks";
+import AddEventForm from "../components/forms/addEventForm";
+import { useForm } from "react-hook-form";
+import SubmitButton from "../components/buttons/submitButton";
 
 export default function EventsBoardScreen() {
     const user = useAppSelector((state) => state.user);
+    const {
+        control,
+        reset,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
     const [modalOpen, setModalOpen] = useState(false);
     const [openItem, setOpenItem] = useState("");
-    const [isStartDatePickerVisible, setStartDatePickerVisibility] =
-        useState(false);
-    const [isEndDatePickerVisible, setEndDatePickerVisibility] =
-        useState(false);
+
     const [eventsData, setEventsData] = useState([
         { month: "ינואר", data: [] },
         { month: "פברואר", data: [] },
@@ -39,14 +44,6 @@ export default function EventsBoardScreen() {
         { month: "נובמבר", data: [] },
         { month: "דצמבר", data: [] },
     ]);
-
-    const [newEvent, setNewEvent] = useState({
-        title: "",
-        details: "",
-        startTime: new Date(),
-        endTime: new Date(),
-        creatorId: "",
-    });
 
     // ANCHOR get list of events and add them to thier place in the eventsData.
     const addEventToState = (events: any) => {
@@ -87,41 +84,11 @@ export default function EventsBoardScreen() {
         }
     };
 
-    const handleInputChange = (item: string, input: string) => {
-        if (item === "title") {
-            setNewEvent((newEvent) => ({
-                ...newEvent,
-                title: input,
-            }));
-        }
-        if (item === "details") {
-            setNewEvent((newEvent) => ({
-                ...newEvent,
-                details: input,
-            }));
-        }
-    };
-
-    const handleStartTimeConfirm = (date: any) => {
-        setNewEvent((newEvent) => ({
-            ...newEvent,
-            startTime: date,
-        }));
-        setStartDatePickerVisibility(false);
-    };
-
-    const handleEndTimeConfirm = (date: any) => {
-        setNewEvent((newEvent) => ({
-            ...newEvent,
-            endTime: date,
-        }));
-        setEndDatePickerVisibility(false);
-    };
-
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async (data: any) => {
         setModalOpen(false);
-        addEventToState([newEvent]);
-        api.schools().addNewEvent(user.currentSchool._id, newEvent);
+        addEventToState([data]);
+        await api.schools().addNewEvent(user.currentSchool._id, data);
+        reset();
     };
 
     return (
@@ -186,71 +153,28 @@ export default function EventsBoardScreen() {
             )}
 
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
-                <View style={styles.modalContent}>
-                    <TouchableOpacity
-                        onPress={() => setModalOpen(false)}
-                        style={styles.x}
-                    >
-                        {Icons.x}
-                    </TouchableOpacity>
-                    <Text style={styles.title}>הכנס אירוע</Text>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.modalContent}>
+                        <TouchableOpacity
+                            onPress={() => setModalOpen(false)}
+                            style={styles.x}
+                        >
+                            {Icons.x}
+                        </TouchableOpacity>
 
-                    <TextInput
-                        style={styles.placeholder}
-                        textAlign="right"
-                        placeholder="כותרת"
-                        onChangeText={(input) =>
-                            handleInputChange("title", input)
-                        }
-                    />
-
-                    <TextInput
-                        style={styles.placeholder}
-                        textAlign="right"
-                        placeholder="תיאור"
-                        onChangeText={(input) =>
-                            handleInputChange("details", input)
-                        }
-                    />
-                    <Button
-                        title="בחר זמן התחלה"
-                        onPress={() => setStartDatePickerVisibility(true)}
-                    />
-                    <Text>{newEvent.startTime.toLocaleString()}</Text>
-                    <DateTimePickerModal
-                        isVisible={isStartDatePickerVisible}
-                        mode="datetime"
-                        date={newEvent.startTime}
-                        cancelTextIOS="ביטול"
-                        confirmTextIOS="אישור"
-                        minimumDate={new Date()}
-                        onConfirm={handleStartTimeConfirm}
-                        onCancel={() => setStartDatePickerVisibility(false)}
-                    />
-
-                    <Button
-                        title="בחר זמן סיום"
-                        onPress={() => setEndDatePickerVisibility(true)}
-                    />
-
-                    <Text>{newEvent.endTime.toLocaleString()}</Text>
-                    <DateTimePickerModal
-                        isVisible={isEndDatePickerVisible}
-                        mode="datetime"
-                        date={newEvent.startTime}
-                        cancelTextIOS="ביטול"
-                        confirmTextIOS="אישור"
-                        minimumDate={new Date()}
-                        onConfirm={handleEndTimeConfirm}
-                        onCancel={() => setEndDatePickerVisibility(false)}
-                    />
-
-                    <Button
-                        title="הוסף אירוע"
-                        color={globalStyles.color.purple}
-                        onPress={handleSubmitForm}
-                    />
-                </View>
+                        <AddEventForm
+                            control={control}
+                            errors={errors}
+                            title="אירוע חדש"
+                        />
+                        <View style={styles.submitButton}>
+                            <SubmitButton
+                                text="הוספה"
+                                onPress={handleSubmit(handleSubmitForm)}
+                            />
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </View>
     );
@@ -336,23 +260,24 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: "white",
         marginHorizontal: "10%",
-        marginVertical: "50%",
+        marginTop: "30%",
         borderRadius: 24,
         padding: 20,
-    },
-    placeholder: {
-        fontFamily: globalStyles.font.semiBold,
-        fontSize: 14,
-        lineHeight: 22,
-        letterSpacing: 0.1,
-        alignItems: "center",
-        textAlign: "right",
-        color: globalStyles.color.text,
-        marginVertical: 3,
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+        elevation: 10,
     },
     button: {
         position: "absolute",
         left: "10%",
         bottom: "10%",
+    },
+    submitButton: {
+        alignSelf: "center",
+        paddingTop: 30,
     },
 });

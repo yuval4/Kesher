@@ -159,7 +159,8 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                 />
             </View>
 
-            {(errors[`${name}Name`] ||
+            {(errors[`${name}FirstName`] ||
+                errors[`${name}LastName`] ||
                 errors[`${name}City`] ||
                 errors[`${name}Street`] ||
                 errors[`${name}Number`] ||

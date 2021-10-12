@@ -8,7 +8,13 @@ import { updateCurrentSchool } from "../../features/user/user-slice";
 export default function SchoolsListScreen({ navigation }: any) {
     const dispatch = useAppDispatch();
     const schoolsList = useAppSelector((state) => state.user.schools);
-
+    // const schoolsList = [
+    //     { name: "מעון תמר" },
+    //     { name: "ארנבוני השמש" },
+    //     { name: "מעון הגליל" },
+    //     { name: "מעון אסף" },
+    // ];
+    console.log(schoolsList);
     const handleSchoolPress = (currentSchool: any) => {
         dispatch(updateCurrentSchool({ currentSchool: currentSchool }));
         navigation.navigate("SchoolDetails");
@@ -48,14 +54,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignContent: "center",
-        marginTop: 25,
     },
     list: {
+        paddingTop: 25,
         alignSelf: "center",
     },
     item: {
         alignItems: "center",
-        paddingHorizontal: "4.5%",
+        paddingHorizontal: "4.8%",
         paddingBottom: 20,
     },
     button: {

@@ -3,9 +3,9 @@ const { Schema } = mongoose;
 
 const subReportSchema = new Schema({
     date: Date,
-    creator: { type: Schema.Types.ObjectId, ref: "Staff" },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
     category: String,
-    name: String,
+    subCategory: String,
     details: String,
 });
 
@@ -14,12 +14,6 @@ const commentSchema = new Schema({
     creator: { type: Schema.Types.ObjectId, refPath: "comments.user" },
     message: { type: String },
     image: { type: String },
-
-    user: {
-        type: String,
-        required: true,
-        enum: ["Parent", "Staff"],
-    },
 });
 
 const reportSchema = new Schema({

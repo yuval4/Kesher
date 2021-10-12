@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import AppLayout from "../../components/appLayout";
 import SmallButton from "../../components/buttons/smallButton";
 import SubCategoryButton from "../../components/buttons/subCategoryButton";
 import ChildTitle from "../../components/childTitle";

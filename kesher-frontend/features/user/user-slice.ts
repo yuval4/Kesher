@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
     name?: { first: string; last: string };
     role?: string;
-    schools?: string[]; //only for staff
+    schools?: []; //only for staff
     children?: string[]; //only for parents
     currentSchool?: string;
     currentChild?: string;

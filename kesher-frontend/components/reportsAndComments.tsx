@@ -25,7 +25,6 @@ export default function ReportsAndComments(props: any) {
 
     // ANCHOR get reports data from the server.
     const fetchChildReports = async () => {
-        console.log("report: " + props.child);
         const response = await api.reports().getAllChildReports(props.child);
         setDATA(response.data);
     };
@@ -109,8 +108,10 @@ export default function ReportsAndComments(props: any) {
                                                 props.setIsVisible(
                                                     !props.isVisible
                                                 );
-                                                props.setActiveComment;
-                                                item._id();
+                                                props.setActiveComment(
+                                                    item._id
+                                                );
+                                                // item._id;
                                             }}
                                         />
                                     </View>

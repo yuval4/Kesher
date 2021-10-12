@@ -22,14 +22,14 @@ const schoolSchema = new Schema({
             creationDate: { type: Date, default: new Date() },
             creatorId: {
                 type: Schema.Types.ObjectId,
-                ref: "Staff",
+                ref: "User",
                 required: true,
             },
         },
     ],
     parents: [{ type: Schema.Types.ObjectId, ref: "Parent" }],
     children: [{ type: Schema.Types.ObjectId, ref: "Children" }],
-    staff: [{ type: Schema.Types.ObjectId, ref: "Staff" }],
+    staff: [{ type: Schema.Types.ObjectId, ref: "User" }],
     active: { type: Boolean, required: true, default: true },
 });
 

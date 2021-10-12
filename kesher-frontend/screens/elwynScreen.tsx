@@ -27,10 +27,6 @@ export default function ElwynScreen() {
                 <Text style={styles.button}>לחצו כאן</Text>
             </TouchableOpacity>
             <Text style={styles.text}>למעבר לאתר אלווין</Text>
-
-            <Pressable onLongPress={handleSaveImage}>
-                <Text style={styles.button}>שמרו תמונה</Text>
-            </Pressable>
         </View>
     );
 }
