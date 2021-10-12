@@ -18,6 +18,7 @@ router.post("/attendances", verifyTeacher, async (req, res) => {
     res.send(childrenAttendance);
 });
 
+// TODO
 router.post("/newreport", async (req, res) => {
     await ReportsService.createDailyReport([req.params.id]);
     res.sendStatus(200);
@@ -31,6 +32,7 @@ router.patch("/child/:id", async (req, res) => {
     res.sendStatus(200);
 });
 
+// TODO
 router.patch("/subreport/:id", async (req, res) => {
     await ReportsService.addSubReportToReport(
         req.params.id,
