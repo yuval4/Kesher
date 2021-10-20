@@ -10,7 +10,7 @@ const subReportSchema = new Schema({
 
 const commentSchema = new Schema({
     date: Date,
-    creator: { type: Schema.Types.ObjectId, refPath: "comments.user" },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
     message: { type: String },
     image: { type: String },
 });

@@ -6,7 +6,6 @@ const objectId = mongoose.Types.ObjectId;
 
 const createNewUser = async (data, role) => {
     const password = Math.random().toString(36).substring(7);
-    mailService.sendWelcomeMail(data.email, data.parentFirstName, password);
 
     let user = new User({
         name: {
@@ -33,6 +32,7 @@ const createNewUser = async (data, role) => {
         user.schools.push(new objectId(data.schoolId));
     }
     user = await user.save();
+    mailService.sendWelcomeMail(data.email, data.parentFirstName, password);
 };
 
 const getUserByEmailAndPassword = async (email, password) => {
@@ -43,8 +43,13 @@ const getUserById = async (id) => {
     return await UsersRepository.findUserById(id);
 };
 
+const addSchoolToUser = async (userId, childId) => {
+    return await UsersRepository.addSchoolToUserById(userId, childId);
+};
+
 module.exports = {
     createNewUser,
     getUserByEmailAndPassword,
     getUserById,
+    addSchoolToUser,
 };

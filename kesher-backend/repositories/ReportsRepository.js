@@ -30,13 +30,13 @@ const updateAttendanceByChildId = async (id, attendance) => {
     );
 };
 
-const addSubReportToReportByChildId = async (id, subReport) => {
+const addSubReportToReportByChildId = async (id, category, subReport) => {
     return await Report.updateOne(
         {
             child: { $in: id },
             date: { $gte: startOfDay(new Date()), $lte: endOfDay(new Date()) },
         },
-        { $push: { subReports: subReport } }
+        { $push: { [category]: subReport } }
     );
 };
 

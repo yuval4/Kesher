@@ -23,4 +23,9 @@ router.get("/children/:id", async (req, res) => {
     res.send(children);
 });
 
+router.patch("/school", async (req, res) => {
+    await UsersService.addSchoolToUser(req.user.id, req.body.schoolId);
+    return res.sendStatus(200);
+});
+
 module.exports = router;

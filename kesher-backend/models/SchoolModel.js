@@ -27,7 +27,7 @@ const schoolSchema = new Schema({
             },
         },
     ],
-    parents: [{ type: Schema.Types.ObjectId, ref: "Parent" }],
+    parents: [{ type: Schema.Types.ObjectId, ref: "User" }],
     children: [{ type: Schema.Types.ObjectId, ref: "Children" }],
     staff: [{ type: Schema.Types.ObjectId, ref: "User" }],
     active: { type: Boolean, required: true, default: true },

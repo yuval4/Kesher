@@ -32,8 +32,8 @@ router.patch("/child/:id", async (req, res) => {
     res.sendStatus(200);
 });
 
-// TODO
 router.patch("/subreport/:id", async (req, res) => {
+    console.log(req.params.id, req.body.subReports);
     await ReportsService.addSubReportToReport(
         req.params.id,
         req.body.subReports,
@@ -54,7 +54,6 @@ router.patch("/comment/:reportId", async (req, res) => {
 
 router.post("/image", upload.single("photo"), async (req, res) => {
     req.body.profilePic = req.file.path;
-    console.log(req.user.id, req.user.role);
     await ReportsService.addImageToReport(req.body, req.user.id, req.user.role);
     res.sendStatus(200);
 });

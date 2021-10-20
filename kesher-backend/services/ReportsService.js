@@ -38,11 +38,16 @@ const addSubReportToReport = async (id, subReports, creatorId) => {
         const subCategory = {
             date: new Date(),
             creator: new objectId(creatorId),
-            category: item.category,
-            name: item.title,
-            details: item.report_value,
+            category: item.title,
+            details: item.details,
         };
-        await ReportsRepository.addSubReportToReportByChildId(id, subCategory);
+        console.log(item.catrgory);
+
+        await ReportsRepository.addSubReportToReportByChildId(
+            id,
+            item.category,
+            subCategory
+        );
     });
 };
 
@@ -64,7 +69,7 @@ const addImageToReport = async (data, creatorId, role) => {
         image: data.profilePic,
     };
     await ReportsRepository.addImageToReportByReportId(
-        data.activeComment,
+        data.currentComment,
         image
     );
 };
