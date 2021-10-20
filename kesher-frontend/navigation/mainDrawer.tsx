@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import HomeScreen from "../screens/parent/homeScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import globalStyles from "../assets/globalStyles";
@@ -11,14 +11,15 @@ import TopTabs from "./topTabs";
 import Header from "../components/header";
 import EventsBoardScreen from "../screens/eventsBoardScreen";
 import AddChildScreen from "../screens/teacher/addChildScreen";
-import ErrorScreen from "../screens/ErrorScreen";
 import CustomDrawer from "../components/customDrawer";
 import { useAppSelector } from "../app/hooks";
 import SchoolsListScreen from "../screens/admin/schoolsListScreen";
 import AddNewSchoolScreen from "../screens/admin/addNewSchoolScreen";
+import { useTranslation } from "react-i18next";
 
 const Drawer = createDrawerNavigator();
 export default function MainDrawer(props: any) {
+    const { t } = useTranslation();
     const role = useAppSelector((state) => state.user.role);
 
     return (
@@ -61,7 +62,7 @@ export default function MainDrawer(props: any) {
                     name="AdminHome"
                     component={SchoolsListScreen}
                     options={{
-                        title: "דף הבית",
+                        title: t("Home Page"),
                         drawerIcon: () => DrawerIcons.home,
                     }}
                 />
@@ -72,7 +73,7 @@ export default function MainDrawer(props: any) {
                     name="ParentHome"
                     component={HomeScreen}
                     options={{
-                        title: "דף הבית",
+                        title: t("Home Page"),
                         drawerIcon: () => DrawerIcons.home,
                     }}
                 />
@@ -83,13 +84,13 @@ export default function MainDrawer(props: any) {
                     name="ParentHome"
                     component={TopTabs}
                     options={{
-                        title: "דף הבית",
+                        title: t("Home Page"),
                         drawerIcon: () => DrawerIcons.home,
                     }}
                 />
             )}
 
-            {role === "Parent" && (
+            {/* {role === "Parent" && (
                 <Drawer.Screen
                     name="Corona"
                     component={CoronaScreen}
@@ -99,16 +100,16 @@ export default function MainDrawer(props: any) {
                         header: () => <Header title="הצהרת קורונה" />,
                     }}
                 />
-            )}
+            )} */}
 
             {role === "Teacher" && (
                 <Drawer.Screen
                     name="AddChild"
                     component={AddChildScreen}
                     options={{
-                        title: "הוספת ילד",
+                        title: t("Add Child"),
                         drawerIcon: () => DrawerIcons.plus,
-                        header: () => <Header title="הוספת ילד" />,
+                        header: () => <Header title={t("Add Child")} />,
                     }}
                 />
             )}
@@ -118,9 +119,9 @@ export default function MainDrawer(props: any) {
                     name="AddSchool"
                     component={AddNewSchoolScreen}
                     options={{
-                        title: "הוספת מעון",
+                        title: t("Add School"),
                         drawerIcon: () => DrawerIcons.plus,
-                        header: () => <Header title="הוספת מעון" />,
+                        header: () => <Header title={t("Add School")} />,
                     }}
                 />
             )}
@@ -130,9 +131,9 @@ export default function MainDrawer(props: any) {
                     name="DailyReport"
                     component={DailyReportScreen}
                     options={{
-                        title: "דיווח יומי",
+                        title: t("Daily Report"),
                         drawerIcon: () => DrawerIcons.checklist,
-                        header: () => <Header title="דיווח יומי" />,
+                        header: () => <Header title={t("Daily Report")} />,
                     }}
                 />
             )}
@@ -142,9 +143,9 @@ export default function MainDrawer(props: any) {
                     name="EventsBoard"
                     component={EventsBoardScreen}
                     options={{
-                        title: "לוח מודעות",
+                        title: t("Events Board"),
                         drawerIcon: () => DrawerIcons.calender,
-                        header: () => <Header title="לוח מודעות" />,
+                        header: () => <Header title={t("Events Board")} />,
                     }}
                 />
             )}
@@ -153,9 +154,9 @@ export default function MainDrawer(props: any) {
                 name="Settings"
                 component={SettingScreen}
                 options={{
-                    title: "הגדרות",
+                    title: t("Settings"),
                     drawerIcon: () => DrawerIcons.settings,
-                    header: () => <Header title="הגדרות" />,
+                    header: () => <Header title={t("Settings")} />,
                 }}
             />
 
@@ -163,9 +164,9 @@ export default function MainDrawer(props: any) {
                 name="Elwyn"
                 component={ElwynScreen}
                 options={{
-                    title: "לאתר אלווין ",
+                    title: t("Elwyn's Website"),
                     drawerIcon: () => DrawerIcons.elwyn,
-                    header: () => <Header title="לאתר אלווין" />,
+                    header: () => <Header title={t("Elwyn's Website")} />,
                 }}
             />
         </Drawer.Navigator>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import api from "../../api";
 import { useAppSelector } from "../../app/hooks";
@@ -6,59 +7,52 @@ import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import SmallButton from "../../components/buttons/smallButton";
 import ChildTitle from "../../components/childTitle";
+import ToBring from "../../components/toBring";
 
 export default function CompleteReportScreen(props: any) {
-    const [subCategories, setSubCategories] = React.useState([]);
+    const [subCategories, setSubCategories] = useState([]);
     const report = useAppSelector((state) => state.report);
+    const {
+        control,
+        reset,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     // ANCHOR get data from redux (the subcategories)
     useEffect(() => {
+        if (!report) {
+            return;
+        }
         const data = report.subCategories;
         setSubCategories([...data]);
-    }, []);
-
-    // ANCHOR handle input changes
-    const handleInput = (item: any, input: string) => {
-        setSubCategories((currentSubCategories) =>
-            currentSubCategories.map((category) => {
-                if (category.id === item.id) {
-                    category.report_value = input;
-                }
-                return category;
-            })
-        );
-    };
+    }, [report]);
 
     // ANCHOR submit the form
-    const handleSubmit = () => {
-        api.reports().addSubReportToReport(report.child_id, subCategories);
+    const handleReportSubmit = async (data: object) => {
+        let subCat = JSON.parse(JSON.stringify(subCategories));
+        console.log(subCat);
+        let reports = subCat.map((subCategory) => {
+            subCategory["details"] = data[subCategory.id];
+            return subCategory;
+        });
+
+        await api.reports().addSubReportToReport(report.child_id, reports);
         props.navigation.goBack();
         props.navigation.goBack();
+        reset();
     };
 
     return (
         <View style={styles.container}>
             <ChildTitle />
             <View style={styles.reportBox}>
-                {report.category === "בבקשה לשלוח" ? (
+                {report.category === "bringReports" ? (
                     <View>
-                        <Text style={styles.title}>בבקשה לשלוח</Text>
-                        <FlatList
-                            data={subCategories}
-                            horizontal={true}
-                            keyExtractor={(item, index) => index.toString()}
-                            scrollEnabled={false}
-                            renderItem={({ item }) => (
-                                <View style={styles.toBring}>
-                                    <View style={styles.vIcon}>
-                                        {Icons.toBring}
-                                    </View>
-
-                                    <Text style={styles.placeholder}>
-                                        {item.title}
-                                    </Text>
-                                </View>
-                            )}
+                        <ToBring
+                            bring={subCategories.map((item) => ({
+                                category: item.title,
+                            }))}
                         />
                     </View>
                 ) : (
@@ -72,17 +66,30 @@ export default function CompleteReportScreen(props: any) {
                                     <Text style={styles.title}>
                                         {item.title}
                                     </Text>
-                                    <TextInput
-                                        style={styles.placeholder}
-                                        multiline
-                                        placeholderTextColor={
-                                            globalStyles.color.mediumPurplel
-                                        }
-                                        textAlign="right"
-                                        placeholder="פרט/י כאן..."
-                                        onChangeText={(input) =>
-                                            handleInput(item, input)
-                                        }
+
+                                    <Controller
+                                        control={control}
+                                        rules={{
+                                            required: true,
+                                        }}
+                                        render={({
+                                            field: { onChange, value },
+                                        }) => (
+                                            <TextInput
+                                                style={styles.placeholder}
+                                                textAlign="right"
+                                                multiline
+                                                placeholderTextColor={
+                                                    globalStyles.color
+                                                        .mediumPurplel
+                                                }
+                                                placeholder="פרט/י כאן..."
+                                                onChangeText={onChange}
+                                                value={value}
+                                            />
+                                        )}
+                                        name={item.id}
+                                        defaultValue=""
                                     />
                                 </View>
                             </View>
@@ -93,7 +100,7 @@ export default function CompleteReportScreen(props: any) {
             <SmallButton
                 text="סיימתי"
                 style={styles.button}
-                onPress={handleSubmit}
+                onPress={handleSubmit(handleReportSubmit)}
             />
         </View>
     );
@@ -143,16 +150,4 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 30,
     },
-    toBring: {
-        flexDirection: "row-reverse",
-        alignItems: "center",
-    },
-    vIcon: {
-        margin: 3.5,
-    },
 });
-
-const mapStateToProps = (state: any) => {
-    const { report } = state;
-    return { report };
-};

@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 20,
         marginRight: "15%",
+        alignSelf: "center",
     },
     name: {
         fontFamily: "Assistant-Bold",

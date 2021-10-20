@@ -3,31 +3,27 @@ const { Schema } = mongoose;
 
 const subReportSchema = new Schema({
     date: Date,
-    creator: { type: Schema.Types.ObjectId, ref: "Staff" },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
     category: String,
-    name: String,
     details: String,
 });
 
 const commentSchema = new Schema({
     date: Date,
-    creator: { type: Schema.Types.ObjectId, refPath: "comments.user" },
+    creator: { type: Schema.Types.ObjectId, ref: "User" },
     message: { type: String },
     image: { type: String },
-
-    user: {
-        type: String,
-        required: true,
-        enum: ["Parent", "Staff"],
-    },
 });
 
 const reportSchema = new Schema({
     date: { type: Date, required: true },
     child: { type: Schema.Types.ObjectId, ref: "Children", required: true },
     attendance: { type: Boolean, required: true, defualt: false },
-    subReports: [{ type: subReportSchema }],
     comments: [{ type: commentSchema }],
+    mealReports: [{ type: subReportSchema }],
+    activityReports: [{ type: subReportSchema }],
+    healthReports: [{ type: subReportSchema }],
+    bringReports: [{ type: subReportSchema }],
 });
 
 const Report = new mongoose.model("Report", reportSchema);

@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const { Report } = require("../models/ReportModel");
 const objectId = mongoose.Types.ObjectId;
 
-const createDailyReport = (ids) => {
-    ids.forEach(async (id) => {
+const createDailyReport = async (ids) => {
+    await ids.forEach(async (id) => {
         let report = new Report({
             date: new Date(),
             child: new objectId(id),
@@ -22,11 +22,11 @@ const updateChildAttendance = async (id, attendance) => {
     await ReportsRepository.updateAttendanceByChildId(id, attendance);
 };
 
-const getChildrenAttendance = async (ids) => {
+const getAndCreateChildrenAttendance = async (ids) => {
     let attendances =
         await ReportsRepository.getChildrenAttendanceByChildernIds(ids);
     if (attendances.length === 0) {
-        createDailyReport(ids);
+        await createDailyReport(ids);
         attendances =
             await ReportsRepository.getChildrenAttendanceByChildernIds(ids);
     }
@@ -38,11 +38,16 @@ const addSubReportToReport = async (id, subReports, creatorId) => {
         const subCategory = {
             date: new Date(),
             creator: new objectId(creatorId),
-            category: item.category,
-            name: item.title,
-            details: item.report_value,
+            category: item.title,
+            details: item.details,
         };
-        await ReportsRepository.addSubReportToReportByChildId(id, subCategory);
+        console.log(item.catrgory);
+
+        await ReportsRepository.addSubReportToReportByChildId(
+            id,
+            item.category,
+            subCategory
+        );
     });
 };
 
@@ -64,13 +69,13 @@ const addImageToReport = async (data, creatorId, role) => {
         image: data.profilePic,
     };
     await ReportsRepository.addImageToReportByReportId(
-        data.activeComment,
+        data.currentComment,
         image
     );
 };
 
 module.exports = {
-    getChildrenAttendance,
+    getAndCreateChildrenAttendance,
     createDailyReport,
     updateChildAttendance,
     addSubReportToReport,

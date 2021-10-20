@@ -19,8 +19,8 @@ const getChildrenNameAndPic = async (ids) => {
 const createNewChild = async (data) => {
     let child = new Child({
         name: {
-            first: data.childFirstName,
-            last: data.childLastName,
+            first: data.firstName,
+            last: data.LastName,
         },
         profilePic: data.profilePic,
         birthDate: data.birthDate,

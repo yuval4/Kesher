@@ -9,6 +9,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import globalStyles from "../assets/globalStyles";
 import { saveImage } from "../utils/utils";
+import * as AddCalendarEvent from "react-native-add-calendar-event";
 
 export default function ElwynScreen() {
     const handlePress = () => {
@@ -27,10 +28,6 @@ export default function ElwynScreen() {
                 <Text style={styles.button}>לחצו כאן</Text>
             </TouchableOpacity>
             <Text style={styles.text}>למעבר לאתר אלווין</Text>
-
-            <Pressable onLongPress={handleSaveImage}>
-                <Text style={styles.button}>שמרו תמונה</Text>
-            </Pressable>
         </View>
     );
 }

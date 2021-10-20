@@ -5,6 +5,7 @@ export const URL = "http://192.168.1.56:3000"; // this computer
 // const URL = "http://172.20.10.5:3000"; // my phone
 // const URL = "http://10.76.57.97:3000";
 // const URL = "http://139.177.182.246:3000"; // server
+// const URL = "https://kesher-backend.herokuapp.com";
 
 const options = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -27,14 +28,16 @@ export default {
     users() {
         return {
             // TODO createUser - change
-            createNewParent: async (data: any, childId: any) =>
-                axios.post(
-                    `${URL}/users/parent`,
-                    { data, childId },
-                    await options()
-                ),
+            createNewParent: async (data: any) =>
+                axios.post(`${URL}/users/parent`, { data }, await options()),
             createNewTeacher: async (data: any) =>
                 axios.post(`${URL}/users/teacher`, { data }, await options()),
+            addSchoolToUser: async (schoolId: string) =>
+                axios.patch(
+                    `${URL}/users/school`,
+                    { schoolId },
+                    await options()
+                ),
             // move the getMe to here?
         };
     },
@@ -53,7 +56,7 @@ export default {
     },
     children() {
         return {
-            createChild: async (data: any) =>
+            createNewChild: async (data: any) =>
                 axios.post(`${URL}/children`, data, await options()),
         };
     },
@@ -82,7 +85,7 @@ export default {
     reports() {
         return {
             createNewReport: async (id: string) =>
-                axios.post(`${URL}/newreports/${id}`, await options()),
+                axios.post(`${URL}/reports/newreport/${id}`, await options()),
             getChildrenAttendance: async (ids: Array<String>) =>
                 axios.post(
                     `${URL}/reports/attendances/`,

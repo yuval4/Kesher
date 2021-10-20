@@ -20,6 +20,9 @@ export default function AttendanceScreen(props: any) {
     // and their attendance and merge them together.
     useEffect(() => {
         const getData = async () => {
+            if (school === {} || !school) {
+                return;
+            }
             const childrenResponse = await api
                 .schools()
                 .getChildren(school._id);
@@ -32,7 +35,9 @@ export default function AttendanceScreen(props: any) {
             let attendanceResponse = await api
                 .reports()
                 .getChildrenAttendance(ids);
+
             let dataObject: any = [];
+
             childrenResponse.data.children.forEach((child: any) => {
                 child.attendance = attendanceResponse.data.find(
                     (report: any) => report.child === child._id
@@ -45,7 +50,9 @@ export default function AttendanceScreen(props: any) {
             setDATA(dataObject);
         };
 
+        // if (school) {
         getData();
+        // }
     }, [school]);
 
     // ANCHOR get the pressed item and toggle it's attendance in DATA
@@ -85,7 +92,11 @@ export default function AttendanceScreen(props: any) {
                                         ? [styles.image, styles.selected]
                                         : styles.image
                                 }
-                                source={{ uri: item.profilePic }}
+                                source={{
+                                    uri:
+                                        item.profilePic ??
+                                        "../../assets/images/user.png",
+                                }}
                             />
                             <View style={styles.selectedV}>
                                 {item.attendance ? Icons.v : null}

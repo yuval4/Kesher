@@ -12,11 +12,22 @@ const findUserById = async (id) => {
 const getUserByEmailAndPassword = async (email, password) => {
     return await User.findOne(
         { email: email, password: password },
-        "name children schools"
+        "name children schools role"
+    );
+};
+
+const addSchoolToUserById = async (userId, schoolId) => {
+    console.log(userId, schoolId);
+    return await User.findOneAndUpdate(
+        {
+            _id: new objectId(userId),
+        },
+        { $push: { schools: new objectId(schoolId) } }
     );
 };
 
 module.exports = {
     findUserById,
     getUserByEmailAndPassword,
+    addSchoolToUserById,
 };

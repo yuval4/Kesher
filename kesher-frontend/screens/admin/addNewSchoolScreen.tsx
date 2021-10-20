@@ -29,6 +29,9 @@ export default function AddNewSchoolScreen() {
             street: data.schoolStreet,
             number: data.schoolNumber,
         });
+
+        await api.users().addSchoolToUser(schoolId.data);
+
         await api.users().createNewTeacher({
             fisrtName: data.teacherFirstName,
             lastName: data.teacherLastName,
@@ -60,7 +63,7 @@ export default function AddNewSchoolScreen() {
                     <NewUserForm
                         control={control}
                         errors={errors}
-                        title="פרטי מהל/ת מעון"
+                        title="פרטי מנהל/ת מעון"
                         name="teacher"
                     />
                     <View style={styles.button}>

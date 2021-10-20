@@ -1,84 +1,37 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+    Button,
+    Modal,
     StyleSheet,
     Text,
-    View,
     TouchableOpacity,
-    Modal,
-    FlatList,
+    View,
 } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import RoundButton from "../../components/buttons/roundButton";
 import ChildTitle from "../../components/childTitle";
 import ReportCategoryCard from "../../components/reportCategoryCard";
 import ReportsAndComments from "../../components/reportsAndComments";
-import InputBar from "../../components/inputBar";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateCategory } from "../../features/report/report-slice";
 
-export default function StartReportScreen(props: any) {
-    const [modalOpen, setModalOpen] = useState(false);
+export default function StartReportScreen({ navigation }: any) {
+    const child = useAppSelector((state) => state.report);
     const dispatch = useAppDispatch();
-    const report = useAppSelector((state) => state.report);
-    const scrollViewRef = useRef();
-    const [isVisible, setIsVisible] = useState(false);
-    const [comment, setComment] = useState("");
-    const [submitComment, setSubmitComment] = useState(false);
-    const [activeComment, setActiveComment] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
 
-    const CATEGORIES = [
-        {
-            id: "1",
-            title: "פעילויות שהתקיימו בגן",
-            imgUrl: require("../../assets/images/play.png"),
-        },
-        {
-            id: "2",
-            title: "ארוחות",
-            imgUrl: require("../../assets/images/food.png"),
-        },
-        {
-            id: "3",
-            title: "בבקשה לשלוח",
-            imgUrl: require("../../assets/images/toSend.png"),
-        },
-        {
-            id: "4",
-            title: "טיפולי מקצועות הבריאות",
-            imgUrl: require("../../assets/images/health.png"),
-        },
-    ];
-
-    const handlePress = (id: string) => {
-        dispatch(updateCategory({ category: id }));
-        props.navigation.navigate("SubCategory");
+    const handleCategoryPress = (category: string) => {
+        dispatch(updateCategory({ category: category }));
+        navigation.navigate("SubCategory");
         setModalOpen(false);
     };
 
     return (
         <View style={styles.container}>
             <ChildTitle />
-            {/* <ScrollView
-                ref={scrollViewRef}
-                onContentSizeChange={() =>
-                    scrollViewRef.current.scrollToEnd({ animated: true })
-                }
-                style={styles.reportsAndComments}
-            > */}
             <View style={styles.reportsAndComments}>
-                <ReportsAndComments
-                    child={report.child_id}
-                    isVisible={isVisible}
-                    setIsVisible={setIsVisible}
-                    comment={comment}
-                    setComment={setComment}
-                    submitComment={submitComment}
-                    setSubmitComment={setSubmitComment}
-                    activeComment={activeComment}
-                    setActiveComment={setActiveComment}
-                />
-                {/* </ScrollView> */}
+                <ReportsAndComments childId={child.child_id} />
             </View>
             <View style={styles.button}>
                 <RoundButton
@@ -86,7 +39,6 @@ export default function StartReportScreen(props: any) {
                     onPress={() => setModalOpen(true)}
                 />
             </View>
-
             <Modal visible={modalOpen} animationType="slide" transparent={true}>
                 <View style={styles.modalContent}>
                     <TouchableOpacity
@@ -97,51 +49,51 @@ export default function StartReportScreen(props: any) {
                     </TouchableOpacity>
 
                     <Text style={styles.modalTitle}>בחר דיווח</Text>
-                    <FlatList
-                        style={styles.list}
-                        data={CATEGORIES}
-                        numColumns={2}
-                        keyExtractor={(item) => item.id}
-                        scrollEnabled={false}
-                        renderItem={({ item }) => (
-                            <ReportCategoryCard
-                                item={item}
-                                onPress={() => handlePress(item.id)}
-                            />
-                        )}
-                    />
+                    <View style={styles.row}>
+                        <ReportCategoryCard
+                            item={{
+                                report: "פעילויות שהתקיימו בגן",
+                                imgUrl: require("../../assets/images/play.png"),
+                            }}
+                            onPress={() => handleCategoryPress("activities")}
+                        />
+                        <ReportCategoryCard
+                            item={{
+                                report: "ארוחות",
+                                imgUrl: require("../../assets/images/food.png"),
+                            }}
+                            onPress={() => handleCategoryPress("meals")}
+                        />
+                    </View>
+                    <View style={styles.row}>
+                        <ReportCategoryCard
+                            item={{
+                                report: "בבקשה לשלוח",
+                                imgUrl: require("../../assets/images/toSend.png"),
+                            }}
+                            onPress={() => handleCategoryPress("brings")}
+                        />
+                        <ReportCategoryCard
+                            item={{
+                                report: "טיפולי מקצועות הבריאות",
+                                imgUrl: require("../../assets/images/health.png"),
+                            }}
+                            onPress={() => handleCategoryPress("health")}
+                        />
+                    </View>
                 </View>
             </Modal>
-
-            {isVisible ? (
-                <View style={styles.inputBar}>
-                    <InputBar
-                        onChangeText={setComment}
-                        value={comment}
-                        onSendTextPress={() => {
-                            setSubmitComment(true);
-                            setIsVisible(false);
-                        }}
-                        activeComment={activeComment}
-                    />
-                </View>
-            ) : null}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: "center",
-    },
-    button: {
-        position: "absolute",
-        left: "10%",
-        bottom: "10%",
+        flex: 1,
     },
     reportsAndComments: {
-        width: "100%",
-        height: "90%",
+        flex: 1,
+        marginTop: 30,
     },
     modalView: {
         justifyContent: "flex-end",
@@ -177,26 +129,12 @@ const styles = StyleSheet.create({
         marginBottom: 35,
         color: globalStyles.color.text,
     },
-    list: {
-        padding: 20,
-        top: -25,
-        left: -10,
+    row: {
+        flexDirection: "row",
     },
-    inputBar: {
+    button: {
         position: "absolute",
-        width: "100%",
-        bottom: 0,
-        paddingBottom: 40,
-        justifyContent: "center",
-        backgroundColor: "white",
-        paddingVertical: 5,
-    },
-    input: {
-        width: "100%",
-        borderRadius: 16,
-        borderColor: "#8E8E93",
-        backgroundColor: "white",
-        textAlign: "right",
-        paddingRight: 7,
+        left: 40,
+        bottom: 50,
     },
 });

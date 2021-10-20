@@ -10,9 +10,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import globalStyles from "../../assets/globalStyles";
 
 export default function UploadImage({
-    activeComment,
+    currentComment,
 }: {
-    activeComment?: String;
+    currentComment?: String;
 }) {
     useEffect(() => {
         getMediaLibraryPermission();
@@ -25,7 +25,7 @@ export default function UploadImage({
             await api.reports().addImageToReport(
                 createFormData(pickedPhoto, {
                     date: new Date(),
-                    activeComment,
+                    currentComment,
                 })
             );
         }
