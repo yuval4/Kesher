@@ -14,6 +14,7 @@ export default function CustomDrawer(props: any) {
 
     const handleLogout = async () => {
         await AsyncStorage.removeItem("token");
+        props.navigation.closeDrawer();
         dispatch(resetUser());
     };
 

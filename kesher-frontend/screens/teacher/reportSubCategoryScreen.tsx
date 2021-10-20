@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import SmallButton from "../../components/buttons/smallButton";
@@ -10,6 +11,7 @@ import {
 } from "../../features/report/report-slice";
 
 export default function ReportSubCategoryScreen(props: any) {
+    const { t } = useTranslation();
     const [DATA, setDATA] = React.useState();
     const dispatch = useAppDispatch();
     const reportCategory = useAppSelector((state) => state.report.category);
@@ -45,18 +47,22 @@ export default function ReportSubCategoryScreen(props: any) {
         {
             id: "21",
             title: "ארוחת בוקר",
+            details: "",
         },
         {
             id: "22",
             title: "ארוחת פרי",
+            details: "",
         },
         {
             id: "23",
             title: "ארוחת צהריים",
+            details: "",
         },
         {
             id: "24",
             title: "ארוחת מנחה",
+            details: "",
         },
     ];
 
@@ -104,14 +110,15 @@ export default function ReportSubCategoryScreen(props: any) {
 
     const getData = () => {
         let categoryId = reportCategory;
+
         switch (categoryId) {
-            case "1":
+            case "activities":
                 return ACTIVITIES_DATA;
-            case "2":
+            case "meals":
                 return MEALS_DATA;
-            case "3":
+            case "brings":
                 return REQUEST_DATA;
-            case "4":
+            case "health":
                 return TREATMENTS_DATA;
         }
     };
@@ -121,6 +128,13 @@ export default function ReportSubCategoryScreen(props: any) {
         let data = getData();
         let subCategories = [];
         if (data) {
+            // data.forEach((subCategory, index) => {
+            //     subCategories.push({
+            //         id: subCategory[index],
+            //         selected: false,
+            //         title: subCategory[index].title,
+            //     });
+            // });
             for (let i = 0; i < data.length; i++) {
                 subCategories.push({
                     id: data[i].id,
@@ -165,17 +179,17 @@ export default function ReportSubCategoryScreen(props: any) {
     const handleSubmitAndNext = () => {
         let category = "";
         switch (reportCategory) {
-            case "1":
-                category = "פעילויות שהתקיימו בגן";
+            case "activities":
+                category = "activitysReports";
                 break;
-            case "2":
-                category = "ארוחות";
+            case "meals":
+                category = "mealReports";
                 break;
-            case "3":
-                category = "בבקשה לשלוח";
+            case "brings":
+                category = "bringReports";
                 break;
-            case "4":
-                category = "טיפולי מקצועות הבריאות";
+            case "health":
+                category = "healthReports";
                 break;
         }
         dispatch(

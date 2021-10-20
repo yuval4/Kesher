@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import globalStyles from "../assets/globalStyles";
 import { useNavigation } from "@react-navigation/native";
 import Icons from "../assets/icons/icons";
+import { useTranslation } from "react-i18next";
 
 export default function Header({ title }: { title?: string }) {
+    const { t } = useTranslation();
     const navigation = useNavigation();
 
     return (
@@ -28,10 +30,10 @@ export default function Header({ title }: { title?: string }) {
 
             {navigation.canGoBack() ? (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={styles.text}>חזור</Text>
+                    <Text style={styles.text}>{t("back")}</Text>
                 </TouchableOpacity>
             ) : (
-                <Text style={styles.unvisibleText}>חזור</Text>
+                <Text style={styles.unvisibleText}>{t("back")}</Text>
             )}
         </View>
     );

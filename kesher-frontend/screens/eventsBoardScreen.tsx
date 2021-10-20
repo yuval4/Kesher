@@ -83,7 +83,6 @@ export default function EventsBoardScreen() {
             setOpenItem(key);
         }
     };
-
     const handleSubmitForm = async (data: any) => {
         setModalOpen(false);
         addEventToState([data]);
@@ -98,16 +97,14 @@ export default function EventsBoardScreen() {
             <SectionList
                 sections={eventsData}
                 keyExtractor={(item, index) => item.title + index}
-                renderSectionHeader={({ section }) => (
+                renderSectionHeader={({ section: { month } }) => (
                     <View>
-                        {section.data.length === 0 ? null : (
-                            <View style={styles.monthItem}>
-                                <View style={styles.circle}></View>
-                                <Text style={styles.monthText}>
-                                    {section.month}
-                                </Text>
-                            </View>
-                        )}
+                        {/* {data.length === 0 ? null : ( */}
+                        <View style={styles.monthItem}>
+                            <View style={styles.circle}></View>
+                            <Text style={styles.monthText}>{month}</Text>
+                        </View>
+                        {/* )} */}
                     </View>
                 )}
                 renderItem={(item) => (
@@ -117,7 +114,6 @@ export default function EventsBoardScreen() {
                                 {new Date(item.item.startTime).getDate()}
                             </Text>
                         </View>
-
                         <TouchableOpacity
                             style={styles.content}
                             onPress={() =>
@@ -125,15 +121,19 @@ export default function EventsBoardScreen() {
                             }
                         >
                             <Text style={styles.title}>{item.item.title}</Text>
-                            <Text style={styles.time}>
-                                {new Date(item.item.startTime)
-                                    .toTimeString()
-                                    .slice(0, 5)}{" "}
-                                -{" "}
-                                {new Date(item.item.endTime)
-                                    .toTimeString()
-                                    .slice(0, 5)}
-                            </Text>
+
+                            {item.item.endTime && (
+                                <Text style={styles.time}>
+                                    {new Date(item.item.startTime)
+                                        .toTimeString()
+                                        .slice(0, 5)}{" "}
+                                    -{" "}
+                                    {new Date(item.item.endTime)
+                                        .toTimeString()
+                                        .slice(0, 5)}
+                                </Text>
+                            )}
+
                             {openItem === item.item.title + item.index && (
                                 <Text style={styles.time}>
                                     {item.item.details}
@@ -143,6 +143,7 @@ export default function EventsBoardScreen() {
                     </View>
                 )}
             />
+
             {user.role === "Teacher" && (
                 <View style={styles.button}>
                     <RoundButton
@@ -260,7 +261,8 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: "white",
         marginHorizontal: "10%",
-        marginTop: "30%",
+        // marginTop: "30%",
+        marginTop: 100,
         borderRadius: 24,
         padding: 20,
         shadowOffset: {

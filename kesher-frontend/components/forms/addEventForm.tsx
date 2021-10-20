@@ -5,6 +5,7 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
+    Switch,
 } from "react-native";
 import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
@@ -17,6 +18,8 @@ export default function AddEventForm({ control, errors, title }: any) {
         useState(false);
     const [isEndDatePickerVisible, setEndDatePickerVisibility] =
         useState(false);
+    const [isFullDay, setIsFullDay] = useState(true);
+    const toggleSwitch = () => setIsFullDay((previousState) => !previousState);
 
     return (
         <View>
@@ -60,6 +63,20 @@ export default function AddEventForm({ control, errors, title }: any) {
                     defaultValue=""
                 />
 
+                <View style={[styles.setTime, styles.divider]}>
+                    <Text style={styles.text}>יום שלם</Text>
+                    <Switch
+                        trackColor={{
+                            false: "#767577",
+                            true: globalStyles.color.mediumPurplel,
+                        }}
+                        thumbColor="#f4f3f4"
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={isFullDay}
+                    />
+                </View>
+
                 <Controller
                     control={control}
                     rules={{
@@ -71,7 +88,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                                 onPress={() =>
                                     setStartDatePickerVisibility(true)
                                 }
-                                style={[styles.setTime, styles.divider]}
+                                style={styles.setTime}
                             >
                                 <Text style={styles.text}>התחלה</Text>
                                 {value && (
@@ -86,7 +103,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                             </TouchableOpacity>
                             <DateTimePickerModal
                                 isVisible={isStartDatePickerVisible}
-                                mode="datetime"
+                                mode={isFullDay ? "date" : "datetime"}
                                 date={value}
                                 cancelTextIOS="ביטול"
                                 confirmTextIOS="אישור"
@@ -103,48 +120,51 @@ export default function AddEventForm({ control, errors, title }: any) {
                     )}
                     name="startTime"
                 />
-
-                <Controller
-                    control={control}
-                    rules={{
-                        required: true,
-                    }}
-                    render={({ field: { onChange, value } }) => (
-                        <View>
-                            <TouchableOpacity
-                                onPress={() => setEndDatePickerVisibility(true)}
-                                style={styles.setTime}
-                            >
-                                <Text style={styles.text}>סיום</Text>
-                                {value && (
-                                    <Text style={styles.text}>
-                                        {value.toLocaleDateString()}
-                                        {"     "}
-                                        {value
-                                            .toLocaleTimeString()
-                                            .substring(0, 5)}
-                                    </Text>
-                                )}
-                            </TouchableOpacity>
-                            <DateTimePickerModal
-                                isVisible={isEndDatePickerVisible}
-                                mode="datetime"
-                                date={value}
-                                cancelTextIOS="ביטול"
-                                confirmTextIOS="אישור"
-                                minimumDate={new Date()}
-                                onConfirm={(date) => {
-                                    setEndDatePickerVisibility(false);
-                                    onChange(date);
-                                }}
-                                onCancel={() =>
-                                    setEndDatePickerVisibility(false)
-                                }
-                            />
-                        </View>
-                    )}
-                    name="endTime"
-                />
+                {!isFullDay && (
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        setEndDatePickerVisibility(true)
+                                    }
+                                    style={styles.setTime}
+                                >
+                                    <Text style={styles.text}>סיום</Text>
+                                    {value && (
+                                        <Text style={styles.text}>
+                                            {value.toLocaleDateString()}
+                                            {"     "}
+                                            {value
+                                                .toLocaleTimeString()
+                                                .substring(0, 5)}
+                                        </Text>
+                                    )}
+                                </TouchableOpacity>
+                                <DateTimePickerModal
+                                    isVisible={isEndDatePickerVisible}
+                                    mode="datetime"
+                                    date={value}
+                                    cancelTextIOS="ביטול"
+                                    confirmTextIOS="אישור"
+                                    minimumDate={new Date()}
+                                    onConfirm={(date) => {
+                                        setEndDatePickerVisibility(false);
+                                        onChange(date);
+                                    }}
+                                    onCancel={() =>
+                                        setEndDatePickerVisibility(false)
+                                    }
+                                />
+                            </View>
+                        )}
+                        name="endTime"
+                    />
+                )}
             </View>
 
             {(errors.title ||

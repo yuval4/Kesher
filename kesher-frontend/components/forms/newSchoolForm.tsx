@@ -17,7 +17,7 @@ export default function NewSchoolForm({ control, errors, title, name }: any) {
                     rules={{
                         required: true,
                         minLength: 2,
-                        pattern: /^[א-ת]+$/,
+                        pattern: /^[א-ת ]+$/,
                     }}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
@@ -38,7 +38,7 @@ export default function NewSchoolForm({ control, errors, title, name }: any) {
                         required: true,
                         minLength: 2,
                         maxLength: 100,
-                        pattern: /^[א-ת]+$/,
+                        pattern: /^[א-ת ]+$/,
                     }}
                     render={({ field: { onChange, value } }) => (
                         <TextInput
@@ -58,7 +58,7 @@ export default function NewSchoolForm({ control, errors, title, name }: any) {
                         required: true,
                         minLength: 2,
                         maxLength: 100,
-                        pattern: /^[א-ת]+$/,
+                        pattern: /^[א-ת ]+$/,
                     }}
                     render={({ field: { onChange, value } }) => (
                         <TextInput

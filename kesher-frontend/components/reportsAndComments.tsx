@@ -1,94 +1,91 @@
 import React, { useEffect, useState } from "react";
 import {
-    StyleSheet,
-    View,
-    Text,
-    Image,
+    FlatList,
     KeyboardAvoidingView,
     Platform,
-    TouchableWithoutFeedback,
-    Keyboard,
-    ScrollView,
-    RefreshControl,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import api from "../api";
-import { useAppSelector } from "../app/hooks";
 import { getMediaLibraryPermission } from "../utils/utils";
 import AddMessageButton from "./buttons/addMessageButton";
+import CategoryReport from "./categoryReport";
+import InputBar from "./inputBar";
 import PersonalReportCard from "./personalReportCard";
 import PersonalCommentCard from "./presonalCommentCard";
+import ToBring from "./toBring";
 
-export default function ReportsAndComments(props: any) {
-    const [DATA, setDATA] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+export default function ReportsAndComments({ childId }: any) {
+    const [reports, setReports] = useState();
+    const [isVisible, setIsVisible] = useState(false);
+    const [currentComment, setCurrentComment] = useState("");
+    const [comment, setComment] = useState("");
 
-    // ANCHOR get reports data from the server.
-    const fetchChildReports = async () => {
-        const response = await api.reports().getAllChildReports(props.child);
-        setDATA(response.data);
+    const getReports = async () => {
+        const response = await api.reports().getAllChildReports(childId);
+        setReports(response.data);
     };
-
     useEffect(() => {
         getMediaLibraryPermission();
     }, []);
-
     useEffect(() => {
-        fetchChildReports();
-    }, [props.child]);
+        getReports();
+    }, [childId]);
 
-    useEffect(() => {
-        if (props.submitComment === true) {
-            submitMessage();
-            props.setSubmitComment(false);
-            props.setComment("");
-        }
-    }, [props.submitComment]);
-
-    const submitMessage = () => {
-        api.reports()
-            .addCommentToReport(props.activeComment, props.comment)
-            .then(() => fetchChildReports());
+    const handleSubmitComment = async () => {
+        setIsVisible(false);
+        await api
+            .reports()
+            .addCommentToReport(currentComment, comment)
+            .then(() => getReports());
     };
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 1500);
-    }, []);
 
     return (
         <KeyboardAvoidingView
+            keyboardVerticalOffset={210}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
+            style={{ flex: 1 }}
         >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                {/* <ScrollView
-                    style={styles.scrollContainer}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                > */}
-                <View>
-                    <FlatList
-                        style={styles.list}
-                        data={DATA}
-                        inverted
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => {
-                            return item.subReports.length === 0 ? null : (
-                                <View
-                                    style={styles.messagesContainer}
-                                    key={item}
-                                >
-                                    <View style={styles.message}>
-                                        <PersonalReportCard data={item} />
-                                    </View>
-                                    {item.comments.map(
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    style={styles.list}
+                    data={reports}
+                    inverted
+                    keyExtractor={(item) => item._id}
+                    renderItem={({ item }) => (
+                        <View>
+                            {(item.mealReports.length > 0 ||
+                                item.activityReports.length > 0 ||
+                                item.healthReports.length > 0 ||
+                                item.bringReports.length > 0) && (
+                                <View>
+                                    <PersonalReportCard
+                                        info={{ date: item.date }}
+                                    >
+                                        {item.mealReports.length > 0 && (
+                                            <CategoryReport
+                                                report={item.mealReports}
+                                            />
+                                        )}
+                                        {item.activityReports.length > 0 && (
+                                            <CategoryReport
+                                                report={item.activityReports}
+                                            />
+                                        )}
+                                        {item.healthReports.length > 0 && (
+                                            <CategoryReport
+                                                report={item.healthReports}
+                                            />
+                                        )}
+                                        {item.bringReports.length > 0 && (
+                                            <ToBring
+                                                bring={item.bringReports}
+                                            />
+                                        )}
+                                    </PersonalReportCard>
+
+                                    {item.comments?.map(
                                         (commentData: any, index: string) => {
                                             return (
                                                 <View
@@ -102,55 +99,48 @@ export default function ReportsAndComments(props: any) {
                                             );
                                         }
                                     )}
+
                                     <View style={styles.addMessageButton}>
                                         <AddMessageButton
                                             onPress={() => {
-                                                props.setIsVisible(
-                                                    !props.isVisible
-                                                );
-                                                props.setActiveComment(
-                                                    item._id
-                                                );
-                                                // item._id;
+                                                setIsVisible(!isVisible);
+                                                setCurrentComment(item._id);
                                             }}
                                         />
                                     </View>
                                 </View>
-                            );
-                        }}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
+                            )}
+                        </View>
+                    )}
+                />
+                {isVisible && (
+                    <View style={styles.inputBar}>
+                        <InputBar
+                            onChangeText={setComment}
+                            value={comment}
+                            onSendTextPress={handleSubmitComment}
+                            currentComment={currentComment}
+                        />
+                    </View>
+                )}
+            </View>
         </KeyboardAvoidingView>
     );
 }
+
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 15,
-        // alignItems: "center",
-        width: "100%",
-        flex: 1,
-    },
     list: {
+        width: "92%",
+        alignSelf: "center",
+    },
+    inputBar: {
+        // position: "absolute",
         width: "100%",
-    },
-    messagesContainer: {
-        alignItems: "center",
-    },
-    message: {
-        paddingBottom: 7,
-        width: "90%",
-    },
-    commentList: {
-        width: "100%",
+        // bottom: 0,
+        // paddingTop: 10,
     },
     comment: {
         marginBottom: 4,
         marginTop: 8,
-        width: "90%",
-    },
-    addMessageButton: {
-        alignSelf: "flex-end",
-        marginRight: "4%",
     },
 });

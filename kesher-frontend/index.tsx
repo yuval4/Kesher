@@ -43,7 +43,10 @@ export default function Index({ navigation }: any) {
                                 currentChild: getMeRespones.data.children[0],
                             })
                         );
-                    } else if (getMeRespones.data.role === "Teacher") {
+                    } else if (
+                        getMeRespones.data.role === "Teacher" ||
+                        getMeRespones.data.role === "Admin"
+                    ) {
                         dispatch(
                             updateCurrentSchool({
                                 currentSchool: getMeRespones.data.schools[0],

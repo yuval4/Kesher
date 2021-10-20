@@ -54,7 +54,9 @@ export default function AddChildScreen() {
                 school: school._id,
             })
         );
+
         await api.schools().addChildToSchool(school._id, childId.data);
+        await api.reports().createNewReport(childId.data);
 
         await api.users().createNewParent({
             fisrtName: data.firstParentFirstName,

@@ -13,16 +13,16 @@ export default function InputBar({
     onChangeText,
     value,
     onSendTextPress,
-    activeComment,
+    currentComment,
 }: {
     onChangeText: any;
     value: string;
     onSendTextPress: () => void;
-    activeComment: string;
+    currentComment: string;
 }) {
     return (
         <View style={styles.container}>
-            <UploadImage activeComment={activeComment} />
+            <UploadImage currentComment={currentComment} />
 
             <View style={styles.inputView}>
                 <TextInput

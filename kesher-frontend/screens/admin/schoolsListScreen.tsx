@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import NewSchoolButton from "../../components/buttons/newSchoolButton";
@@ -14,7 +14,7 @@ export default function SchoolsListScreen({ navigation }: any) {
     //     { name: "מעון הגליל" },
     //     { name: "מעון אסף" },
     // ];
-    console.log(schoolsList);
+
     const handleSchoolPress = (currentSchool: any) => {
         dispatch(updateCurrentSchool({ currentSchool: currentSchool }));
         navigation.navigate("SchoolDetails");

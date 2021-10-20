@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import Index from "./index";
 import { store } from "./app/store";
 import { I18nManager, Platform } from "react-native";
+import "./languages/i18n";
 
 const getFonts = () =>
     Font.loadAsync({

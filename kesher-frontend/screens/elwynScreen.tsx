@@ -9,6 +9,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import globalStyles from "../assets/globalStyles";
 import { saveImage } from "../utils/utils";
+import * as AddCalendarEvent from "react-native-add-calendar-event";
 
 export default function ElwynScreen() {
     const handlePress = () => {

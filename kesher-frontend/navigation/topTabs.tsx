@@ -3,10 +3,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import AttendanceScreen from "../screens/teacher/AttendanceScreen";
 import globalStyles from "../assets/globalStyles";
 import ChildrenListReportScreen from "../screens/teacher/childrenListReportScreen";
-import ReportStack from "./reportStack";
+import { useTranslation } from "react-i18next";
 
 const TopTab = createMaterialTopTabNavigator();
+
 export default function TopTabs() {
+    const { t } = useTranslation();
+
     return (
         <TopTab.Navigator
             tabBarOptions={{
@@ -26,14 +29,17 @@ export default function TopTabs() {
             sceneContainerStyle={{
                 backgroundColor: globalStyles.backgroundColor,
             }}
-            initialRouteName="דיווח יומי"
+            initialRouteName={t("Daily Report")}
         >
             {/* <TopTab.Screen name="דיווח יומי" component={ReportStack} /> */}
             <TopTab.Screen
-                name="דיווח יומי"
+                name={t("Daily Report")}
                 component={ChildrenListReportScreen}
             />
-            <TopTab.Screen name="עדכון נוכחות" component={AttendanceScreen} />
+            <TopTab.Screen
+                name={t("Attendance Update")}
+                component={AttendanceScreen}
+            />
         </TopTab.Navigator>
     );
 }

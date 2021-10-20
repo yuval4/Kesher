@@ -20,8 +20,10 @@ import {
     updateCurrentChild,
     updateCurrentSchool,
 } from "../features/user/user-slice";
+import { useTranslation } from "react-i18next";
 
 export default function LoginScreen() {
+    const { t } = useTranslation();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const dispatch = useAppDispatch();
@@ -37,19 +39,10 @@ export default function LoginScreen() {
 
             dispatch(
                 setUser({
-                    name: {
-                        first: getMeRespones.data.name.first,
-                        last: getMeRespones.data.name.last,
-                    },
+                    name: getMeRespones.data.name,
                     role: getMeRespones.data.role,
-                    children:
-                        getMeRespones.data.role === "Parent"
-                            ? getMeRespones.data.children
-                            : null,
-                    schools:
-                        getMeRespones.data.role === "Teacher"
-                            ? getMeRespones.data.schools
-                            : null,
+                    children: getMeRespones.data.children,
+                    schools: getMeRespones.data.schools,
                 })
             );
             if (getMeRespones.data.role === "Parent") {
@@ -58,7 +51,10 @@ export default function LoginScreen() {
                         currentChild: getMeRespones.data.children[0],
                     })
                 );
-            } else if (getMeRespones.data.role === "Teacher") {
+            } else if (
+                getMeRespones.data.role === "Teacher" ||
+                getMeRespones.data.role === "Admin"
+            ) {
                 dispatch(
                     updateCurrentSchool({
                         currentSchool: getMeRespones.data.schools[0],
@@ -95,7 +91,7 @@ export default function LoginScreen() {
                                 value={email}
                                 textContentType="username"
                                 placeholderTextColor="#8A8D90"
-                                placeholder="דואר אלקטרוני"
+                                placeholder={t("Email")}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
                             />
@@ -106,11 +102,13 @@ export default function LoginScreen() {
                                 textContentType="password"
                                 secureTextEntry={true}
                                 placeholderTextColor="#8A8D90"
-                                placeholder="סיסמה"
+                                placeholder={t("password")}
                             />
 
                             <TouchableOpacity onPress={handleLoginRequest}>
-                                <Text style={styles.loginButton}>כניסה</Text>
+                                <Text style={styles.loginButton}>
+                                    {t("login")}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

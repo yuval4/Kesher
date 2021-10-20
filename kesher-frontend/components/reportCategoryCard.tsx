@@ -8,7 +8,7 @@ export default function ReportCategoryCard({
     item,
     onPress,
 }: {
-    item: { title: string; imgUrl: number };
+    item: { report: string; imgUrl: number };
     onPress: () => void;
 }) {
     return (
@@ -17,7 +17,7 @@ export default function ReportCategoryCard({
                 <View style={styles.container}>
                     <Image style={styles.image} source={item.imgUrl} />
                     <View style={styles.textView}>
-                        <Text style={styles.text}>{item.title}</Text>
+                        <Text style={styles.text}>{item.report}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
