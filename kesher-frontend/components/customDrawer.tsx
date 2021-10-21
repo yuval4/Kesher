@@ -8,8 +8,10 @@ import globalStyles from "../assets/globalStyles";
 import { useAppDispatch } from "../app/hooks";
 import { resetUser } from "../features/user/user-slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
 
 export default function CustomDrawer(props: any) {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
 
     const handleLogout = async () => {
@@ -32,7 +34,7 @@ export default function CustomDrawer(props: any) {
                     style={styles.itemContainer}
                     onPress={handleLogout}
                 >
-                    <Text style={styles.item}>התנתקות</Text>
+                    <Text style={styles.item}>{t("Logout")}</Text>
                 </TouchableOpacity>
             </DrawerContentScrollView>
         </View>

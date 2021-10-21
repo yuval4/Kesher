@@ -1,17 +1,13 @@
 import React from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import globalStyles from "../assets/globalStyles";
 import { saveImage } from "../utils/utils";
 import * as AddCalendarEvent from "react-native-add-calendar-event";
+import { useTranslation } from "react-i18next";
 
 export default function ElwynScreen() {
+    const { t } = useTranslation();
     const handlePress = () => {
         WebBrowser.openBrowserAsync("https://israelelwyn.org.il/he/");
     };
@@ -25,9 +21,9 @@ export default function ElwynScreen() {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handlePress}>
-                <Text style={styles.button}>לחצו כאן</Text>
+                <Text style={styles.button}>{t("Press Here")}</Text>
             </TouchableOpacity>
-            <Text style={styles.text}>למעבר לאתר אלווין</Text>
+            <Text style={styles.text}>{t("For Elwyn's Website")}</Text>
         </View>
     );
 }

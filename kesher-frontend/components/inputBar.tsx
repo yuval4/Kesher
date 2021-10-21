@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     StyleSheet,
     View,
@@ -20,6 +21,8 @@ export default function InputBar({
     onSendTextPress: () => void;
     currentComment: string;
 }) {
+    const { t } = useTranslation();
+
     return (
         <View style={styles.container}>
             <UploadImage currentComment={currentComment} />
@@ -28,7 +31,7 @@ export default function InputBar({
                 <TextInput
                     style={styles.input}
                     multiline
-                    placeholder="כתב/י כאן..."
+                    placeholder={t("Type A message")}
                     onChangeText={onChangeText}
                     value={value}
                 />

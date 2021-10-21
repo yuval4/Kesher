@@ -10,8 +10,10 @@ import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import { Controller } from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useTranslation } from "react-i18next";
 
 export default function NewChildForm({ control, errors, title, name }: any) {
+    const { t } = useTranslation();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     return (
@@ -32,7 +34,7 @@ export default function NewChildForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="שם פרטי"
+                            placeholder={t("First Name")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -52,7 +54,7 @@ export default function NewChildForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="שם משפחה"
+                            placeholder={t("Last Name")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -71,7 +73,9 @@ export default function NewChildForm({ control, errors, title, name }: any) {
                             <TouchableOpacity
                                 onPress={() => setDatePickerVisibility(true)}
                             >
-                                <Text style={styles.text}>תאריך לידה</Text>
+                                <Text style={styles.text}>
+                                    {t("Birth Date")}
+                                </Text>
                                 {value && (
                                     <Text style={styles.text}>
                                         {new Date(
@@ -85,8 +89,8 @@ export default function NewChildForm({ control, errors, title, name }: any) {
                                 isVisible={isDatePickerVisible}
                                 mode="date"
                                 date={value}
-                                cancelTextIOS="ביטול"
-                                confirmTextIOS="אישור"
+                                cancelTextIOS={t("Cancel")}
+                                confirmTextIOS={t("Confirm")}
                                 maximumDate={new Date()}
                                 onConfirm={(date) => {
                                     setDatePickerVisibility(false);

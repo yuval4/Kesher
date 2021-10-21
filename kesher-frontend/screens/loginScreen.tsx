@@ -63,7 +63,7 @@ export default function LoginScreen() {
             }
         } catch (err: any) {
             if (err.message === "Request failed with status code 401") {
-                alert("שם משתמש או סיסמה שגויים");
+                alert(t("Incorrect Username Or Password"));
             } else {
                 alert(err);
                 console.log(err);

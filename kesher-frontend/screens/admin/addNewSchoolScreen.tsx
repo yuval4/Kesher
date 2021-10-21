@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
     StyleSheet,
     View,
@@ -13,8 +13,10 @@ import NewSchoolForm from "../../components/forms/newSchoolForm";
 import NewUserForm from "../../components/forms/newUserForm";
 import SubmitButton from "../../components/buttons/submitButton";
 import api from "../../api";
+import { useTranslation } from "react-i18next";
 
 export default function AddNewSchoolScreen() {
+    const { t } = useTranslation();
     const {
         control,
         reset,
@@ -43,7 +45,7 @@ export default function AddNewSchoolScreen() {
             schoolId: schoolId.data,
         });
 
-        alert("הפרטים הוכנסו");
+        alert(t("School Was Created Seccessfully"));
         reset();
     };
 
@@ -57,18 +59,18 @@ export default function AddNewSchoolScreen() {
                     <NewSchoolForm
                         control={control}
                         errors={errors}
-                        title="הוספת מעון חדש"
+                        title={t("Add New School")}
                         name="school"
                     />
                     <NewUserForm
                         control={control}
                         errors={errors}
-                        title="פרטי מנהל/ת מעון"
+                        title={t("Teacher's Details")}
                         name="teacher"
                     />
                     <View style={styles.button}>
                         <SubmitButton
-                            text="אישור"
+                            text={t("Done")}
                             onPress={handleSubmit(handleFormSubmit)}
                         />
                     </View>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Button,
     Modal,
@@ -17,6 +18,7 @@ import ReportsAndComments from "../../components/reportsAndComments";
 import { updateCategory } from "../../features/report/report-slice";
 
 export default function StartReportScreen({ navigation }: any) {
+    const { t } = useTranslation();
     const child = useAppSelector((state) => state.report);
     const dispatch = useAppDispatch();
     const [modalOpen, setModalOpen] = useState(false);
@@ -35,7 +37,7 @@ export default function StartReportScreen({ navigation }: any) {
             </View>
             <View style={styles.button}>
                 <RoundButton
-                    title="התחל דיווח"
+                    title={t("Start Report")}
                     onPress={() => setModalOpen(true)}
                 />
             </View>
@@ -48,18 +50,20 @@ export default function StartReportScreen({ navigation }: any) {
                         {Icons.x}
                     </TouchableOpacity>
 
-                    <Text style={styles.modalTitle}>בחר דיווח</Text>
+                    <Text style={styles.modalTitle}>
+                        {t("Choose Report Type")}
+                    </Text>
                     <View style={styles.row}>
                         <ReportCategoryCard
                             item={{
-                                report: "פעילויות שהתקיימו בגן",
+                                report: "Today's Activities",
                                 imgUrl: require("../../assets/images/play.png"),
                             }}
                             onPress={() => handleCategoryPress("activities")}
                         />
                         <ReportCategoryCard
                             item={{
-                                report: "ארוחות",
+                                report: t("Meals"),
                                 imgUrl: require("../../assets/images/food.png"),
                             }}
                             onPress={() => handleCategoryPress("meals")}
@@ -68,14 +72,14 @@ export default function StartReportScreen({ navigation }: any) {
                     <View style={styles.row}>
                         <ReportCategoryCard
                             item={{
-                                report: "בבקשה לשלוח",
+                                report: "Please Bring",
                                 imgUrl: require("../../assets/images/toSend.png"),
                             }}
                             onPress={() => handleCategoryPress("brings")}
                         />
                         <ReportCategoryCard
                             item={{
-                                report: "טיפולי מקצועות הבריאות",
+                                report: "Health Care Treatments",
                                 imgUrl: require("../../assets/images/health.png"),
                             }}
                             onPress={() => handleCategoryPress("health")}

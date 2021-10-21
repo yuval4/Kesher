@@ -1,12 +1,15 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 import Icons from "../assets/icons/icons";
 
 export default function ToBring({ bring }: any) {
+    const { t } = useTranslation();
+
     return (
         <View>
-            <Text style={styles.title}>בבקשה לשלוח</Text>
+            <Text style={styles.title}>{t("Please Bring")}</Text>
             <View style={styles.toBring}>
                 {bring.map((item: any, index: any) => {
                     return (

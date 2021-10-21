@@ -19,49 +19,49 @@ export default function ReportSubCategoryScreen(props: any) {
     const ACTIVITIES_DATA = [
         {
             id: "11",
-            title: "מפגשים",
+            title: "Meetings",
         },
         {
             id: "12",
-            title: "מפגשים ליד שולחן",
+            title: "Table Meetings",
         },
         {
             id: "13",
-            title: "משחק במרחב",
+            title: "Spatial Play",
         },
         {
             id: "14",
-            title: "חצר / ג׳ימבורי",
+            title: "Yard",
         },
         {
             id: "15",
-            title: "פעילות יצירה",
+            title: "Artisitic Activity",
         },
         {
             id: "16",
-            title: "מיומנויות מחיי היומיום",
+            title: "Daily Skills",
         },
     ];
 
     const MEALS_DATA = [
         {
             id: "21",
-            title: "ארוחת בוקר",
+            title: "Breakfast",
             details: "",
         },
         {
             id: "22",
-            title: "ארוחת פרי",
+            title: "Fruit Meal",
             details: "",
         },
         {
             id: "23",
-            title: "ארוחת צהריים",
+            title: "Lunch",
             details: "",
         },
         {
             id: "24",
-            title: "ארוחת מנחה",
+            title: "Presiding Meal",
             details: "",
         },
     ];
@@ -69,42 +69,42 @@ export default function ReportSubCategoryScreen(props: any) {
     const REQUEST_DATA = [
         {
             id: "31",
-            title: "סדין למיטה",
+            title: "Bed Sheets",
         },
         {
             id: "32",
-            title: "בגדי החלפה",
+            title: "Clothes",
         },
         {
             id: "33",
-            title: "חיתולים",
+            title: "Diapers",
         },
         {
             id: "34",
-            title: "מגבונים",
+            title: "Wipes",
         },
         {
             id: "35",
-            title: "אחר",
+            title: "Other",
         },
     ];
 
     const TREATMENTS_DATA = [
         {
             id: "41",
-            title: "פיזיותרפיה",
+            title: "Physiotherapy",
         },
         {
             id: "42",
-            title: "קלינאי תקשורת",
+            title: "Speech And Language Therapist",
         },
         {
             id: "43",
-            title: "ריפוי בעיסוק",
+            title: "Occupational Therapy",
         },
         {
             id: "44",
-            title: "טיפול רגשי",
+            title: "Emotional Care",
         },
     ];
 
@@ -217,7 +217,7 @@ export default function ReportSubCategoryScreen(props: any) {
                     scrollEnabled={false}
                     renderItem={({ item }) => (
                         <SubCategoryButton
-                            text={item.title}
+                            text={t(item.title)}
                             picked={item.selected}
                             onPress={() => handleItemPress({ item })}
                         />
@@ -226,7 +226,7 @@ export default function ReportSubCategoryScreen(props: any) {
             </View>
 
             <View style={styles.button}>
-                <SmallButton text="בחר" onPress={handleSubmitAndNext} />
+                <SmallButton text={t("Choose")} onPress={handleSubmitAndNext} />
             </View>
         </View>
     );

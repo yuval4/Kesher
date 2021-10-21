@@ -12,7 +12,7 @@ import Icons from "../../assets/icons/icons";
 import api from "../../api";
 import { useAppSelector } from "../../app/hooks";
 
-export default function AttendanceScreen(props: any) {
+export default function AttendanceScreen() {
     const [DATA, setDATA] = useState([]);
     const school = useAppSelector((state) => state.user.currentSchool);
 

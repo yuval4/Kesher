@@ -34,7 +34,6 @@ export default function MainDrawer(props: any) {
                 headerShown: true,
                 header: () => <Header />,
             }}
-            initialRouteName={"Home"}
             drawerContentOptions={{
                 style: {
                     marginTop: -30,

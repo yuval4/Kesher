@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import NewSchoolButton from "../../components/buttons/newSchoolButton";
@@ -6,6 +7,7 @@ import SchoolItemButton from "../../components/buttons/schoolItemButton";
 import { updateCurrentSchool } from "../../features/user/user-slice";
 
 export default function SchoolsListScreen({ navigation }: any) {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const schoolsList = useAppSelector((state) => state.user.schools);
     // const schoolsList = [
@@ -42,7 +44,7 @@ export default function SchoolsListScreen({ navigation }: any) {
             />
             <View style={styles.button}>
                 <NewSchoolButton
-                    text="הוספת מעון חדש"
+                    text={t("Add New School")}
                     onPress={handleAddSchoolPress}
                 />
             </View>

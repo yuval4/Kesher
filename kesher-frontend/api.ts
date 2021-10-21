@@ -1,11 +1,11 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const URL = "http://192.168.1.56:3000"; // this computer
+// export const URL = "http://192.168.1.56:3000"; // this computer
 // const URL = "http://172.20.10.5:3000"; // my phone
 // const URL = "http://10.76.57.97:3000";
 // const URL = "http://139.177.182.246:3000"; // server
-// const URL = "https://kesher-backend.herokuapp.com";
+const URL = "https://kesher-backend.herokuapp.com";
 
 const options = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -27,7 +27,6 @@ export default {
     },
     users() {
         return {
-            // TODO createUser - change
             createNewParent: async (data: any) =>
                 axios.post(`${URL}/users/parent`, { data }, await options()),
             createNewTeacher: async (data: any) =>
@@ -39,19 +38,6 @@ export default {
                     await options()
                 ),
             // move the getMe to here?
-        };
-    },
-    parents() {
-        return {
-            // getAll: () => axios.get(URL),
-            createParent: async (data: any, childId: any) =>
-                axios.post(
-                    `${URL}/parents`,
-                    { data, childId },
-                    await options()
-                ),
-            // getChildrenList: async (id: string) =>
-            //     axios.get(`${URL}/parents/children/${id}`, await options()),
         };
     },
     children() {
@@ -85,7 +71,11 @@ export default {
     reports() {
         return {
             createNewReport: async (id: string) =>
-                axios.post(`${URL}/reports/newreport/${id}`, await options()),
+                axios.post(
+                    `${URL}/reports/newreport/${id}`,
+                    null,
+                    await options()
+                ),
             getChildrenAttendance: async (ids: Array<String>) =>
                 axios.post(
                     `${URL}/reports/attendances/`,

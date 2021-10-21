@@ -4,8 +4,11 @@ import globalStyles from "../../assets/globalStyles";
 import Icons from "../../assets/icons/icons";
 import { Controller } from "react-hook-form";
 import validator from "validator";
+import { useTranslation } from "react-i18next";
 
 export default function NewUserForm({ control, errors, title, name }: any) {
+    const { t } = useTranslation();
+
     return (
         <View>
             <View style={styles.titleView}>
@@ -24,7 +27,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="שם פרטי"
+                            placeholder={t("First Name")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -44,7 +47,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="שם משפחה"
+                            placeholder={t("Last Name")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -65,7 +68,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="עיר"
+                            placeholder={t("City")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -85,7 +88,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="רחוב"
+                            placeholder={t("Street")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -105,7 +108,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="מספר"
+                            placeholder={t("Number")}
                             onChangeText={onChange}
                             value={value}
                             keyboardType="numeric"
@@ -127,7 +130,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="מספר טלפון"
+                            placeholder={t("Phone Number")}
                             onChangeText={onChange}
                             value={value}
                             keyboardType="numeric"
@@ -147,7 +150,7 @@ export default function NewUserForm({ control, errors, title, name }: any) {
                         <TextInput
                             style={styles.text}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="דואר אלקטרוני"
+                            placeholder={t("Email")}
                             onChangeText={onChange}
                             value={value}
                             keyboardType="email-address"

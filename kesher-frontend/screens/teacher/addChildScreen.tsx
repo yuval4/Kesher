@@ -23,8 +23,10 @@ import {
 import { useAppSelector } from "../../app/hooks";
 import globalStyles from "../../assets/globalStyles";
 import ChildPhotoBox from "../../components/childPhotoBox";
+import { useTranslation } from "react-i18next";
 
 export default function AddChildScreen() {
+    const { t } = useTranslation();
     const {
         control,
         reset,
@@ -81,7 +83,7 @@ export default function AddChildScreen() {
                 childId: childId.data,
             });
         }
-        alert("הפרטים הוכנסו");
+        alert(t("Child Was Created Seccessfully"));
         reset();
         setImage(null);
     };
@@ -97,14 +99,14 @@ export default function AddChildScreen() {
                     <NewChildForm
                         control={control}
                         errors={errors}
-                        title="פרטי ילד/ה"
+                        title={t("Child's Details")}
                         name="child"
                     />
 
                     <NewUserForm
                         control={control}
                         errors={errors}
-                        title="פרטי הורה"
+                        title={t("Parent's Details")}
                         name="firstParent"
                     />
                     <View style={styles.switch}>
@@ -125,7 +127,7 @@ export default function AddChildScreen() {
                             <NewUserForm
                                 control={control}
                                 errors={errors}
-                                title="פרטי הורה נוסף"
+                                title={t("Other Parent's Details")}
                                 name="secondParent"
                             />
 
@@ -146,14 +148,14 @@ export default function AddChildScreen() {
                                     );
                                 }}
                             >
-                                העתק כתובת
+                                {t("Copy Adress")}
                             </Text>
                         </View>
                     )}
 
                     <View style={styles.button}>
                         <SubmitButton
-                            text="אישור"
+                            text={t("Done")}
                             onPress={handleSubmit(handleFormSubmit)}
                         />
                     </View>

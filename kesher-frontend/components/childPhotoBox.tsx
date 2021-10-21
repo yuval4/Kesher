@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import globalStyles from "../assets/globalStyles";
 
@@ -17,6 +18,8 @@ export default function ChildPhotoBox({
     image: image;
     onPress: () => void;
 }) {
+    const { t } = useTranslation();
+
     return (
         <View style={styles.childBox}>
             <TouchableOpacity style={styles.box} onPress={onPress}>
@@ -29,7 +32,7 @@ export default function ChildPhotoBox({
                     style={styles.image}
                 />
 
-                <Text style={styles.childName}>הוספת תמונה</Text>
+                <Text style={styles.childName}>{t("Add Photo")}</Text>
             </TouchableOpacity>
         </View>
     );

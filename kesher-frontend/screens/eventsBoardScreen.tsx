@@ -18,8 +18,10 @@ import { useAppSelector } from "../app/hooks";
 import AddEventForm from "../components/forms/addEventForm";
 import { useForm } from "react-hook-form";
 import SubmitButton from "../components/buttons/submitButton";
+import { useTranslation } from "react-i18next";
 
 export default function EventsBoardScreen() {
+    const { t } = useTranslation();
     const user = useAppSelector((state) => state.user);
     const {
         control,
@@ -31,18 +33,18 @@ export default function EventsBoardScreen() {
     const [openItem, setOpenItem] = useState("");
 
     const [eventsData, setEventsData] = useState([
-        { month: "ינואר", data: [] },
-        { month: "פברואר", data: [] },
-        { month: "מרץ", data: [] },
-        { month: "אפריל", data: [] },
-        { month: "מאי", data: [] },
-        { month: "יוני", data: [] },
-        { month: "יולי", data: [] },
-        { month: "אוגוסט", data: [] },
-        { month: "ספטמבר", data: [] },
-        { month: "אוקטובר", data: [] },
-        { month: "נובמבר", data: [] },
-        { month: "דצמבר", data: [] },
+        { month: "January", data: [] },
+        { month: "February", data: [] },
+        { month: "March", data: [] },
+        { month: "April", data: [] },
+        { month: "May", data: [] },
+        { month: "June", data: [] },
+        { month: "July", data: [] },
+        { month: "August", data: [] },
+        { month: "September", data: [] },
+        { month: "October", data: [] },
+        { month: "November", data: [] },
+        { month: "December", data: [] },
     ]);
 
     // ANCHOR get list of events and add them to thier place in the eventsData.
@@ -102,7 +104,7 @@ export default function EventsBoardScreen() {
                         {/* {data.length === 0 ? null : ( */}
                         <View style={styles.monthItem}>
                             <View style={styles.circle}></View>
-                            <Text style={styles.monthText}>{month}</Text>
+                            <Text style={styles.monthText}>{t(month)}</Text>
                         </View>
                         {/* )} */}
                     </View>
@@ -147,7 +149,7 @@ export default function EventsBoardScreen() {
             {user.role === "Teacher" && (
                 <View style={styles.button}>
                     <RoundButton
-                        title="הוספת אירוע"
+                        title={t("Add event")}
                         onPress={() => setModalOpen(true)}
                     />
                 </View>
@@ -166,11 +168,11 @@ export default function EventsBoardScreen() {
                         <AddEventForm
                             control={control}
                             errors={errors}
-                            title="אירוע חדש"
+                            title={t("New Event")}
                         />
                         <View style={styles.submitButton}>
                             <SubmitButton
-                                text="הוספה"
+                                text={t("Add")}
                                 onPress={handleSubmit(handleSubmitForm)}
                             />
                         </View>

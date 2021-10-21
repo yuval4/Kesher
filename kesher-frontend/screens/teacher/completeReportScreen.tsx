@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import api from "../../api";
 import { useAppSelector } from "../../app/hooks";
@@ -10,6 +11,7 @@ import ChildTitle from "../../components/childTitle";
 import ToBring from "../../components/toBring";
 
 export default function CompleteReportScreen(props: any) {
+    const { t } = useTranslation();
     const [subCategories, setSubCategories] = useState([]);
     const report = useAppSelector((state) => state.report);
     const {
@@ -64,7 +66,7 @@ export default function CompleteReportScreen(props: any) {
                             <View>
                                 <View>
                                     <Text style={styles.title}>
-                                        {item.title}
+                                        {t(item.title)}
                                     </Text>
 
                                     <Controller
@@ -83,7 +85,9 @@ export default function CompleteReportScreen(props: any) {
                                                     globalStyles.color
                                                         .mediumPurplel
                                                 }
-                                                placeholder="פרט/י כאן..."
+                                                placeholder={t(
+                                                    "Enter Details Here"
+                                                )}
                                                 onChangeText={onChange}
                                                 value={value}
                                             />
@@ -98,7 +102,7 @@ export default function CompleteReportScreen(props: any) {
                 )}
             </View>
             <SmallButton
-                text="סיימתי"
+                text={t("Done")}
                 style={styles.button}
                 onPress={handleSubmit(handleReportSubmit)}
             />

@@ -12,8 +12,10 @@ import Icons from "../../assets/icons/icons";
 import { Controller } from "react-hook-form";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import NewEventIcon from "../../assets/icons/newEventIcon";
+import { useTranslation } from "react-i18next";
 
 export default function AddEventForm({ control, errors, title }: any) {
+    const { t } = useTranslation();
     const [isStartDatePickerVisible, setStartDatePickerVisibility] =
         useState(false);
     const [isEndDatePickerVisible, setEndDatePickerVisibility] =
@@ -38,7 +40,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="כותרת האירוע"
+                            placeholder={t("Event Title")}
                             onChangeText={onChange}
                             value={value}
                         />
@@ -53,7 +55,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                         <TextInput
                             style={[styles.text, styles.divider]}
                             placeholderTextColor="#C4C4C6"
-                            placeholder="תיאור"
+                            placeholder={t("Description")}
                             onChangeText={onChange}
                             value={value}
                             multiline
@@ -64,7 +66,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                 />
 
                 <View style={[styles.setTime, styles.divider]}>
-                    <Text style={styles.text}>יום שלם</Text>
+                    <Text style={styles.text}>{t("Full Day")}</Text>
                     <Switch
                         trackColor={{
                             false: "#767577",
@@ -90,7 +92,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                                 }
                                 style={styles.setTime}
                             >
-                                <Text style={styles.text}>התחלה</Text>
+                                <Text style={styles.text}>{t("Start")}</Text>
                                 {value && (
                                     <Text style={styles.text}>
                                         {value.toLocaleDateString()}
@@ -105,8 +107,8 @@ export default function AddEventForm({ control, errors, title }: any) {
                                 isVisible={isStartDatePickerVisible}
                                 mode={isFullDay ? "date" : "datetime"}
                                 date={value}
-                                cancelTextIOS="ביטול"
-                                confirmTextIOS="אישור"
+                                cancelTextIOS={t("Cancel")}
+                                confirmTextIOS={t("Confirm")}
                                 minimumDate={new Date()}
                                 onConfirm={(date) => {
                                     setStartDatePickerVisibility(false);
@@ -134,7 +136,7 @@ export default function AddEventForm({ control, errors, title }: any) {
                                     }
                                     style={styles.setTime}
                                 >
-                                    <Text style={styles.text}>סיום</Text>
+                                    <Text style={styles.text}>{t("End")}</Text>
                                     {value && (
                                         <Text style={styles.text}>
                                             {value.toLocaleDateString()}
@@ -149,8 +151,8 @@ export default function AddEventForm({ control, errors, title }: any) {
                                     isVisible={isEndDatePickerVisible}
                                     mode="datetime"
                                     date={value}
-                                    cancelTextIOS="ביטול"
-                                    confirmTextIOS="אישור"
+                                    cancelTextIOS={t("Cancel")}
+                                    confirmTextIOS={t("Confirm")}
                                     minimumDate={new Date()}
                                     onConfirm={(date) => {
                                         setEndDatePickerVisibility(false);
