@@ -12,12 +12,19 @@ import {
     updateCurrentChild,
     updateCurrentSchool,
 } from "./features/user/user-slice";
+import i18next from "i18next";
 
 export default function Index({ navigation }: any) {
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.user);
-    console.log(user);
+
+    const setLanguage = async () => {
+        const language = await AsyncStorage.getItem("language");
+        i18next.changeLanguage(language ? language : "he");
+    };
+
     useEffect(() => {
+        setLanguage();
         createImagesDirectory();
     }, []);
 
