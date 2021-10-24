@@ -56,7 +56,7 @@ export default function StartReportScreen({ navigation }: any) {
                     <View style={styles.row}>
                         <ReportCategoryCard
                             item={{
-                                report: "Today's Activities",
+                                report: t("Today's Activities"),
                                 imgUrl: require("../../assets/images/play.png"),
                             }}
                             onPress={() => handleCategoryPress("activities")}
@@ -72,14 +72,14 @@ export default function StartReportScreen({ navigation }: any) {
                     <View style={styles.row}>
                         <ReportCategoryCard
                             item={{
-                                report: "Please Bring",
+                                report: t("Please Bring"),
                                 imgUrl: require("../../assets/images/toSend.png"),
                             }}
                             onPress={() => handleCategoryPress("brings")}
                         />
                         <ReportCategoryCard
                             item={{
-                                report: "Health Care Treatments",
+                                report: t("Health Care Treatments"),
                                 imgUrl: require("../../assets/images/health.png"),
                             }}
                             onPress={() => handleCategoryPress("health")}

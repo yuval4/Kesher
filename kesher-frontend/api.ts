@@ -37,6 +37,8 @@ export default {
                     { schoolId },
                     await options()
                 ),
+            changePassword: async (data: object) =>
+                axios.patch(`${URL}/users/password`, data, await options()),
             // move the getMe to here?
         };
     },

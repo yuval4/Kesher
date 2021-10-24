@@ -54,7 +54,7 @@
         "Confirm": "אישור",
         "Cancel": "ביטול",
         "School Was Created Seccessfully": "מעון נוצר בהצלחה",
-        "Child Was Created Seccessfully": "ילד נוצר בהצלחה",
+        "Child Was Created Seccessfully": "מעון נוצר בהצלחה",
         "Add event": "הוספת אירוע",
         "New Event": "אירוע חדש",
         "Description": "תיאור",
@@ -76,9 +76,9 @@
         "Old Password": "סיסמה ישנה",
         "New Password": "סיסמה חדשה",
         "New Password Again": "סיסמה חדשה שוב",
-        "Reset Password": "איפוס סיסמה",
+        "Reset Password": "איפוס6 סיסמה",
         "Password Changed Seccessfully": "סיסמה שונתה בהצלחה",
-
+        
         "January": "ינואר",
         "February": "פברואר",
         "March": "מרץ",

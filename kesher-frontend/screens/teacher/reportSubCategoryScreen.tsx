@@ -180,7 +180,7 @@ export default function ReportSubCategoryScreen(props: any) {
         let category = "";
         switch (reportCategory) {
             case "activities":
-                category = "activitysReports";
+                category = "activityReports";
                 break;
             case "meals":
                 category = "mealReports";

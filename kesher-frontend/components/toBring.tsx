@@ -15,7 +15,7 @@ export default function ToBring({ bring }: any) {
                     return (
                         <View style={styles.toBring} key={index}>
                             <View style={styles.vIcon}>{Icons.toBring}</View>
-                            <Text style={styles.text}>{item.category}</Text>
+                            <Text style={styles.text}>{t(item.category)}</Text>
                         </View>
                     );
                 })}
