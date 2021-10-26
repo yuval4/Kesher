@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import NewSchoolButton from "../../components/buttons/newSchoolButton";
 import SchoolItemButton from "../../components/buttons/schoolItemButton";
 import { updateCurrentSchool } from "../../features/user/user-slice";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function SchoolsListScreen({ navigation }: any) {
     const { t } = useTranslation();

@@ -31,14 +31,21 @@ export default {
                 axios.post(`${URL}/users/parent`, { data }, await options()),
             createNewTeacher: async (data: any) =>
                 axios.post(`${URL}/users/teacher`, { data }, await options()),
-            addSchoolToUser: async (schoolId: string) =>
+            addSchoolToUser: async (schoolId: string, userId: string) =>
                 axios.patch(
                     `${URL}/users/school`,
-                    { schoolId },
+                    { schoolId, userId },
                     await options()
                 ),
             changePassword: async (data: object) =>
                 axios.patch(`${URL}/users/password`, data, await options()),
+            getStaffsBySchoolId: async (schoolId: string) =>
+                axios.get(
+                    `${URL}/users/staffbyschool/${schoolId}`,
+                    await options()
+                ),
+            getAllStaff: async () =>
+                axios.get(`${URL}/users/staff/`, await options()),
             // move the getMe to here?
         };
     },
@@ -86,6 +93,8 @@ export default {
                 ),
             getAllChildReports: async (id: string) =>
                 axios.get(`${URL}/reports/${id}`, await options()),
+            getAllChildLatestReport: async (id: string) =>
+                axios.get(`${URL}/reports/latestreport/${id}`, await options()),
             updateChildAttendance: async (id: string, attendance: boolean) =>
                 axios.patch(
                     `${URL}/reports/child/${id}`,

@@ -15,6 +15,7 @@ import InputBar from "./inputBar";
 import PersonalReportCard from "./personalReportCard";
 import PersonalCommentCard from "./presonalCommentCard";
 import ToBring from "./toBring";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function ReportsAndComments({ childId }: any) {
     const [reports, setReports] = useState();
@@ -29,9 +30,10 @@ export default function ReportsAndComments({ childId }: any) {
     useEffect(() => {
         getMediaLibraryPermission();
     }, []);
-    useEffect(() => {
-        getReports();
-    }, [childId]);
+
+    // useEffect(() => {
+    //     getReports();
+    // }, [childId]);
 
     const handleSubmitComment = async () => {
         setIsVisible(false);
@@ -40,6 +42,12 @@ export default function ReportsAndComments({ childId }: any) {
             .addCommentToReport(currentComment, comment)
             .then(() => getReports());
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getReports();
+        }, [childId])
+    );
 
     return (
         <KeyboardAvoidingView

@@ -62,6 +62,21 @@ function ArrowDown() {
     );
 }
 
+function GrayArrowDown() {
+    return (
+        <Svg width={14} height={8} viewBox="0 0 14 8" fill="none">
+            <Path
+                d="M12.864 1.035l-6 6-6-6"
+                stroke="#999"
+                strokeWidth={1.3}
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    );
+}
+
 function TextBubble() {
     return (
         <Svg width={33} height={33} viewBox="0 0 33 33" fill="none">
@@ -135,6 +150,7 @@ const Icons = {
     send: <Send />,
     drawer: <Drawer />,
     arrowDown: <ArrowDown />,
+    grayArrowDown: <GrayArrowDown />,
     textBubble: <TextBubble />,
     x: <X />,
     v: <V />,

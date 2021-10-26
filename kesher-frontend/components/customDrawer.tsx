@@ -5,13 +5,15 @@ import {
     DrawerItemList,
 } from "@react-navigation/drawer";
 import globalStyles from "../assets/globalStyles";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { resetUser } from "../features/user/user-slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
+import SchoolSelector from "./schoolSelector";
 
 export default function CustomDrawer(props: any) {
     const { t } = useTranslation();
+    const role = useAppSelector((state) => state.user.role);
     const dispatch = useAppDispatch();
 
     const handleLogout = async () => {
@@ -30,6 +32,8 @@ export default function CustomDrawer(props: any) {
             </View>
             <DrawerContentScrollView scrollEnabled={false} {...props}>
                 <DrawerItemList {...props} />
+                {role === "Teacher" && <SchoolSelector />}
+
                 <TouchableOpacity
                     style={styles.itemContainer}
                     onPress={handleLogout}
@@ -65,6 +69,6 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         paddingHorizontal: 50,
-        paddingVertical: 10,
+        marginVertical: "70%",
     },
 });

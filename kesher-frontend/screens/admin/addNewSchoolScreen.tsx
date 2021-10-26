@@ -14,6 +14,7 @@ import NewUserForm from "../../components/forms/newUserForm";
 import SubmitButton from "../../components/buttons/submitButton";
 import api from "../../api";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../app/hooks";
 
 export default function AddNewSchoolScreen() {
     const { t } = useTranslation();
@@ -32,7 +33,7 @@ export default function AddNewSchoolScreen() {
             number: data.schoolNumber,
         });
 
-        await api.users().addSchoolToUser(schoolId.data);
+        await api.users().addSchoolToUser(schoolId.data, "");
 
         await api.users().createNewTeacher({
             fisrtName: data.teacherFirstName,

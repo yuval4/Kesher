@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     TouchableOpacity,
     ImageBackground,
@@ -27,11 +27,13 @@ export default function LoginScreen() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const dispatch = useAppDispatch();
+    const [tryLoginCounter, setTryLoginCounter] = useState(0);
 
     //  ANCHOR handle parent log in. get token from the server and store it in async storage.
     //  get data from the server about the user(getMe) and sets it in redux. navigate to the app.
     //  if user doesnt found or there is another problem (eg internet connection), alert will be shown and password field get delitted.
     const handleLoginRequest = async () => {
+        setTryLoginCounter(tryLoginCounter + 1);
         try {
             let response = await api.login().login({ email, password });
             await AsyncStorage.setItem("token", response.data);
@@ -73,6 +75,12 @@ export default function LoginScreen() {
         Keyboard.dismiss;
     };
 
+    const setTimer = () => {
+        setInterval(() => {
+            setTryLoginCounter(0);
+        }, 1000 * 60);
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -105,11 +113,20 @@ export default function LoginScreen() {
                                 placeholder={t("password")}
                             />
 
-                            <TouchableOpacity onPress={handleLoginRequest}>
-                                <Text style={styles.loginButton}>
-                                    {t("login")}
-                                </Text>
-                            </TouchableOpacity>
+                            {tryLoginCounter > 4 ? (
+                                <View>
+                                    {setTimer()}
+                                    <Text style={styles.loginButton}>
+                                        {t("Try Again Later")}
+                                    </Text>
+                                </View>
+                            ) : (
+                                <TouchableOpacity onPress={handleLoginRequest}>
+                                    <Text style={styles.loginButton}>
+                                        {t("login")}
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

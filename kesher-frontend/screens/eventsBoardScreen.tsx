@@ -76,7 +76,7 @@ export default function EventsBoardScreen() {
     // ANCHOR
     useEffect(() => {
         getDataFromServer();
-    }, []);
+    }, [user]);
 
     const toggleItem = (key: string) => {
         if (key === openItem) {
